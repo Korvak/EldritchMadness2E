@@ -18,7 +18,7 @@
             "testItem",
             "testItem2"
         ],
-        "test" : {
+        "testItem" : {
             "description" : "this a custom object.",
             "stat" : {
                 "min": -10,

@@ -14,10 +14,9 @@
         "verified": "11.299"
     },
     "esmodules" : [
-        "scripts/shared/EmScript.js"
+        "EldritchMadness.js"
     ],
     "styles" : [
-        "styles/shared/EmStyle.css"
     ],
     "languages": [
         {
