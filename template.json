@@ -1,0 +1,33 @@
+{
+    "Actor" : {
+        "types" : [
+            "testActor"
+        ],
+        "testActor" : {
+            "description" : "a dummy actor",
+            "hp" : {
+                "min": 0,
+                "val" : 5,
+                "max" : 10
+            },
+            "inventory" : []
+        }
+    },
+    "Item" : {
+        "types" : [
+            "testItem",
+            "testItem2"
+        ],
+        "test" : {
+            "description" : "this a custom object.",
+            "stat" : {
+                "min": -10,
+                "val" : 0,
+                "max" : 10
+            }
+        },
+        "testItem2" : {
+            "description" : "this is the second test item."
+        }
+    }
+}

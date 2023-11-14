@@ -1,0 +1,36 @@
+{
+    "name" : "EldritchMadness",
+    "title" : "Eldritch Madness 2E",
+    "description" : "A homebrew version of CoC7",
+    "version": "0.0.1",
+    "authors": [
+        {
+        "name": "Korvak",
+        "flags": {}
+        }
+    ],
+    "compatibility": {
+        "minimum": "10",
+        "verified": "11.299"
+    },
+    "esmodules" : [
+        "scripts/shared/EmScript.js"
+    ],
+    "styles" : [
+        "styles/shared/EmStyle.css"
+    ],
+    "languages": [
+        {
+          "lang": "en",
+          "name": "English",
+          "path": "lang/en.json",
+          "flags": {}
+        }
+    ],
+    "socket": true,
+    "gridDistance": 5,
+    "gridUnits": "ft",
+    "primaryTokenAttribute": "attributes.hp",
+    "secondaryTokenAttribute": "attributes.san",
+    "initiative" : "1d10 + @dex"
+}
