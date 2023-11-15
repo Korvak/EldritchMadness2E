@@ -178,7 +178,13 @@
                 "templates" : [
                     "repairable"
                 ],
+                "slotsOccupied" : [],
+                "equippableOnto" : [],
+
                 "unequipWhenBroken" : true,
+                "unequippable" : true,
+                "unequipCost" : [],
+                "unequipRequirements" : [],
                 "equipEffects" : [],
                 "unequipEffects" : [],
                 "equipCost" : [],
@@ -198,14 +204,26 @@
         "bodypart" : {
             "templates" : [
                 "baseItem",
-                "equippable",
+                "repairable",
                 "upgradable"
             ],
             "tags" : ["bodypart"],
+            "description" : "em.items.bodypart.DEFAULT_DESC",
             "partType" : "torso",
-            "attachedTo" : null,
-            "description" : "em.items.bodypart.DEFAULT_DESC"    
+            "allowedEquippables" : [],
+            "equipped" : {
+                "upper" : null,
+                "lower" : null
+            },
+            "bodySync" : {
+                "linked" : true,
+                "linkedToStat" : "hp",
+                "linkDmgConvRate" : 1.0,
+                "maxLinkDmg" : 0.5,
+                "linkTotDmg" : 0.0
+            },
+            "attachedTo" : null
         },
-        "test" : {}
+        "empty" : {}
     }
 }
