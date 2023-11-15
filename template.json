@@ -4,10 +4,10 @@
             "testActor"
         ],
         "testActor" : {
-            "description" : "a dummy actor",
+            "desc" : "a dummy actor",
             "hp" : {
                 "min": 0,
-                "val" : 5,
+                "value" : 5,
                 "max" : 10
             },
             "inventory" : []
@@ -19,7 +19,7 @@
             "testItem2"
         ],
         "testItem" : {
-            "description" : "this a custom object.",
+            "desc" : "this a custom object.",
             "stat" : {
                 "min": -10,
                 "val" : 0,
@@ -27,7 +27,7 @@
             }
         },
         "testItem2" : {
-            "description" : "this is the second test item."
+            "desc" : "this is the second test item."
         }
     }
 }
