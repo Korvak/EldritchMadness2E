@@ -1,6 +1,6 @@
 import {EmConfig} from "./module/config.js"
-import TestItemSheet from "./module/sheet/TestItemSheet.js";
-import TestActorSheet from "./module/sheet/TestActorSheet.js";
+import EmBaseActorSheet from "./module/sheet/EmBaseActorSheet.js";
+import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
 
 Hooks.once("init", function() {
     console.log("loading EM 2E");
@@ -8,8 +8,8 @@ Hooks.once("init", function() {
     CONFIG.EmConfig = EmConfig;
 
     Items.unregisterSheet("core", ItemSheet);
-    Items.registerSheet("emItem", TestItemSheet, {makeDefault: true});
+    Items.registerSheet("emItem", EmBaseItemSheet, {makeDefault: true});
     Actors.unregisterSheet("core", ActorSheet);
-    Actors.registerSheet("emActor", TestActorSheet, {makeDefault: true});
+    Actors.registerSheet("emActor", EmBaseActorSheet, {makeDefault: true});
 
 });

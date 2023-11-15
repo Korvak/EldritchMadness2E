@@ -1,33 +1,201 @@
 {
     "Actor" : {
+        "templates" : {
+            "baseActor" : {
+                "description" : "a base actor with no implementation.",
+                "attributes" : {
+                    "hp" : {
+                        "label" : "em.actors.properties.hp.name",
+                        "short" : "em.actors.properties.hp.short",
+                        "min": 0,
+                        "value": 100,
+                        "max" : 100,
+                        "minTemp" : 0,
+                        "temp" : 0,
+                        "maxTemp" : 0
+                    },
+                    "mp" : {
+                        "label" : "em.actors.properties.mp.name",
+                        "short" : "em.actors.properties.mp.short",
+                        "min" : 0,
+                        "value" : 0,
+                        "max" : 0,
+                        "minTemp" : 0,
+                        "temp" : 0,
+                        "maxTemp" : 0
+                    },
+                    "weight" : {
+                        "label" : "em.actors.properties.weight.name",
+                        "short" : "em.actors.properties.weight.short",
+                        "min" : 0,
+                        "value" : 0,
+                        "max" : 0,
+                        "minTemp" : 0,
+                        "temp" : 0,
+                        "maxTemp" : 0
+                    }
+                },
+                "characteristics" : {
+                    "str" : {
+                        "label" : "em.actors.properties.weight.name",
+                        "short" : "em.actors.properties.weight.short",
+                        "min" : 10,
+                        "value" : 10,
+                        "max" : 200,
+                        "temp" : 0,
+                        "maxTemp" : 100
+                    },
+                    "dex" : {
+                        "label" : "em.actors.properties.weight.name",
+                        "short" : "em.actors.properties.weight.short",
+                        "min" : 10,
+                        "value" : 10,
+                        "max" : 200,
+                        "temp" : 0,
+                        "maxTemp" : 100
+                    },
+                    "int" : {
+                        "label" : "em.actors.properties.weight.name",
+                        "short" : "em.actors.properties.weight.short",
+                        "min" : 10,
+                        "value" : 10,
+                        "max" : 200,
+                        "temp" : 0,
+                        "maxTemp" : 100
+                    },
+                    "con" : {
+                        "label" : "em.actors.properties.weight.name",
+                        "short" : "em.actors.properties.weight.short",
+                        "min" : 10,
+                        "value" : 10,
+                        "max" : 200,
+                        "temp" : 0,
+                        "maxTemp" : 100
+                    },
+                    "pow" : {
+                        "label" : "em.actors.properties.weight.name",
+                        "short" : "em.actors.properties.weight.short",
+                        "min" : 10,
+                        "value" : 10,
+                        "max" : 200,
+                        "temp" : 0,
+                        "maxTemp" : 100
+                    },
+                    "siz" : {
+                        "label" : "em.actors.properties.weight.name",
+                        "short" : "em.actors.properties.weight.short",
+                        "min" : 10,
+                        "value" : 10,
+                        "max" : 200,
+                        "temp" : 0,
+                        "maxTemp" : 100
+                    },
+                    "app" : {
+                        "label" : "em.actors.properties.weight.name",
+                        "short" : "em.actors.properties.weight.short",
+                        "min" : 10,
+                        "value" : 10,
+                        "max" : 200,
+                        "temp" : 0,
+                        "maxTemp" : 100
+                    },
+                    "edu" : {
+                        "label" : "em.actors.properties.weight.name",
+                        "short" : "em.actors.properties.weight.short",
+                        "min" : 10,
+                        "value" : 10,
+                        "max" : 200,
+                        "temp" : 0,
+                        "maxTemp" : 100
+                    }
+
+                },
+                "physicalConditions" : []
+            }
+        },
         "types" : [
             "testActor"
         ],
         "testActor" : {
-            "desc" : "a dummy actor",
-            "hp" : {
-                "min": 0,
-                "value" : 5,
-                "max" : 10
-            },
-            "inventory" : []
         }
     },
     "Item" : {
-        "types" : [
-            "testItem",
-            "testItem2"
-        ],
-        "testItem" : {
-            "desc" : "this a custom object.",
-            "stat" : {
-                "min": -10,
-                "val" : 0,
-                "max" : 10
+        "templates" : {
+            "baseItem" : {
+                "tags" : [],
+                "description" : "",
+                "weight" : {
+                    "label" : "em.actors.properties.weight.name",
+                    "short" : "em.actors.properties.weight.short",
+                    "min" : 0,
+                    "value" : 0,
+                    "max" : 0,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 0
+                }
+            },
+            "destroyable" : {
+                "destroyable" : false,
+                "usableWhenBroken" : false,
+                "effectsOnBroken" : [],
+                "effectsRemovedOnBroken": [],
+                "durability" : {
+                    "min" : 0,
+                    "value" : 0,
+                    "max" : 0,
+                    "temp" : 0
+                },
+                "durabilityLoss" : {
+                    "min" : 1,
+                    "max" : 100
+                }
+            },
+            "repairable" : {
+                "templates" : ["destroyable"],
+                "durabilityTreshold" : {
+                    "min" : 0,
+                    "max" : 50
+                },
+                "repairCost" : [],
+                "repairEffects" : [],
+                "durabilityRestored" : {
+                    "value" : 10,
+                    "max" : 100
+                }
+            },
+            "equippable" : {
+                "templates" : [
+                    "repairable"
+                ],
+                "unequipWhenBroken" : true,
+                "equipEffects" : [],
+                "unequipEffects" : [],
+                "equipCost" : [],
+                "equipRequirements" : []
+            },
+            "upgradable" : {
+                "upgradesTo" : "",
+                "upgradeCost" : [],
+                "upgradeRequirements" : [],
+                "effectsOnUpgrade" : []
             }
         },
-        "testItem2" : {
-            "desc" : "this is the second test item."
-        }
+        "types" : [
+            "bodypart",
+            "test"
+        ],
+        "bodypart" : {
+            "templates" : [
+                "baseItem",
+                "equippable",
+                "upgradable"
+            ],
+            "tags" : ["bodypart"],
+            "partType" : "torso",
+            "attachedTo" : null,
+            "description" : "BODY_PART.DEFAULT_DESC"    
+        },
+        "test" : {}
     }
 }

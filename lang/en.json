@@ -1,7 +1,33 @@
 {
+    "BODYPART.DEFAULT_DESC" : "test bodypart desc",
     "em" : {
-        "test" : {
-            "attack" : "attack type"
+        "actors" : {
+            "attributes" : {
+                "hp": {
+                    "short" : "hp",
+                    "name" : "health"
+                },
+                "san": {
+                    "short" : "san",
+                    "name" : "sanity"
+                },
+                "mp": {
+                    "short" : "mp",
+                    "name" : "magic power"
+                },
+                "luck": {
+                    "short" : "luck",
+                    "name" : "luck"
+                },
+                "characteristics" : {
+                    
+                }
+            }
+        },
+        "items" : {
+            "bodypart" : {
+                "DEFAULT_DESC" : "test bodypart description"
+            }
         }
     }
 }
