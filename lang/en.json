@@ -1,28 +1,63 @@
 {
-    "BODYPART.DEFAULT_DESC" : "test bodypart desc",
     "em" : {
-        "actors" : {
-            "attributes" : {
-                "hp": {
-                    "short" : "hp",
-                    "name" : "health"
-                },
-                "san": {
-                    "short" : "san",
-                    "name" : "sanity"
-                },
-                "mp": {
-                    "short" : "mp",
-                    "name" : "magic power"
-                },
-                "luck": {
-                    "short" : "luck",
-                    "name" : "luck"
-                },
-                "characteristics" : {
-                    
-                }
+        "attributes" : {
+            "hp": {
+                "short" : "hp",
+                "name" : "hit points"
+            },
+            "san": {
+                "short" : "san",
+                "name" : "sanity"
+            },
+            "mp": {
+                "short" : "mp",
+                "name" : "magic power"
+            },
+            "luck": {
+                "short" : "luck",
+                "name" : "luck"
+            },
+            "wt": {
+                "short" : "wt",
+                "name" : "weight"
             }
+        },
+        "characteristics" : {
+            "dex": {
+                "short" : "dex",
+                "name" : "dexterity"
+            },
+            "con": {
+                "short" : "con",
+                "name" : "constitution"
+            },
+            "int": {
+                "short" : "int",
+                "name" : "intelligence"
+            },
+            "pow": {
+                "short" : "pow",
+                "name" : "power"
+            },
+            "siz": {
+                "short" : "siz",
+                "name" : "size"
+            },
+            "app": {
+                "short" : "app",
+                "name" : "appearance"
+            },
+            "edu": {
+                "short" : "edu",
+                "name" : "education"
+            },
+            "mov": {
+                "short" : "mov",
+                "name" : "movement"
+            }
+        },
+        "actors" : {
+            
         },
         "items" : {
             "bodypart" : {

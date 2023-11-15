@@ -5,8 +5,8 @@
                 "description" : "a base actor with no implementation.",
                 "attributes" : {
                     "hp" : {
-                        "label" : "em.actors.properties.hp.name",
-                        "short" : "em.actors.properties.hp.short",
+                        "label" : "em.attributes.hp.name",
+                        "short" : "em.attributes.hp.short",
                         "min": 0,
                         "value": 100,
                         "max" : 100,
@@ -15,8 +15,8 @@
                         "maxTemp" : 0
                     },
                     "mp" : {
-                        "label" : "em.actors.properties.mp.name",
-                        "short" : "em.actors.properties.mp.short",
+                        "label" : "em.attributes.mp.name",
+                        "short" : "em.attributes.mp.short",
                         "min" : 0,
                         "value" : 0,
                         "max" : 0,
@@ -24,9 +24,9 @@
                         "temp" : 0,
                         "maxTemp" : 0
                     },
-                    "weight" : {
-                        "label" : "em.actors.properties.weight.name",
-                        "short" : "em.actors.properties.weight.short",
+                    "wt" : {
+                        "label" : "em.attributes.wt.name",
+                        "short" : "em.attributes.wt.short",
                         "min" : 0,
                         "value" : 0,
                         "max" : 0,
@@ -37,8 +37,8 @@
                 },
                 "characteristics" : {
                     "str" : {
-                        "label" : "em.actors.properties.weight.name",
-                        "short" : "em.actors.properties.weight.short",
+                        "label" : "em.characteristics.str.name",
+                        "short" : "em.characteristics.str.short",
                         "min" : 10,
                         "value" : 10,
                         "max" : 200,
@@ -46,17 +46,8 @@
                         "maxTemp" : 100
                     },
                     "dex" : {
-                        "label" : "em.actors.properties.weight.name",
-                        "short" : "em.actors.properties.weight.short",
-                        "min" : 10,
-                        "value" : 10,
-                        "max" : 200,
-                        "temp" : 0,
-                        "maxTemp" : 100
-                    },
-                    "int" : {
-                        "label" : "em.actors.properties.weight.name",
-                        "short" : "em.actors.properties.weight.short",
+                        "label" : "em.characteristics.dex.name",
+                        "short" : "em.characteristics.dex.short",
                         "min" : 10,
                         "value" : 10,
                         "max" : 200,
@@ -64,8 +55,17 @@
                         "maxTemp" : 100
                     },
                     "con" : {
-                        "label" : "em.actors.properties.weight.name",
-                        "short" : "em.actors.properties.weight.short",
+                        "label" : "em.characteristics.con.name",
+                        "short" : "em.characteristics.con.short",
+                        "min" : 10,
+                        "value" : 10,
+                        "max" : 200,
+                        "temp" : 0,
+                        "maxTemp" : 100
+                    },
+                    "int" : {
+                        "label" : "em.characteristics.int.name",
+                        "short" : "em.characteristics.int.short",
                         "min" : 10,
                         "value" : 10,
                         "max" : 200,
@@ -73,8 +73,8 @@
                         "maxTemp" : 100
                     },
                     "pow" : {
-                        "label" : "em.actors.properties.weight.name",
-                        "short" : "em.actors.properties.weight.short",
+                        "label" : "em.characteristics.pow.name",
+                        "short" : "em.characteristics.pow.short",
                         "min" : 10,
                         "value" : 10,
                         "max" : 200,
@@ -82,8 +82,8 @@
                         "maxTemp" : 100
                     },
                     "siz" : {
-                        "label" : "em.actors.properties.weight.name",
-                        "short" : "em.actors.properties.weight.short",
+                        "label" : "em.characteristics.siz.name",
+                        "short" : "em.characteristics.siz.short",
                         "min" : 10,
                         "value" : 10,
                         "max" : 200,
@@ -91,8 +91,8 @@
                         "maxTemp" : 100
                     },
                     "app" : {
-                        "label" : "em.actors.properties.weight.name",
-                        "short" : "em.actors.properties.weight.short",
+                        "label" : "em.characteristics.app.name",
+                        "short" : "em.characteristics.app.short",
                         "min" : 10,
                         "value" : 10,
                         "max" : 200,
@@ -100,13 +100,23 @@
                         "maxTemp" : 100
                     },
                     "edu" : {
-                        "label" : "em.actors.properties.weight.name",
-                        "short" : "em.actors.properties.weight.short",
+                        "label" : "em.characteristics.edu.name",
+                        "short" : "em.characteristics.edu.short",
                         "min" : 10,
                         "value" : 10,
                         "max" : 200,
                         "temp" : 0,
                         "maxTemp" : 100
+                    },
+                    "mov" : {
+                        "label" : "em.characteristics.mov.name",
+                        "short" : "em.characteristics.mov.short",
+                        "min" : 0,
+                        "value" : 0,
+                        "max" : 0,
+                        "minTemp" : 0,
+                        "temp" : 0,
+                        "maxTemp" : 0
                     }
 
                 },
@@ -124,9 +134,9 @@
             "baseItem" : {
                 "tags" : [],
                 "description" : "",
-                "weight" : {
-                    "label" : "em.actors.properties.weight.name",
-                    "short" : "em.actors.properties.weight.short",
+                "wt" : {
+                    "label" : "em.attributes.wt.name",
+                    "short" : "em.attributes.wt.short",
                     "min" : 0,
                     "value" : 0,
                     "max" : 0,
@@ -194,7 +204,7 @@
             "tags" : ["bodypart"],
             "partType" : "torso",
             "attachedTo" : null,
-            "description" : "BODY_PART.DEFAULT_DESC"    
+            "description" : "em.items.bodypart.DEFAULT_DESC"    
         },
         "test" : {}
     }
