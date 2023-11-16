@@ -1,7 +1,9 @@
 {
     "Actor" : {
         "templates" : {
+
             "baseActor" : {
+                "tags" : ["actor"],
                 "description" : "a base actor with no implementation.",
                 "attributes" : {
                     "hp" : {
@@ -121,12 +123,48 @@
 
                 },
                 "physicalConditions" : []
+            },
+            "baseCharacter" : {
+                "attributes" : {
+                    "san" : {
+                        "label" : "em.attributes.san.name",
+                        "short" : "em.attributes.san.short",
+                        "min": 0,
+                        "value": 100,
+                        "max" : 100,
+                        "minTemp" : 0,
+                        "temp" : 0,
+                        "maxTemp" : 0
+                    },
+                    "luck" : {
+                        "label" : "em.attributes.luck.name",
+                        "short" : "em.attributes.luck.short",
+                        "min": 0,
+                        "value": 100,
+                        "max" : 100,
+                        "minTemp" : 0,
+                        "temp" : 0,
+                        "maxTemp" : 0
+                    }
+                },
+                "mentalConditions" : []
+            },
+            "interactible" : {
+
+            },
+            "lootable" : {
+
+            },
+            "shop" : {
+
             }
+            
         },
         "types" : [
             "testActor"
         ],
         "testActor" : {
+            "templates" : ["baseActor"]
         }
     },
     "Item" : {
@@ -180,7 +218,6 @@
                 ],
                 "slotsOccupied" : [],
                 "equippableOnto" : [],
-
                 "unequipWhenBroken" : true,
                 "unequippable" : true,
                 "unequipCost" : [],
@@ -210,17 +247,20 @@
             "tags" : ["bodypart"],
             "description" : "em.items.bodypart.DEFAULT_DESC",
             "partType" : "torso",
+            "targetDifficultyMult" : 1.0,
             "allowedEquippables" : [],
             "equipped" : {
                 "upper" : null,
                 "lower" : null
             },
             "bodySync" : {
-                "linked" : true,
-                "linkedToStat" : "hp",
-                "linkDmgConvRate" : 1.0,
-                "maxLinkDmg" : 0.5,
-                "linkTotDmg" : 0.0
+                "hpLink" : {
+                    "linked" : true,
+                    "linkedToStat" : "hp",
+                    "linkDmgConvRate" : 1.0,
+                    "maxLinkDmg" : 0.5,
+                    "linkTotDmg" : 0.0
+                }
             },
             "attachedTo" : null
         },

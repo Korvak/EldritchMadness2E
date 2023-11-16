@@ -3,6 +3,7 @@
  * 
  * A bodypart item represents a bodypart. No Actor should be without bodyparts since to attack, you have to target bodyparts.
  * Every actor must have one root bodypart which is linked to the @hp attribute and has a @maxLinkDmg of 1.0.
+ * Bodyparts are essential since combat is based on targeting and doing damage to bodyparts.
  * 
  * @implements {BaseItem, Repairable, Upgradable}
  * 
@@ -13,14 +14,23 @@
  *                                  @organ     : by convention an organ which can be a sensory one or a normal one like a stomach.
  *                                  @vestigial : by convention a part that is not linked to the actor attributes or useless.
  * 
+ * @param {number} targetDifficultyMult : a normalized percentage which defines how difficult it is to target that body part.
  * 
  * @param {Array(Tags)} allowedEquippables : a list of tags for allowed equipment to wear/equip on the bodypart. 
  *                                           Should never contain "bodypart".
  * 
  * @param {Dictionary(string : Equippable)} equipped : a dictionary/json object of bodypart slot : Equippable item ID. 
  *                                              Used to determine what is equipped and what can be equipped.
- *
- * @bodySync {
+ * 
+ * @param {Bodypart} attachedTo : the bodypart ID this bodypart is attached to. Can be null in case of root parts such as the torso.
+ * 
+ * @param {Dictionary(string : BodyLink)} bodySync : a dictionary of BodyLink objects. Used to determine what damage is applied to
+ *                                                 the owning actor when the durability of the bodypart is decreased.
+ */
+/** BodyLink
+ * 
+ * @class @BodyLink
+ * {
  *  @param {boolean} linked : wether this bodypart should do damage to the owning actor when losing durability.
  *                             if set to false, does no damage when losing durability.
  * 
@@ -36,9 +46,4 @@
  *                              To determine wether to keep removing points of the attribute or not. When the bodypart is repaired,
  *                              This stat is decreased accordingly.
  * }
- * 
- *  
- * @param {Bodypart} attachedTo : the bodypart ID this bodypart is attached to. Can be null in case of root parts such as the torso.
- * 
- * 
  */
