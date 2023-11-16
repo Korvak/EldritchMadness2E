@@ -193,7 +193,9 @@
                     "min" : 0,
                     "value" : 0,
                     "max" : 0,
-                    "temp" : 0
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 0
                 },
                 "durabilityLoss" : {
                     "min" : 1,
@@ -201,7 +203,6 @@
                 }
             },
             "repairable" : {
-                "templates" : ["destroyable"],
                 "durabilityTreshold" : {
                     "min" : 0,
                     "max" : 50
@@ -242,6 +243,7 @@
         "bodypart" : {
             "templates" : [
                 "baseItem",
+                "destroyable",
                 "repairable",
                 "upgradable"
             ],
@@ -259,6 +261,7 @@
                     "linked" : true,
                     "linkedToStat" : "hp",
                     "linkDmgConvRate" : 1.0,
+                    "minDurabilityLink" : -1.0,
                     "maxLinkDmg" : 0.5,
                     "linkTotDmg" : 0.0
                 }

@@ -39,8 +39,10 @@ export default class EmBaseActorSheet extends ActorSheet {
         console.log("creating anatomy of", this.actor.type);
         let data = this.getActorData();
         let anatomy = data.anatomy;
-        if (anatomy == undefined && CONFIG.EmConfig.anatomy[this.actor.type] != undefined) {
-            anatomy = CONFIG.EmConfig.anatomy[this.actor.type];
+        if (anatomy == undefined || anatomy.length == 0) { //in case there is no anatomy or it's empty
+            //we read the anatomy from the config and if absent, it will use the default one
+            let configAnatomy = CONFIG.EmConfig.anatomy[this.actor.type];
+            anatomy = configAnatomy != undefined ? configAnatomy : CONFIG.EmConfig.anatomy.default;
         }
         console.log(`set anatomy of ${this.actor.id} of class ${this.actor.type} to :`,anatomy);
     }

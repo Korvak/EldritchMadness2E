@@ -39,6 +39,10 @@
  *  @param {number} linkDmgConvRate : the normalized percentage of how much durability lost is converted into damage.
  *                                      if set to 1.0 then for every 1 durability lost, 1 point of the attribute is removed.
  * 
+ * @param {number} minDurabilityLink : the normalized percentage of the minimum durability allowed for the link dmg to occur.
+ *                                      if set to 0.0 then the owner will be damages until the bodypart is broken.
+ *                                      if set to -1.0 then the owner will be damage even after the bodypart is broken.
+ * 
  * @param {number} maxLinkDmg : the normalized percentage of the max amount of attribute loss it can incur. 
  *                              This is only valid from 100% to 0% durability and takes into account durability gain.
  * 
