@@ -1,6 +1,7 @@
 export const EmConfig = {};
 
-EmConfig.testEnum = {
-    "none" : "",
-    "attack" : "em.test.attack"
-}
+
+EmConfig.enums = {
+    "alfa" : "a",
+    "beta" : "b"
+};

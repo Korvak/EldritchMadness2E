@@ -122,7 +122,8 @@
                     }
 
                 },
-                "physicalConditions" : []
+                "physicalConditions" : [],
+                "anatomy" : {}
             },
             "baseCharacter" : {
                 "attributes" : {
@@ -236,7 +237,7 @@
         },
         "types" : [
             "bodypart",
-            "test"
+            "empty"
         ],
         "bodypart" : {
             "templates" : [
