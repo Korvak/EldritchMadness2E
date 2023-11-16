@@ -1,5 +1,6 @@
 export default class EmBaseItemSheet extends ItemSheet {
 
+    //#region base methods
     get template() {
         return `systems/EldritchMadness/templates/sheets/items/${this.item.type}-sheet.hbs`;
     }
@@ -12,4 +13,13 @@ export default class EmBaseItemSheet extends ItemSheet {
         return data;
     }
 
+    //#endregion
+
+    //#region helper methods
+
+    getItemData() {
+        return this.getData().item.system;
+    }
+
+    //#endregion
 }

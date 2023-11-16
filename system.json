@@ -17,6 +17,8 @@
         "EldritchMadness.js"
     ],
     "styles" : [
+        "/resources/css/w3Css.css",
+        "/styles/EmStyle.css"
     ],
     "languages": [
         {

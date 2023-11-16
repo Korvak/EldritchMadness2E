@@ -7,13 +7,18 @@
  * 
  * @implements {BaseItem, Repairable, Upgradable}
  * 
+ */
+/** partType
+ * 
  * @param {PartType} partType : the type of the bodypart it is:
- *                                  @torso     : by convention the main body part.
+ *                                  
+ *                                  @torso     : by convention the main body part and the root of the body.
  *                                  @arm       : a body part which can equip and use weapons. It is taken into account when using items. 
  *                                  @leg       : by convention defines a part that is used for moving. When broken should reduce @mov
  *                                  @organ     : by convention an organ which can be a sensory one or a normal one like a stomach.
  *                                  @vestigial : by convention a part that is not linked to the actor attributes or useless.
- * 
+ */
+/** 
  * @param {number} targetDifficultyMult : a normalized percentage which defines how difficult it is to target that body part.
  * 
  * @param {Array(Tags)} allowedEquippables : a list of tags for allowed equipment to wear/equip on the bodypart. 
