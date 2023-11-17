@@ -1,22 +1,6 @@
 export default class EmBaseActorSheet extends ActorSheet {
 
-    //#region start methods
-    _startPageFlip() {
-    }
-
-
-    //#endregion
-
     //#region base methods
-    constructor(...args) {
-        super(...args);
-        //#region call starter funcs
-        this._createAnatomy();
-        this._startPageFlip();
-        //#endregion
-        console.log(CONFIG.EmConfig.data);
-    }
-
 
     get template() {
         return `systems/EldritchMadness/templates/sheets/actors/${this.actor.type}-sheet.hbs`;
@@ -34,11 +18,65 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     activateListeners(html) {
         //html.find(".changeFirst").click(this._changeFirst.bind(this));
+        let htmlContainer = html.parent().parent();
+        let onready = function() {this._onStart(htmlContainer);};
+        html.ready(onready.bind(this) );
+
+        //#region flipbook events
+        let flipbook = html.find("#flipbook");
+        let onStopDrag = function() {this._onStopDrag(html);};
+        //bind the resize event
+        htmlContainer.find(".window-resizable-handle").on("click.stopDrag", onStopDrag.bind(this));
+        //stop the first and last page turning
+        let stopFlipbookTurning = function(event,flipbook,page) {
+            if (page == 1 || page == flipbook.turn("pages") ) {event.preventDefault();}
+        }
+        //event binding
+        //start is for stopping the animation
+        flipbook.on("start", function(event, pageObject, corner) {
+            stopFlipbookTurning(event,flipbook, pageObject.next);
+        });
+        //turning is for stopping the actual page change
+        flipbook.on("turning", function(event, page, view) {
+            if (page == 1 || page == flipbook.turn("pages") ) {event.preventDefault();}
+        });
+        //#endregion
+
+
         super.activateListeners(html);
     }
 
     //#endregion
+    //#region start method
 
+    _onStart(html) {
+        let htmlContainer = html.parent().parent();
+        //first we start turn.js
+        let flipbook = html.find("#flipbook");
+        flipbook.turn({
+            width: html.width() - CONFIG.EmConfig.flipbook.wMargin * 2,
+            height: html.height() - CONFIG.EmConfig.flipbook.hMargin * 2,
+            autoCenter: true,
+            display : "double"
+        });
+        //we turn the first page
+        setTimeout(() => {flipbook.turn("page",2);},500);
+        
+    }
+    //#region event methods
+
+    _onStopDrag(html) {
+        console.log("size",html.width(), html.height() );
+        let flipbook = html.find("#flipbook");
+        flipbook.turn("size", 
+            html.width() - CONFIG.EmConfig.flipbook.wMargin,
+            html.height() - CONFIG.EmConfig.flipbook.hMargin
+        );
+        flipbook.turn("resize");
+    }
+
+    //#endregion
+    //#endregion
     //#region helper methods
 
     getActorData() {

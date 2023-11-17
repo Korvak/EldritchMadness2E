@@ -32,3 +32,8 @@ EmConfig.anatomy = {
         "attachedTo" : null
     },
 };
+
+EmConfig.flipbook = {
+    wMargin : 10,
+    hMargin : 25
+}
