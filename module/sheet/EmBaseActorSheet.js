@@ -1,10 +1,18 @@
 export default class EmBaseActorSheet extends ActorSheet {
 
+    //#region start methods
+    _startPageFlip() {
+    }
+
+
+    //#endregion
+
     //#region base methods
     constructor(...args) {
         super(...args);
         //#region call starter funcs
         this._createAnatomy();
+        this._startPageFlip();
         //#endregion
         console.log(CONFIG.EmConfig.data);
     }
@@ -30,6 +38,8 @@ export default class EmBaseActorSheet extends ActorSheet {
     }
 
     //#endregion
+
+    //#region helper methods
 
     getActorData() {
         return this.getData().actor.system;
@@ -94,14 +104,10 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
     }
 
-    //#region helper methods
-
-
-
     //#endregion
 
     //#region anatomy
-    _createAnatomy() {
+    async _createAnatomy() {
         console.log("creating anatomy of", this.actor.type);
         let data = this.getActorData();
         let anatomy = data.anatomy;
@@ -117,8 +123,18 @@ export default class EmBaseActorSheet extends ActorSheet {
         return this.getActorData().anatomy;
     }
 
-    addAnatomy({name ,attachedTo, partType }) {
+    async addAnatomy({name ,attachedTo, partType }) {
+        let bodypart = await Item.create({
+            "name" : name,
+            "type" : "bodypart",
+        });
+        let bodypartData = bodypart.getItemData();
+        bodypartData.partType = partType;
+        bodypartData.attachedTo = attachedTo;
+        //now we add it to the items
 
+        //then we add it to the actor anatomy
+        
     }
 
     //#endregion
