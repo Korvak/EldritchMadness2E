@@ -1,0 +1,19 @@
+.em_actorFormContainer {
+    box-sizing: border-box;
+    max-height: 100%;
+}
+
+#flipbook {
+    margin-left: auto !important;
+    margin-right: auto;
+
+    max-height: calc(100% - 10px);
+}
+
+#flipbook .page-wrapper {
+    max-height: 100%;
+}
+
+#flipbook .em_page {
+    box-sizing: border-box;
+}

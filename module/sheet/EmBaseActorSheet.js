@@ -35,6 +35,9 @@ export default class EmBaseActorSheet extends ActorSheet {
         //start is for stopping the animation
         flipbook.on("start", function(event, pageObject, corner) {
             stopFlipbookTurning(event,flipbook, pageObject.next);
+            if (corner=='tl' || corner=='tr') { //we only allow bottom page turning
+                event.preventDefault(); 
+            }
         });
         //turning is for stopping the actual page change
         flipbook.on("turning", function(event, page, view) {
@@ -54,19 +57,20 @@ export default class EmBaseActorSheet extends ActorSheet {
         //first we start turn.js
         let flipbook = html.find("#flipbook");
         flipbook.turn({
-            width: html.width() - CONFIG.EmConfig.flipbook.wMargin * 2,
-            height: html.height() - CONFIG.EmConfig.flipbook.hMargin * 2,
+            width: html.width() - CONFIG.EmConfig.flipbook.wMargin,
+            height: html.height() - CONFIG.EmConfig.flipbook.hMargin,
             autoCenter: true,
             display : "double"
         });
         //we turn the first page
-        setTimeout(() => {flipbook.turn("page",2);},500);
+        setTimeout(() => { htmlContainer.find(".window-resizable-handle").click(); }, 50);
+        setTimeout(() => { flipbook.turn("page",2); },500);
+        
         
     }
     //#region event methods
 
     _onStopDrag(html) {
-        console.log("size",html.width(), html.height() );
         let flipbook = html.find("#flipbook");
         flipbook.turn("size", 
             html.width() - CONFIG.EmConfig.flipbook.wMargin,
