@@ -2,6 +2,16 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     //#region base methods
 
+    constructor(...args) {
+        super(...args);
+        //we set some data for ourselves
+        this.em = {
+            tabDict : {},
+            flipbook : undefined
+        }
+    }
+
+
     get template() {
         return `systems/EldritchMadness/templates/sheets/actors/${this.actor.type}-sheet.hbs`;
     }
@@ -19,6 +29,7 @@ export default class EmBaseActorSheet extends ActorSheet {
     activateListeners(html) {
         //html.find(".changeFirst").click(this._changeFirst.bind(this));
         let htmlContainer = html.parent().parent();
+        const self = this;
         let onready = function() {this._onStart(htmlContainer);};
         html.ready(onready.bind(this) );
 
@@ -34,19 +45,29 @@ export default class EmBaseActorSheet extends ActorSheet {
         //event binding
         //start is for stopping the animation
         flipbook.on("start", function(event, pageObject, corner) {
-            stopFlipbookTurning(event,flipbook, pageObject.next);
-            let forbidden = corner=='tl' || corner=='tr';
-            if (forbidden) { //we only allow bottom page turning
-                event.preventDefault();
+            if (!$(this).prop("controlled")) {
+                stopFlipbookTurning(event,$(this), pageObject.next);
+                let forbidden = (corner=='tl' || corner=='tr');
+                if (forbidden) { //we only allow bottom page turning
+                    event.preventDefault();
+                }
+                $(this).prop("forbiddenTurn", forbidden);
             }
-            flipbook.prop("forbiddenTurn", forbidden);
         });
         //turning is for stopping the actual page change
         flipbook.on("turning", function(event, page, view) {
-            stopFlipbookTurning(event,flipbook, page);
-            if (flipbook.prop("forbiddenTurn") == true) {event.preventDefault();}
+            if (!$(this).prop("controlled")) {
+                stopFlipbookTurning(event,$(this), page);
+                if ($(this).prop("forbiddenTurn") == true) {event.preventDefault();}
+            }
         });
+        flipbook.on("turned", function(event,page,view) {
+            $(this).prop("controlled", false);
+        });
+        //tab navigation
+        //html.find(".em_tabBtn").click(this._changePage.bind(this));
         //#endregion
+        
 
 
         super.activateListeners(html);
@@ -59,18 +80,34 @@ export default class EmBaseActorSheet extends ActorSheet {
         let htmlContainer = html.parent().parent();
         //first we start turn.js
         let flipbook = html.find("#flipbook");
+        this.em.flipbook = flipbook;
+        flipbook.prop("controlled", false);
         flipbook.turn({
             width: html.width() - CONFIG.EmConfig.flipbook.wMargin,
             height: html.height() - CONFIG.EmConfig.flipbook.hMargin,
             autoCenter: true,
             display : "double"
         });
+        //then we set the navigation dictionary
+        this._setTabDictionary();
         //we turn the first page
         setTimeout(() => { htmlContainer.find(".window-resizable-handle").click(); }, 50);
         setTimeout(() => { flipbook.turn('next'); },500);
         
         
     }
+
+    _setTabDictionary() {
+        this.em.tabDict = {
+            "info" : 2,
+            "combat" : 4,
+            "health" : 6,
+            "inventory" : 8,
+            "forge" : 10 ,
+            "detective" : 12 
+        };
+    }
+
     //#region event methods
 
     _onStopDrag(html) {
@@ -85,6 +122,25 @@ export default class EmBaseActorSheet extends ActorSheet {
         catch(error) {console.error(error.message);}
     }
 
+
+    _changePage(event) {
+        console.log("clicked");
+        try{
+            event.preventDefault();
+            const target = $(event.target);
+            const flipbook = target.parents("#flipbook");
+            let page = parseInt( target.attr("data-page") );//this.getTabPage(target.data("tab") );
+
+            console.log(target, page, flipbook.prop("controlled"), flipbook.prop("forbiddenTurn") );
+            if (typeof page == undefined || typeof page == NaN || typeof page == null) {return;}
+            if (page !== flipbook.turn('page') ) {
+                flipbook.prop("controlled", true);
+                flipbook.turn('page', page);
+            }
+        }
+        catch(error) {console.error(error.message);} 
+    }
+
     //#endregion
     //#endregion
     //#region helper methods
@@ -93,7 +149,14 @@ export default class EmBaseActorSheet extends ActorSheet {
         return this.getData().actor.system;
     }
 
-    getAllOwnedItems() {
+    //#region navigation methods
+
+    getTabPage(tabName) { return this.em.tabDict[tabName]; }
+
+    //#endregion
+
+    //#region inventory methods
+    _getAllOwnedItems() {
         return this.getData().items;
     }
 
@@ -103,7 +166,7 @@ export default class EmBaseActorSheet extends ActorSheet {
         if (tags.length + Ids.length == 0) {return results;}
         tags = new Set(tags);
         Ids = new Set(Ids);
-        for (let item of this.getAllOwnedItems() ) {
+        for (let item of this._getAllOwnedItems() ) {
             itemData = item.getData().system;
             if ( itemData.tags.filter(x => tags.has(x) )
                   || Ids.has(item.id) 
@@ -116,21 +179,21 @@ export default class EmBaseActorSheet extends ActorSheet {
     }
 
     getOwnedItem(itemId) {
-        for (let item of this.getAllOwnedItems() ) {
+        for (let item of this._getAllOwnedItems() ) {
             if (item.id == itemId) {return item;}
         }
         return undefined;
     } 
 
     addOwnedItem(item) {
-        let ownedItems = this.getAllOwnedItems();
+        let ownedItems = this._getAllOwnedItems();
         ownedItems.push(item);
         return ownedItems.length - 1;
     }
 
     removeOwnedItem(itemId) {
         let item = null;
-        let ownedItems = this.getAllOwnedItems();
+        let ownedItems = this._getAllOwnedItems();
         for (let i = 0; i < ownedItems.length;i++) {
             item = ownedItems[i];
             if (item.id == itemId) {
@@ -151,6 +214,8 @@ export default class EmBaseActorSheet extends ActorSheet {
             return -1;
         }
     }
+    //#endregion
+
 
     //#endregion
 

@@ -38,8 +38,8 @@ EmConfig.flipbook = {
     hMargin : 25
 }
 
-EmConfig.MEDICAL_CONDITION_TYPES = [
-    "injuries",
-    "psyche",
-    "illneses"
-]
+EmConfig.MEDICAL_CONDITION_TYPES = {
+    "injuries" : "em.actors.conditions.injuries",
+    "psyche" : "em.actors.conditions.psyche",
+    "illneses" : "em.actors.conditions.illneses"
+}

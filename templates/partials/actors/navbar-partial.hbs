@@ -1,14 +1,41 @@
 <div class="w3-bar em_navbar">
-    <div class="w3-bar-item w3-hover-black">
+    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="info" data-page="2" onclick="changePage(event,2)">
         <i class="fa-solid fa-note-sticky"></i>
     </div>
-    <div class="w3-bar-item w3-hover-black">
+    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="combat" data-page="4" onclick="changePage(event,4)">
         <i class="fa-solid fa-swords"></i>
     </div>
-    <div class="w3-bar-item w3-hover-black">
+    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="health" data-page="6" onclick="changePage(event,6)">
         <i class="fa-solid fa-heart"></i>
     </div>
-    <div class="w3-bar-item w3-hover-black">
+    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="inventory" data-page="8" onclick="changePage(event,8)">
         <i class="fa-solid fa-suitcase"></i>
     </div>
+    {{#if (eq actor.type 'player') }}
+    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="health">
+        <i class="fa-solid fa-heart"></i>
+    </div>
+    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="inventory">
+        <i class="fa-solid fa-suitcase"></i>
+    </div>
+    {{/if}}
+    <script>
+        function changePage(event,page) {
+            retryCounter = 0;
+            try {
+                event.preventDefault();
+                let element = $(event.target);
+                const flipbook = element.parents("#flipbook");
+                if (page !== flipbook.turn('page') ) {
+                    flipbook.prop("controlled", true);
+                    flipbook.turn('page', page);
+                }
+            }
+            catch(error) {
+                console.error(error.message);
+            }
+            
+        }
+    </script>
 </div>
+

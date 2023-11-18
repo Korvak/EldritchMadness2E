@@ -1,9 +1,14 @@
-.em_navbar .em_button {
-    font-size: 1em;
+.em_navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+}
 
-} 
+.em_navbar .em_tabBtn {
+    z-index: 100;
+}
 
-.em_navbar .em_button:hover {
-    box-shadow: none !important;
-    
-} 
+.em_navbar .em_tabBtn:hover {
+    box-shadow: none !important; 
+}

@@ -57,7 +57,11 @@
             }
         },
         "actors" : {
-            
+            "conditions" : {
+                "illneses" : "illneses",
+                "injuries" : "injuries",
+                "psyche" : "psyche"
+            }
         },
         "items" : {
             "bodypart" : {
