@@ -12,3 +12,28 @@
 .em_navbar .em_tabBtn:hover {
     box-shadow: none !important; 
 }
+
+.em_actorFormContainer {
+    box-sizing: border-box;
+    max-height: 100%;
+}
+
+#flipbook {
+    margin-left: auto !important;
+    margin-right: auto;
+
+    max-height: calc(100% - 10px);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#flipbook .page-wrapper {
+    max-height: 100%;
+}
+
+#flipbook .em_page {
+    box-sizing: border-box;
+}
+
+

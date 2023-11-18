@@ -1,11 +1,23 @@
 <div class="em_actorMedicalInfoContainer">
-    <div>
-        <select class="w3-select" style="min-height: 2em;height:2.5em;">
+    <div class="w3-container">
+        <select class="w3-select w3-container em_noShadow" style="min-height: 2em;height:2.5em;">
             {{#each CONFIG.EmConfig.MEDICAL_CONDITION_TYPES as |conditionType| }}
                 <option>{{i18n conditionType}}</option>
             {{/each}}
         </select>
     </div>
-    
-    {{CONFIG.EmConfig.flipbook.wMargin}}
+    <div class="anatomyContainer">
+        <!-- we check what method to use when displaying the anatomy -->
+        {{#if (eq actor.system.anatomy.viewType "chart") }}
+            <div>
+                
+            </div>
+        {{else if (eq actor.system.anatomy.viewType "tree") }}
+            <!-- should be in tree view but we cannot reoder it here, so we have to do it with a method or custom handlebar or in the sheet-->
+            {{#each actor.system.anatomy.parts as |bodypart| }}
+            {{/each}}
+        {{else }}
+            <p>error no anatomy view type was found. Cannot render the actor's anatomy.</p>
+        {{/if}}
+    </div>
 </div>

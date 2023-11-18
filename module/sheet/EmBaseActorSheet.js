@@ -5,10 +5,6 @@ export default class EmBaseActorSheet extends ActorSheet {
     constructor(...args) {
         super(...args);
         //we set some data for ourselves
-        this.em = {
-            tabDict : {},
-            flipbook : undefined
-        }
     }
 
 
@@ -63,13 +59,12 @@ export default class EmBaseActorSheet extends ActorSheet {
         });
         flipbook.on("turned", function(event,page,view) {
             $(this).prop("controlled", false);
+            self._pagesActivationBinding(html);
         });
         //tab navigation
-        //html.find(".em_tabBtn").click(this._changePage.bind(this));
+        //set in the partial itself since it lost the event
         //#endregion
         
-
-
         super.activateListeners(html);
     }
 
@@ -80,7 +75,6 @@ export default class EmBaseActorSheet extends ActorSheet {
         let htmlContainer = html.parent().parent();
         //first we start turn.js
         let flipbook = html.find("#flipbook");
-        this.em.flipbook = flipbook;
         flipbook.prop("controlled", false);
         flipbook.turn({
             width: html.width() - CONFIG.EmConfig.flipbook.wMargin,
@@ -88,8 +82,6 @@ export default class EmBaseActorSheet extends ActorSheet {
             autoCenter: true,
             display : "double"
         });
-        //then we set the navigation dictionary
-        this._setTabDictionary();
         //we turn the first page
         setTimeout(() => { htmlContainer.find(".window-resizable-handle").click(); }, 50);
         setTimeout(() => { flipbook.turn('next'); },500);
@@ -97,15 +89,16 @@ export default class EmBaseActorSheet extends ActorSheet {
         
     }
 
-    _setTabDictionary() {
-        this.em.tabDict = {
-            "info" : 2,
-            "combat" : 4,
-            "health" : 6,
-            "inventory" : 8,
-            "forge" : 10 ,
-            "detective" : 12 
-        };
+    _pagesActivationBinding(html) {
+        //instead of doing it in the activateListeners, we have to call this each time a page is turned
+        //in case the event listeners get unbounded.
+        let btns = html.find(".f");
+        btns.unbind("click");
+        btns.bind("click",(event) => {
+            event.preventDefault();
+            console.log("alfa");
+        });
+
     }
 
     //#region event methods
@@ -113,32 +106,13 @@ export default class EmBaseActorSheet extends ActorSheet {
     _onStopDrag(html) {
         try {
             let flipbook = html.find("#flipbook");
-            flipbook.turn("size", 
+            flipbook.turn('size', 
                 html.width() - CONFIG.EmConfig.flipbook.wMargin,
                 html.height() - CONFIG.EmConfig.flipbook.hMargin
             );
             flipbook.turn("resize");
         }
         catch(error) {console.error(error.message);}
-    }
-
-
-    _changePage(event) {
-        console.log("clicked");
-        try{
-            event.preventDefault();
-            const target = $(event.target);
-            const flipbook = target.parents("#flipbook");
-            let page = parseInt( target.attr("data-page") );//this.getTabPage(target.data("tab") );
-
-            console.log(target, page, flipbook.prop("controlled"), flipbook.prop("forbiddenTurn") );
-            if (typeof page == undefined || typeof page == NaN || typeof page == null) {return;}
-            if (page !== flipbook.turn('page') ) {
-                flipbook.prop("controlled", true);
-                flipbook.turn('page', page);
-            }
-        }
-        catch(error) {console.error(error.message);} 
     }
 
     //#endregion
@@ -149,11 +123,6 @@ export default class EmBaseActorSheet extends ActorSheet {
         return this.getData().actor.system;
     }
 
-    //#region navigation methods
-
-    getTabPage(tabName) { return this.em.tabDict[tabName]; }
-
-    //#endregion
 
     //#region inventory methods
     _getAllOwnedItems() {
@@ -252,6 +221,8 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     //#endregion
 
-
+    em_fooGetData() {
+        return ["a","b","c","d"];
+    }
 
 }

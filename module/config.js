@@ -39,7 +39,7 @@ EmConfig.flipbook = {
 }
 
 EmConfig.MEDICAL_CONDITION_TYPES = {
-    "injuries" : "em.actors.conditions.injuries",
+    "injury" : "em.actors.conditions.injury",
     "psyche" : "em.actors.conditions.psyche",
-    "illneses" : "em.actors.conditions.illneses"
+    "illness" : "em.actors.conditions.illness"
 }

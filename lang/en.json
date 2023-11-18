@@ -58,8 +58,8 @@
         },
         "actors" : {
             "conditions" : {
-                "illneses" : "illneses",
-                "injuries" : "injuries",
+                "illness" : "illness",
+                "injury" : "injury",
                 "psyche" : "psyche"
             }
         },
