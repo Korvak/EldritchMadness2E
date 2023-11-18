@@ -1,0 +1,9 @@
+.em_navbar .em_button {
+    font-size: 1em;
+
+} 
+
+.em_navbar .em_button:hover {
+    box-shadow: none !important;
+    
+} 

@@ -11,7 +11,7 @@ export default class EmBaseActorSheet extends ActorSheet {
         //system holds all the data
         console.log("actor",data);
         console.log("actorItems", data.items);
-
+        data.CONFIG = CONFIG;
         return data;
     }
 
@@ -35,13 +35,16 @@ export default class EmBaseActorSheet extends ActorSheet {
         //start is for stopping the animation
         flipbook.on("start", function(event, pageObject, corner) {
             stopFlipbookTurning(event,flipbook, pageObject.next);
-            if (corner=='tl' || corner=='tr') { //we only allow bottom page turning
-                event.preventDefault(); 
+            let forbidden = corner=='tl' || corner=='tr';
+            if (forbidden) { //we only allow bottom page turning
+                event.preventDefault();
             }
+            flipbook.prop("forbiddenTurn", forbidden);
         });
         //turning is for stopping the actual page change
         flipbook.on("turning", function(event, page, view) {
-            if (page == 1 || page == flipbook.turn("pages") ) {event.preventDefault();}
+            stopFlipbookTurning(event,flipbook, page);
+            if (flipbook.prop("forbiddenTurn") == true) {event.preventDefault();}
         });
         //#endregion
 
@@ -64,19 +67,22 @@ export default class EmBaseActorSheet extends ActorSheet {
         });
         //we turn the first page
         setTimeout(() => { htmlContainer.find(".window-resizable-handle").click(); }, 50);
-        setTimeout(() => { flipbook.turn("page",2); },500);
+        setTimeout(() => { flipbook.turn('next'); },500);
         
         
     }
     //#region event methods
 
     _onStopDrag(html) {
-        let flipbook = html.find("#flipbook");
-        flipbook.turn("size", 
-            html.width() - CONFIG.EmConfig.flipbook.wMargin,
-            html.height() - CONFIG.EmConfig.flipbook.hMargin
-        );
-        flipbook.turn("resize");
+        try {
+            let flipbook = html.find("#flipbook");
+            flipbook.turn("size", 
+                html.width() - CONFIG.EmConfig.flipbook.wMargin,
+                html.height() - CONFIG.EmConfig.flipbook.hMargin
+            );
+            flipbook.turn("resize");
+        }
+        catch(error) {console.error(error.message);}
     }
 
     //#endregion

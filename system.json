@@ -19,7 +19,8 @@
     ],
     "styles" : [
         "/resources/css/w3Css.css",
-        "/styles/EmStyle.css"
+        "/styles/EmStyle.css",
+        "/styles/shared/actorStyle.css"
     ],
     "languages": [
         {

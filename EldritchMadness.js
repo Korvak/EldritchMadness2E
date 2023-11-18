@@ -3,6 +3,19 @@ import {translate} from "./module/utils.js";
 import EmBaseActorSheet from "./module/sheet/EmBaseActorSheet.js";
 import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
 
+async function preloadHandlebarsTemplates() {
+  const templatePaths = [
+    //#region actor partials
+    "systems/EldritchMadness/templates/partials/actors/navbar-partial.hbs",
+    "systems/EldritchMadness/templates/partials/actors/actorInfo-partial.hbs",
+    "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs"
+    //#endregion
+  ];
+
+  return loadTemplates(templatePaths);
+}
+
+
 Hooks.once("init", function() {
     //starting messages
     console.log("loading EM 2E");
@@ -23,5 +36,7 @@ Hooks.once("init", function() {
     Handlebars.registerHelper('i18n', function(key) {
         return translate(key);
       });
+
+    preloadHandlebarsTemplates();
     //#endregion
 });

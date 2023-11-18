@@ -8,6 +8,9 @@
     margin-right: auto;
 
     max-height: calc(100% - 10px);
+
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #flipbook .page-wrapper {

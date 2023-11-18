@@ -1,0 +1,11 @@
+<div class="em_actorMedicalInfoContainer">
+    <div>
+        <select class="w3-select" style="min-height: 2em;height:2.5em;">
+            {{#each CONFIG.EmConfig.MEDICAL_CONDITION_TYPES as |conditionType| }}
+                <option>{{conditionType}}</option>
+            {{/each}}
+        </select>
+    </div>
+    
+    {{CONFIG.EmConfig.flipbook.wMargin}}
+</div>
