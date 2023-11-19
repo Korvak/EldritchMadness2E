@@ -36,10 +36,14 @@ EmConfig.anatomy = {
 EmConfig.flipbook = {
     wMargin : 10,
     hMargin : 25
-}
+};
 
 EmConfig.MEDICAL_CONDITION_TYPES = {
     "injury" : "em.actors.conditions.injury",
     "psyche" : "em.actors.conditions.psyche",
     "illness" : "em.actors.conditions.illness"
-}
+};
+
+EmConfig.ERRORS = {
+    MISSING_ANATOMY_TYPE_ERROR : "errors.missingAnatomyType"
+};

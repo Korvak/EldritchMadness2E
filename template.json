@@ -125,8 +125,40 @@
                 "physicalConditions" : [],
                 "anatomy" : {
                     "viewType" : "tree",
-                    "img" : null,
-                    "parts" : []
+                    "tree" : {
+                        "id" : 10243,
+                        "children" : [
+                            {
+                                "id" : 15243,
+                                "children" : [
+                                    {
+                                        "id" : 15343,
+                                        "children" : []
+                                    },
+                                    {
+                                        "id" : 15344,
+                                        "children" : []
+                                    }
+                                ]
+                            },
+                            {
+                                "id" : 152194,
+                                "children" : []
+                            }
+                        ]
+                    },
+                    "chart" : {},
+                    "parts" : {
+                        "10243" : {
+                            "name" : "root"
+                        },
+                        "15243" : {
+                            "name" : "leg"
+                        },
+                        "152194" : {
+                            "name" : "arm"
+                        }
+                    }
                 }
             },
             "baseCharacter" : {

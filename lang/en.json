@@ -68,5 +68,8 @@
                 "DEFAULT_DESC" : "test bodypart description"
             }
         }
+    },
+    "errors" : {
+        "missingAnatomyType" : "error no anatomy view type was found. Cannot render the actor's anatomy."
     }
 }

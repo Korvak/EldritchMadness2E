@@ -13,11 +13,20 @@
                 
             </div>
         {{else if (eq actor.system.anatomy.viewType "tree") }}
-            <!-- should be in tree view but we cannot reoder it here, so we have to do it with a method or custom handlebar or in the sheet-->
-            {{#each actor.system.anatomy.parts as |bodypart| }}
-            {{/each}}
+            {{!-- Customize the rendering of the nested <ul> --}}
+            <ul class="anatomyTree">
+                <li>{{fetch (fetch actor.system.anatomy.parts actor.system.anatomy.tree.id) "name"}}</li>
+                {{#TreeExplorer actor.system.anatomy.tree.id "dropdown-content" "" actor.system.anatomy.tree.children as |treeNode| }}
+                {{#if (gt this.children.length 0)}}
+                    <li>alfa</li>
+                {{else}}
+                    <li>{{this.id}}</li>
+                {{/if}}
+                {{/TreeExplorer}}
+            </ul>
+            
         {{else }}
-            <p>error no anatomy view type was found. Cannot render the actor's anatomy.</p>
+            <p>{{i18n CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_TYPE_ERROR}}</p>
         {{/if}}
     </div>
 </div>

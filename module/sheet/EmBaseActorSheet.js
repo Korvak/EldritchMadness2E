@@ -221,8 +221,5 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     //#endregion
 
-    em_fooGetData() {
-        return ["a","b","c","d"];
-    }
 
 }
