@@ -52,3 +52,11 @@
         <div class="hard w3-black"></div>
     </div>
 </form>
+{{#unless (eq CONFIG.EmConfig.LOADED.MainScript true) }}
+    {{set CONFIG.EmConfig.LOADED "MainScript" true}}
+    <script src="systems/EldritchMadness/scripts/emMainScript.js"></script>
+{{/unless}}
+{{#unless (eq CONFIG.EmConfig.LOADED.ActorScript true) }}
+    {{set CONFIG.EmConfig.LOADED "ActorScript" true}}
+    <script src="systems/EldritchMadness/scripts/emActorScript.js"></script>
+{{/unless}}

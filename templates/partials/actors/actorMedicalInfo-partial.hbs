@@ -7,26 +7,33 @@
         </select>
     </div>
     <div class="anatomyContainer">
-        <!-- we check what method to use when displaying the anatomy -->
-        {{#if (eq actor.system.anatomy.viewType "chart") }}
-            <div>
+        {{#with actor.system.anatomy as |anatomy|}}
+            <!-- we check what method to use when displaying the anatomy -->
+            {{#if (eq anatomy.viewType "chart") }}
+                <div>
+                    
+                </div>
+            {{else if (eq anatomy.viewType "tree") }}
+                {{!-- Customize the rendering of the nested <ul> --}}
+                <ul class="anatomyTree">
+                    <li>
+                        {{fetch (fetch anatomy.parts anatomy.tree.id) "name"}}
+                    </li>
+                    {{#TreeExplorer anatomy.tree.id "dropdown-content" "" anatomy.tree.children as |treeNode| }}
+                    {{#if (gt this.children.length 0)}}
+                        <li onclick="foo('alfa')">
+                            {{fetch (fetch anatomy.parts this.id) "name"}}
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </li>
+                    {{else}}
+                        <li>{{fetch (fetch anatomy.parts this.id) "name"}}</li>
+                    {{/if}}
+                    {{/TreeExplorer}}
+                </ul>
                 
-            </div>
-        {{else if (eq actor.system.anatomy.viewType "tree") }}
-            {{!-- Customize the rendering of the nested <ul> --}}
-            <ul class="anatomyTree">
-                <li>{{fetch (fetch actor.system.anatomy.parts actor.system.anatomy.tree.id) "name"}}</li>
-                {{#TreeExplorer actor.system.anatomy.tree.id "dropdown-content" "" actor.system.anatomy.tree.children as |treeNode| }}
-                {{#if (gt this.children.length 0)}}
-                    <li>alfa</li>
-                {{else}}
-                    <li>{{this.id}}</li>
-                {{/if}}
-                {{/TreeExplorer}}
-            </ul>
-            
-        {{else }}
-            <p>{{i18n CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_TYPE_ERROR}}</p>
-        {{/if}}
+            {{else }}
+                <p>{{i18n CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_TYPE_ERROR}}</p>
+            {{/if}}
+        {{/with}}
     </div>
 </div>

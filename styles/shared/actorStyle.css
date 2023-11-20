@@ -1,3 +1,4 @@
+/*#region navbar */
 .em_navbar {
     display: flex;
     flex-direction: row;
@@ -13,11 +14,14 @@
     box-shadow: none !important; 
 }
 
+/*#endregion */
+
 .em_actorFormContainer {
     box-sizing: border-box;
     max-height: 100%;
 }
 
+/*#region flipbook */
 #flipbook {
     margin-left: auto !important;
     margin-right: auto;
@@ -36,4 +40,4 @@
     box-sizing: border-box;
 }
 
-
+/*#endregion*/

@@ -33,6 +33,7 @@ function _generateTree(id, ulClasses, ulAttrs, items, options) {
 }
 
 
+
 Hooks.once("init", function() {
     //starting messages
     console.log("loading EM 2E");
@@ -62,6 +63,11 @@ Hooks.once("init", function() {
 
     //#endregion
 
+    Handlebars.registerHelper('set', function(item, key, value) {
+      console.log(item, key, item[key]);
+        return item[key] = value;
+    });
+
     Handlebars.registerHelper('fetch', function(item, key) {
       console.log(item, key, item[key]);
         return item[key];
@@ -69,9 +75,8 @@ Hooks.once("init", function() {
 
     Handlebars.registerHelper('TreeExplorer', function(id, ulClasses, ulAttrs, items, options) {
         // Define a recursive function to generate the tree structure
-        console.log(items);
         return new Handlebars.SafeString(_generateTree(id, ulClasses, ulAttrs, items, options));
-      });
+    });
 
     preloadHandlebarsTemplates();
     //#endregion

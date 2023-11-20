@@ -47,3 +47,7 @@ EmConfig.MEDICAL_CONDITION_TYPES = {
 EmConfig.ERRORS = {
     MISSING_ANATOMY_TYPE_ERROR : "errors.missingAnatomyType"
 };
+
+EmConfig.LOADED = {
+    
+}

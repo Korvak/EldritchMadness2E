@@ -59,7 +59,9 @@ export default class EmBaseActorSheet extends ActorSheet {
         });
         flipbook.on("turned", function(event,page,view) {
             $(this).prop("controlled", false);
+            /* we will instead do html events that are always bound
             self._pagesActivationBinding(html);
+            */
         });
         //tab navigation
         //set in the partial itself since it lost the event
@@ -92,13 +94,6 @@ export default class EmBaseActorSheet extends ActorSheet {
     _pagesActivationBinding(html) {
         //instead of doing it in the activateListeners, we have to call this each time a page is turned
         //in case the event listeners get unbounded.
-        let btns = html.find(".f");
-        btns.unbind("click");
-        btns.bind("click",(event) => {
-            event.preventDefault();
-            console.log("alfa");
-        });
-
     }
 
     //#region event methods
