@@ -1,3 +1,15 @@
+/*#region actor sheet */
+.em_actorSheet {
+    min-height: 450px !important;
+    min-width: 530px !important;
+}
+
+.em_actorFormContainer {
+    box-sizing: border-box;
+    max-height: 100%;
+}
+/*#endregion */
+
 /*#region navbar */
 .em_navbar {
     display: flex;
@@ -16,11 +28,6 @@
 
 /*#endregion */
 
-.em_actorFormContainer {
-    box-sizing: border-box;
-    max-height: 100%;
-}
-
 /*#region flipbook */
 #flipbook {
     margin-left: auto !important;
@@ -29,7 +36,7 @@
     max-height: calc(100% - 10px);
 
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 #flipbook .page-wrapper {
@@ -38,6 +45,37 @@
 
 #flipbook .em_page {
     box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/*#endregion*/
+
+/*#region anatomy */
+
+.em_actor_anatomyContainer {
+    margin-top: 8px;
+    max-height: 45%;
+    height: 45%;
+
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.em_actor_anatomyTree {
+    padding-left: 0;
+}
+
+.em_actor_anatomyList {
+    list-style: none;
+}
+
+.em_actor_anatomyNode {
+    margin-bottom: 2px;
+}
+
+.em_actor_anatomyBranchIcon {
+    font-size: 0.8em;
 }
 
 /*#endregion*/

@@ -7,6 +7,14 @@ export default class EmBaseActorSheet extends ActorSheet {
         //we set some data for ourselves
     }
 
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, 
+            {
+                width: 530,
+                height : 450,
+                classes : ["em_actorSheet"]
+        });
+    }
 
     get template() {
         return `systems/EldritchMadness/templates/sheets/actors/${this.actor.type}-sheet.hbs`;

@@ -1,4 +1,4 @@
-<div class="em_actorMedicalInfoContainer">
+<div class="em_actor_medicalInfoContainer">
     <div class="w3-container">
         <select class="w3-select w3-container em_noShadow" style="min-height: 2em;height:2.5em;">
             {{#each CONFIG.EmConfig.MEDICAL_CONDITION_TYPES as |conditionType| }}
@@ -6,34 +6,48 @@
             {{/each}}
         </select>
     </div>
-    <div class="anatomyContainer">
-        {{#with actor.system.anatomy as |anatomy|}}
-            <!-- we check what method to use when displaying the anatomy -->
-            {{#if (eq anatomy.viewType "chart") }}
-                <div>
-                    
-                </div>
-            {{else if (eq anatomy.viewType "tree") }}
-                {{!-- Customize the rendering of the nested <ul> --}}
-                <ul class="anatomyTree">
-                    <li>
-                        {{fetch (fetch anatomy.parts anatomy.tree.id) "name"}}
-                    </li>
-                    {{#TreeExplorer anatomy.tree.id "dropdown-content" "" anatomy.tree.children as |treeNode| }}
-                    {{#if (gt this.children.length 0)}}
-                        <li onclick="foo('alfa')">
-                            {{fetch (fetch anatomy.parts this.id) "name"}}
-                            <i class="fa-solid fa-chevron-down"></i>
+    <div>
+        <div class="em_actor_anatomyContainer w3-container w3-card w3-border">
+            {{#with actor.system.anatomy as |anatomy|}}
+                <!-- we check what method to use when displaying the anatomy -->
+                {{#if (eq anatomy.viewType "chart") }}
+                    <div>
+                        
+                    </div>
+                {{else if (eq anatomy.viewType "tree") }}
+                    {{!-- Customize the rendering of the nested <ul> --}}
+                    <ul class="em_actor_anatomyTree em_actor_anatomyList w3-bar-block">
+                        <li class="dropdown-btn em_actor_anatomyNode em_actor_anatomyBranch w3-button w3-border w3-bar-item" 
+                            onclick='toggleDropdown("{{anatomy.tree.id}}", event)'>
+                            {{fetch (fetch anatomy.parts anatomy.tree.id) "name"}}
+                            <i class="dropdown-icon em_actor_anatomyBranchIcon fa-solid fa-chevron-down"></i>
                         </li>
-                    {{else}}
-                        <li>{{fetch (fetch anatomy.parts this.id) "name"}}</li>
-                    {{/if}}
-                    {{/TreeExplorer}}
-                </ul>
-                
-            {{else }}
-                <p>{{i18n CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_TYPE_ERROR}}</p>
-            {{/if}}
-        {{/with}}
+                        {{#TreeExplorer anatomy.tree.id "dropdown-content em_actor_anatomyList w3-bar-block" "" anatomy.tree.children as |treeNode| }}
+                        {{#if (gt this.children.length 0)}}
+                            <li class="dropdown-btn em_actor_anatomyNode em_actor_anatomyBranch w3-button w3-border w3-bar-item" 
+                            onclick='toggleDropdown("{{this.id}}", event)'>
+                                {{fetch (fetch anatomy.parts this.id) "name"}}
+                                <i class="dropdown-icon em_actor_anatomyBranchIcon fa-solid fa-chevron-down"></i>
+                            </li>
+                        {{else}}
+                            <li class="em_actor_anatomyNode em_actor_anatomyLeaf w3-button w3-border w3-bar-item">
+                                {{fetch (fetch anatomy.parts this.id) "name"}}
+                            </li>
+                        {{/if}}
+                        {{/TreeExplorer}}
+                    </ul>
+                    
+                {{else }}
+                    <p>{{i18n CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_TYPE_ERROR}}</p>
+                {{/if}}
+            {{/with}}
+        </div>
+        <div class="w3-card">
+            <p>name</p>
+            <p>hp bar</p>
+            <p>type</p>
+            <div>conditions</div>
+        </div>
     </div>
+    
 </div>

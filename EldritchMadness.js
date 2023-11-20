@@ -64,12 +64,10 @@ Hooks.once("init", function() {
     //#endregion
 
     Handlebars.registerHelper('set', function(item, key, value) {
-      console.log(item, key, item[key]);
-        return item[key] = value;
+        item[key] = value;
     });
 
     Handlebars.registerHelper('fetch', function(item, key) {
-      console.log(item, key, item[key]);
         return item[key];
     });
 
