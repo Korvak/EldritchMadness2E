@@ -1,3 +1,35 @@
 .em_noShadow, .em_noShadow:hover,.em_noShadow:active  {
     box-shadow: none !important;
 }
+
+.em_text_selectable {
+    -webkit-user-select: text; /* Safari */
+    -ms-user-select: text; /* IE 10 and IE 11 */
+    user-select: text; /* Standard syntax */
+}
+
+.em_text_unselectable {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+
+.em_barContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: stretch;
+    align-items: stretch;
+
+    box-sizing: border-box;
+    padding: 0;
+    border: 1px solid black;
+}
+
+.em_barContainer .em_bar {
+    display: block;
+    box-sizing: border-box;
+    flex: 0.5;
+    padding: 8px;
+}

@@ -1,6 +1,35 @@
 export const EmConfig = {};
 
+//#region base settings
 
+EmConfig.roles = {
+    "GM" : 4,
+    "gm" : 4,
+    "KEEPER" : 4,
+    "ASSISTANT KEEPER" : 3,
+    "TRUSTED INVESTIGATOR" : 2,
+    "INVESTIGATOR" : 1,
+    "keeper" : 4,
+    "assistant keeper" : 3,
+    "trusted investigator" : 2,
+    "investigator" : 1,
+    "4" : 4,
+    "3" : 3,
+    "2" : 2,
+    "1" : 1,
+    "0" : 0,
+    4 : 4,
+    3 : 3,
+    2 : 2,
+    1 : 1,
+    0 : 0,
+}
+
+
+//#endregion
+
+
+//#region actorSheet
 EmConfig.anatomy = {
     default : {
         
@@ -43,7 +72,9 @@ EmConfig.MEDICAL_CONDITION_TYPES = {
     "psyche" : "em.actors.conditions.psyche",
     "illness" : "em.actors.conditions.illness"
 };
+//#endregion
 
+//#region loading and errors
 EmConfig.ERRORS = {
     MISSING_ANATOMY_TYPE_ERROR : "errors.missingAnatomyType"
 };
@@ -51,3 +82,5 @@ EmConfig.ERRORS = {
 EmConfig.LOADED = {
     
 }
+
+//#endregion

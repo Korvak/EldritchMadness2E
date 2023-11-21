@@ -71,6 +71,11 @@ Hooks.once("init", function() {
         return item[key];
     });
 
+    Handlebars.registerHelper('hasRole', function(role) {
+        role = EmConfig.roles[role];
+        return game.user.role == role;
+    }); 
+
     Handlebars.registerHelper('TreeExplorer', function(id, ulClasses, ulAttrs, items, options) {
         // Define a recursive function to generate the tree structure
         return new Handlebars.SafeString(_generateTree(id, ulClasses, ulAttrs, items, options));
