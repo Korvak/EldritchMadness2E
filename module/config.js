@@ -68,6 +68,8 @@ EmConfig.flipbook = {
 };
 
 EmConfig.MEDICAL_CONDITION_TYPES = {
+    "buff" : "em.actors.conditions.buff",
+    "debuff" : "em.actors.conditions.debuff",
     "injury" : "em.actors.conditions.injury",
     "psyche" : "em.actors.conditions.psyche",
     "illness" : "em.actors.conditions.illness"

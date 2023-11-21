@@ -5,3 +5,11 @@ export function translate(key) {
     }
     return game.i18n.localize(key);
 }
+
+export function normalize(value, min, max) {
+    return (value - min) / (max - min);
+}
+
+export function normalizeToRange(value, min, max, newMin, newMax) {
+    ( ( (value - min) / (max - min) ) * (newMax - newMin) ) + newMin;
+}

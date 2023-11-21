@@ -14,7 +14,9 @@
     user-select: none; /* Standard syntax */
 }
 
+/*#region prefabs */
 
+/*#region bar*/
 .em_barContainer {
     display: flex;
     flex-direction: row;
@@ -24,6 +26,7 @@
 
     box-sizing: border-box;
     padding: 0;
+    margin-bottom: 5px;
     border: 1px solid black;
 }
 
@@ -33,3 +36,45 @@
     flex: 0.5;
     padding: 8px;
 }
+/*#endregion*/
+/*#region input*/
+.em_inputContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    border: 1px solid black;
+
+    margin-bottom: 2px;
+}
+
+.em_input {
+    display: block;
+    width: 100%;
+    max-width: calc(100% - 1em);
+    border: none;
+}
+
+.em_input:read-only {
+    color: rgb(181, 181, 181);
+}
+
+.em_inputIcon {
+    display: block;
+    font-size: 0.9em;
+    line-height: 1em;
+    padding-right: 5px;
+}
+
+.em_form_inputContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.em_form_inputElement {
+    flex: 0.5;
+}
+/*#endregion*/
+
+
+/*#endregion*/

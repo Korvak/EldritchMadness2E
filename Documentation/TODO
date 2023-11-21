@@ -1,0 +1,13 @@
+° Change the navigation bar to a sidebar and put it at the left of the book,
+    Just like a bookmark.
+
+° Change the anatomy tree tooltips to be absolute and more like tooltipster's ones.
+
+° Make a button or make the bodypart ID clickable so that when clicked,
+    it renders the bodypart item sheet for more specific modifications.
+
+° Add Badges to the nodes of the anatomy tree, so that it's possible to see
+    the number of negative and positive conditions applied. (Only two badges required)
+
+° Make the anatomy tree nodes more clickable. 
+    (the chevron and the badges when clicked will count as the <li> being clicked)

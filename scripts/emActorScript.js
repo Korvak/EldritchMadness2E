@@ -16,3 +16,8 @@ function em_actor_changePage(event,page) {
     }
     
 }
+
+async function loadBodyPart(actorId, event) {
+    let actor = Actor.get(actorId);
+    console.log(actor);
+}

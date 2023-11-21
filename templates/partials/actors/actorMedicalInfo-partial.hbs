@@ -1,11 +1,4 @@
 <div class="em_actor_medicalInfoContainer">
-    <div class="w3-container">
-        <select class="w3-select w3-container em_noShadow" style="min-height: 2em;height:2.5em;">
-            {{#each CONFIG.EmConfig.MEDICAL_CONDITION_TYPES as |conditionType| }}
-                <option>{{i18n conditionType}}</option>
-            {{/each}}
-        </select>
-    </div>
     <div>
         <div class="em_actor_anatomyContainer w3-container w3-card w3-border">
             {{#with actor.system.anatomy as |anatomy|}}
@@ -18,28 +11,29 @@
                     {{!-- Customize the rendering of the nested <ul> --}}
                     <ul class="em_actor_anatomyTree em_actor_anatomyList w3-bar-block">
                         <li class="dropdown-btn em_actor_anatomyNode em_actor_anatomyBranch w3-button w3-border w3-bar-item w3-tooltip" 
-                            onclick='toggleDropdown("{{anatomy.tree.id}}", event)'>
+                            onclick='toggleDropdown("{{anatomy.tree.id}}", event)' id="{{anatomy.tree.id}}" oncontextmenu="">
                             {{fetch (fetch anatomy.parts anatomy.tree.id) "name"}}
                             <i class="dropdown-icon em_actor_anatomyBranchIcon fa-solid fa-chevron-down"></i>
                             {{#if (hasRole "KEEPER")}}
-                            <span class="w3-text w3-tag em_text_selectable">{{anatomy.tree.id}}</span>
+                                <span class="w3-text w3-tag em_text_selectable">{{anatomy.tree.id}}</span>
                             {{/if}}
                         </li>
                         {{#TreeExplorer anatomy.tree.id "dropdown-content em_actor_anatomyList w3-bar-block" "" anatomy.tree.children as |treeNode| }}
                         {{#if (gt this.children.length 0)}}
                             <li class="dropdown-btn em_actor_anatomyNode em_actor_anatomyBranch w3-button w3-border w3-bar-item w3-tooltip" 
-                            onclick='toggleDropdown("{{this.id}}", event)'>
+                            onclick='toggleDropdown("{{this.id}}", event)' id="{{this.id}}" oncontextmenu="">
                                 {{fetch (fetch anatomy.parts this.id) "name"}}
                                 <i class="dropdown-icon em_actor_anatomyBranchIcon fa-solid fa-chevron-down"></i>
                                 {{#if (hasRole "KEEPER")}}
-                                <span class="w3-text w3-tag em_text_selectable">{{this.id}}</span>
+                                    <span class="w3-text w3-tag em_text_selectable">{{this.id}}</span>
                                 {{/if}}
                             </li>
                         {{else}}
-                            <li class="em_actor_anatomyNode em_actor_anatomyLeaf w3-button w3-border w3-bar-item w3-tooltip">
+                            <li class="em_actor_anatomyNode em_actor_anatomyLeaf w3-button w3-border w3-bar-item w3-tooltip"
+                            id="{{this.id}}" oncontextmenu="">
                                 {{fetch (fetch anatomy.parts this.id) "name"}}
                                 {{#if (hasRole "KEEPER")}}
-                                <span class="w3-text w3-tag em_text_selectable">{{this.id}}</span>
+                                    <span class="w3-text w3-tag em_text_selectable">{{this.id}}</span>
                                 {{/if}}
                             </li>
                         {{/if}}
@@ -52,17 +46,82 @@
             {{/with}}
         </div>
         <div class="em_actor_bodypartInfo w3-card w3-section">
-            {{#with actor.system.anatomy as |anatomy|}}
-                {{#with (fetch anatomy.parts anatomy.tree.id) as |tree|}}
-                    <input value="{{tree.name}}">
-                    <div class="">
-                        <div class="em_barContainer">
-                            <div id="em_bodyPartHp" class="w3-red em_bar"></div>
-                        </div>
+            {{#if (hasRole "KEEPER")}} 
+                {{!--header --}}
+                <div class="em_actor_bodypartHeader w3-bar w3-display-container">
+                    <a id="em_bodypart_id" class="w3-bar-item"></a>
+                    <a class="w3-bar-item w3-display-right" onclick="loadBodyPart('{{actor.id}}',event)">
+                        <i class="fa-solid fa-plus"></i>
+                    </a>
+                </div>
+            {{/if}}
+            {{!-- name and hp bar --}}
+            <div class="w3-container">
+                <div class="w3-border em_inputContainer" style="margin-top:5px;">
+                    <input id="em_actor_bodypart_name" class="em_input w3-center" name="bodypart_name" value="" readonly="true">
+                    {{#if (hasRole "KEEPER")}}
+                        <i class="em_inputIcon fa-solid fa-pen" onclick="toggleReadonly(event)"></i>
+                    {{/if}}
+                </div>
+                {{!-- since bodyparts don't use temp durability we only need  this type of bar --}}
+                <div class="em_barContainer w3-round w3-border">
+                        {{!-- bodypars use durability as hp --}}
+                    <div id="em_actor_bodypart_hp" class="w3-red em_bar w3-round">
                     </div>
-                    
-                {{/with}}
-            {{/with}}
+                </div>
+            </div>
+            {{!-- type and attached to --}}
+            <div class="w3-container">
+                <div class="em_form_inputContainer">
+                    <label for="bodypart_type" class="em_form_inputElement">body type</label>
+                    <div class="w3-border em_inputContainer em_form_inputElement">
+                        <input id="em_bodypart_type" class="em_input" name="bodypart_type" value="" readonly="true">
+                        {{#if (hasRole "KEEPER")}}
+                            <i class="em_inputIcon fa-solid fa-pen" onclick="toggleReadonly(event)"></i>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="em_form_inputContainer">
+                    <label for="bodypart_attached" class="em_form_inputElement">attached to</label>
+                    <div class="w3-border em_inputContainer em_form_inputElement">
+                        <input id="em_bodypart_attached" class="em_input" name="bodypart_attached" value="" data-attachedId="" readonly="true">
+                        {{#if (hasRole "KEEPER")}}
+                            <i class="em_inputIcon fa-solid fa-pen" onclick="toggleReadonly(event)"></i>
+                        {{/if}}
+                    </div>
+                </div>
+                
+            </div>
+            {{!-- conditions --}}
+            <div>
+                <select class="w3-select w3-container em_noShadow em_actor_bodypartConditions">
+                    {{#each CONFIG.EmConfig.MEDICAL_CONDITION_TYPES as |conditionType| }}
+                        <option>{{i18n conditionType}}</option>
+                    {{/each}}
+                </select>
+                {{!-- conditions holder --}}
+                <div class="em_actor_bodypartConditionHolder">
+                    <div class="em_actor_bodypartBuffs">
+
+                    </div>
+                    <div class="em_actor_bodypartDebuffs">
+
+                    </div>
+                    <div class="em_actor_bodypartInjuries">
+
+                    </div>
+                    <div class="em_actor_bodypartPsyche">
+
+                    </div>
+                    <div class="em_actor_bodypartIllnesses">
+
+                    </div>
+                </div>
+            </div>
+            
+            
+
+
         </div>
     </div>
     

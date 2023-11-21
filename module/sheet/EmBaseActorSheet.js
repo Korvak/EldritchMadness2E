@@ -90,7 +90,8 @@ export default class EmBaseActorSheet extends ActorSheet {
             width: html.width() - CONFIG.EmConfig.flipbook.wMargin,
             height: html.height() - CONFIG.EmConfig.flipbook.hMargin,
             autoCenter: true,
-            display : "double"
+            display : "double",
+            peel : false
         });
         //we turn the first page
         setTimeout(() => { htmlContainer.find(".window-resizable-handle").click(); }, 50);

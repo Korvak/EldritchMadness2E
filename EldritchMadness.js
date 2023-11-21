@@ -1,5 +1,5 @@
 import {EmConfig} from "./module/config.js"
-import {translate} from "./module/utils.js";
+import {normalize, translate} from "./module/utils.js";
 import EmBaseActorSheet from "./module/sheet/EmBaseActorSheet.js";
 import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
 
@@ -62,6 +62,10 @@ Hooks.once("init", function() {
     });
 
     //#endregion
+
+    Handlebars.registerHelper('norm' , function(value, min, max) {
+      return normalize(value,min,max);
+    });
 
     Handlebars.registerHelper('set', function(item, key, value) {
         item[key] = value;

@@ -58,6 +58,8 @@
         },
         "actors" : {
             "conditions" : {
+                "buff" : "buff",
+                "debuff" : "debuff",
                 "illness" : "illness",
                 "injury" : "injury",
                 "psyche" : "psyche"

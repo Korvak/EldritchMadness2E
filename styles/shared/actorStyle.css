@@ -76,10 +76,24 @@
 
 .em_actor_anatomyNode {
     margin-bottom: 2px;
+    padding: 4px 8px !important;
 }
 
 .em_actor_anatomyBranchIcon {
     font-size: 0.8em;
 }
+
+    /*#region bodypart info*/
+
+        .em_actor_bodypartHeader {
+            background-color: rgb(0 0 0 / 85%);
+            color: #e7e7e7;
+            border: none;
+            border-bottom: 2px solid black;
+        }
+
+
+    /*#endregion*/
+
 
 /*#endregion*/
