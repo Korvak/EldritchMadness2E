@@ -25,11 +25,46 @@ EmConfig.roles = {
     0 : 0,
 }
 
+EmConfig.MEDICAL_CONDITION_TYPES = {
+    "buff" : "em.actors.conditions.buff",
+    "debuff" : "em.actors.conditions.debuff",
+    "injury" : "em.actors.conditions.injury",
+    "psyche" : "em.actors.conditions.psyche",
+    "illness" : "em.actors.conditions.illness"
+};
 
 //#endregion
 
+//#region loading and errors
+EmConfig.ERRORS = {
+    MISSING_ANATOMY_TYPE_ERROR : "errors.missingAnatomyType"
+};
+
+EmConfig.LOADED = {
+    
+}
+
+//#endregion
 
 //#region actorSheet
+
+EmConfig.tabs = {
+    testActor : {
+        info : 2,
+        combat : 4,
+        health : 6,
+        inventory : 8,
+        options : 10
+    },
+    DEFAULT : {
+        info : 2,
+        combat : 4,
+        health : 6,
+        inventory : 8,
+        options : 10
+    }
+}
+
 EmConfig.anatomy = {
     default : {
         
@@ -64,25 +99,9 @@ EmConfig.anatomy = {
 
 EmConfig.flipbook = {
     wMargin : 10,
-    hMargin : 25
+    hMargin : 45
 };
 
-EmConfig.MEDICAL_CONDITION_TYPES = {
-    "buff" : "em.actors.conditions.buff",
-    "debuff" : "em.actors.conditions.debuff",
-    "injury" : "em.actors.conditions.injury",
-    "psyche" : "em.actors.conditions.psyche",
-    "illness" : "em.actors.conditions.illness"
-};
+
 //#endregion
 
-//#region loading and errors
-EmConfig.ERRORS = {
-    MISSING_ANATOMY_TYPE_ERROR : "errors.missingAnatomyType"
-};
-
-EmConfig.LOADED = {
-    
-}
-
-//#endregion

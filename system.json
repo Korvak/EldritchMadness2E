@@ -19,6 +19,7 @@
     ],
     "styles" : [
         "/resources/css/w3Css.css",
+        "/resources/css/hint.css",
         "/styles/EmStyle.css",
         "/styles/shared/actorStyle.css"
     ],

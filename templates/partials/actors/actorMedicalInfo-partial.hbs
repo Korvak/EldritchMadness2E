@@ -10,31 +10,34 @@
                 {{else if (eq anatomy.viewType "tree") }}
                     {{!-- Customize the rendering of the nested <ul> --}}
                     <ul class="em_actor_anatomyTree em_actor_anatomyList w3-bar-block">
-                        <li class="dropdown-btn em_actor_anatomyNode em_actor_anatomyBranch w3-button w3-border w3-bar-item w3-tooltip" 
-                            onclick='toggleDropdown("{{anatomy.tree.id}}", event)' id="{{anatomy.tree.id}}" oncontextmenu="">
+                        <li class="dropdown-btn em_actor_anatomyNode em_actor_anatomyBranch w3-button w3-border w3-bar-item hint--bottom" 
+                             id="{{anatomy.tree.id}}" 
+                            {{#if (hasRole "KEEPER")}}
+                                aria-label="{{anatomy.tree.id}}"
+                            {{/if}}
+                            oncontextmenu="" onclick='toggleDropdown("{{anatomy.tree.id}}", event)'>
                             {{fetch (fetch anatomy.parts anatomy.tree.id) "name"}}
                             <i class="dropdown-icon em_actor_anatomyBranchIcon fa-solid fa-chevron-down"></i>
-                            {{#if (hasRole "KEEPER")}}
-                                <span class="w3-text w3-tag em_text_selectable">{{anatomy.tree.id}}</span>
-                            {{/if}}
+                            
                         </li>
                         {{#TreeExplorer anatomy.tree.id "dropdown-content em_actor_anatomyList w3-bar-block" "" anatomy.tree.children as |treeNode| }}
                         {{#if (gt this.children.length 0)}}
-                            <li class="dropdown-btn em_actor_anatomyNode em_actor_anatomyBranch w3-button w3-border w3-bar-item w3-tooltip" 
-                            onclick='toggleDropdown("{{this.id}}", event)' id="{{this.id}}" oncontextmenu="">
+                            <li class="dropdown-btn em_actor_anatomyNode em_actor_anatomyBranch w3-button w3-border w3-bar-item hint--top"
+                             id="{{this.id}}" 
+                             {{#if (hasRole "KEEPER")}}
+                                aria-label="{{this.id}}"
+                            {{/if}}
+                             oncontextmenu="" onclick='toggleDropdown("{{this.id}}", event)'>
                                 {{fetch (fetch anatomy.parts this.id) "name"}}
                                 <i class="dropdown-icon em_actor_anatomyBranchIcon fa-solid fa-chevron-down"></i>
-                                {{#if (hasRole "KEEPER")}}
-                                    <span class="w3-text w3-tag em_text_selectable">{{this.id}}</span>
-                                {{/if}}
                             </li>
                         {{else}}
-                            <li class="em_actor_anatomyNode em_actor_anatomyLeaf w3-button w3-border w3-bar-item w3-tooltip"
+                            <li class="em_actor_anatomyNode em_actor_anatomyLeaf w3-button w3-border w3-bar-item hint--top"
+                            {{#if (hasRole "KEEPER")}}
+                                aria-label="{{this.id}}"
+                            {{/if}}
                             id="{{this.id}}" oncontextmenu="">
                                 {{fetch (fetch anatomy.parts this.id) "name"}}
-                                {{#if (hasRole "KEEPER")}}
-                                    <span class="w3-text w3-tag em_text_selectable">{{this.id}}</span>
-                                {{/if}}
                             </li>
                         {{/if}}
                         {{/TreeExplorer}}

@@ -15,18 +15,23 @@
 /*#endregion */
 
 /*#region navbar */
-.em_navbar {
+.em_actor_navbar {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: baseline;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+
+    padding-left: 8px;
 }
 
-.em_navbar .em_tabBtn {
+.em_actor_navbar .em_actor_tabBtn {
+    flex-shrink: 1;
     z-index: 100;
+    padding: 6px 12px !important;
 }
 
-.em_navbar .em_tabBtn:hover {
+.em_actor_navbar .em_actor_tabBtn:hover {
     box-shadow: none !important; 
 }
 
@@ -75,8 +80,10 @@
 }
 
 .em_actor_anatomyNode {
+    cursor: default;
     margin-bottom: 2px;
     padding: 4px 8px !important;
+    overflow: visible !important;
 }
 
 .em_actor_anatomyBranchIcon {

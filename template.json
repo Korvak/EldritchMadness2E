@@ -173,6 +173,10 @@
                             "name" : "foot"
                         }
                     }
+                },
+                "options" : {
+                    "peel" : true,
+                    "turning" : true
                 }
             },
             "baseCharacter" : {

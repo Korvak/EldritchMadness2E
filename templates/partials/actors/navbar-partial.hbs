@@ -1,23 +1,30 @@
-<div class="w3-bar em_navbar">
-    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="info" data-page="2" onclick="em_actor_changePage(event,2)">
+<div class="w3-bar em_actor_navbar">
+    <div class="w3-bar-item w3-hover-black w3-white w3-border em_actor_tabBtn" data-tab="info" data-page="2">
         <i class="fa-solid fa-note-sticky"></i>
     </div>
-    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="combat" data-page="4" onclick="em_actor_changePage(event,4)">
+    <div class="w3-bar-item w3-hover-black w3-white w3-border em_actor_tabBtn" data-tab="combat" data-page="4">
         <i class="fa-solid fa-swords"></i>
     </div>
-    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="health" data-page="6" onclick="em_actor_changePage(event,6)">
+    <div class="w3-bar-item w3-hover-black w3-white w3-border em_actor_tabBtn" data-tab="health" data-page="6">
         <i class="fa-solid fa-heart"></i>
     </div>
-    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="inventory" data-page="8" onclick="em_actor_changePage(event,8)">
+    <div class="w3-bar-item w3-hover-black w3-white w3-border em_actor_tabBtn" data-tab="inventory" data-page="8">
         <i class="fa-solid fa-suitcase"></i>
     </div>
     {{#if (eq actor.type 'player') }}
-    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="health">
-        <i class="fa-solid fa-heart"></i>
-    </div>
-    <div class="w3-bar-item w3-hover-black em_tabBtn" data-tab="inventory">
-        <i class="fa-solid fa-suitcase"></i>
-    </div>
+        <div class="w3-bar-item w3-hover-black w3-white w3-border em_actor_tabBtn" data-tab="crafting" data-page="10">
+            <i class="fa-solid fa-hammer"></i>
+        </div>
+        <div class="w3-bar-item w3-hover-black w3-white w3-border em_actor_tabBtn" data-tab="investigation" data-page="12">
+            <i class="fa-solid fa-search"></i>
+        </div>
+        <div class="w3-bar-item w3-hover-black w3-white w3-border em_actor_tabBtn" data-tab="options" data-page="14">
+            <i class="fa-solid fa-cog"></i>
+        </div>
+    {{else}}
+        <div class="w3-bar-item w3-hover-black w3-white w3-border em_actor_tabBtn" data-tab="options" data-page="10">
+            <i class="fa-solid fa-cog"></i>
+        </div>
     {{/if}}
 </div>
 

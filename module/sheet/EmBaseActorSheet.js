@@ -31,6 +31,9 @@ export default class EmBaseActorSheet extends ActorSheet {
 
 
     activateListeners(html) {
+        /** super important !!! where we bind all the events that are not in the flipbook
+         * 
+         */
         //html.find(".changeFirst").click(this._changeFirst.bind(this));
         let htmlContainer = html.parent().parent();
         const self = this;
@@ -50,9 +53,10 @@ export default class EmBaseActorSheet extends ActorSheet {
         //start is for stopping the animation
         flipbook.on("start", function(event, pageObject, corner) {
             if (!$(this).prop("controlled")) {
+                let options = self.getActorData().options;
                 stopFlipbookTurning(event,$(this), pageObject.next);
-                let forbidden = (corner=='tl' || corner=='tr');
-                if (forbidden) { //we only allow bottom page turning
+                let forbidden = (corner=='tl' || corner=='tr' || !options.turning );
+                if (forbidden || !options.peel ) { //we only allow bottom page turning
                     event.preventDefault();
                 }
                 $(this).prop("forbiddenTurn", forbidden);
@@ -71,7 +75,25 @@ export default class EmBaseActorSheet extends ActorSheet {
             self._pagesActivationBinding(html);
             */
         });
+
         //tab navigation
+        html.find(".em_actor_navbar .em_actor_tabBtn").click(function(event) {
+            try {
+                event.preventDefault();
+                let element = $(this);
+                let page = this.dataset.page;
+                //const flipbook = element.parents("#flipbook");
+                if (page !== flipbook.turn('page') ) {
+                    flipbook.prop("controlled", true);
+                    flipbook.turn('page', page);
+                }
+            }
+            catch(error) {
+                console.error(error.message);
+            }
+        });
+
+
         //set in the partial itself since it lost the event
         //#endregion
         
@@ -93,11 +115,13 @@ export default class EmBaseActorSheet extends ActorSheet {
             display : "double",
             peel : false
         });
+        //we hide the navbar because it's floating
+        let navbar = html.find(".em_actor_navbar");
+        navbar.css("visibility","hidden");
         //we turn the first page
         setTimeout(() => { htmlContainer.find(".window-resizable-handle").click(); }, 50);
         setTimeout(() => { flipbook.turn('next'); },500);
-        
-        
+        setTimeout(() => {navbar.css("visibility","visible");} , 750);
     }
 
     _pagesActivationBinding(html) {

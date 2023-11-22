@@ -14,7 +14,6 @@ function em_actor_changePage(event,page) {
     catch(error) {
         console.error(error.message);
     }
-    
 }
 
 async function loadBodyPart(actorId, event) {
