@@ -92,11 +92,11 @@ export default class EmBaseActorSheet extends ActorSheet {
                 console.error(error.message);
             }
         });
-
-
-        //set in the partial itself since it lost the event
+        //set in the partial itself since it lost the event 
         //#endregion
+        //#region anatomy page events
         
+        //#endregion
         super.activateListeners(html);
     }
 
@@ -122,6 +122,8 @@ export default class EmBaseActorSheet extends ActorSheet {
         setTimeout(() => { htmlContainer.find(".window-resizable-handle").click(); }, 50);
         setTimeout(() => { flipbook.turn('next'); },500);
         setTimeout(() => {navbar.css("visibility","visible");} , 750);
+        //we set the default data if needs loading
+        
     }
 
     _pagesActivationBinding(html) {

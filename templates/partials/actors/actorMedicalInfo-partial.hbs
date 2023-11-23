@@ -15,7 +15,7 @@
                             {{#if (hasRole "KEEPER")}}
                                 aria-label="{{anatomy.tree.id}}"
                             {{/if}}
-                            oncontextmenu="" onclick='toggleDropdown("{{anatomy.tree.id}}", event)'>
+                            oncontextmenu='loadBodyPart(event)' onclick='toggleDropdown("{{anatomy.tree.id}}", event)'>
                             {{fetch (fetch anatomy.parts anatomy.tree.id) "name"}}
                             <i class="dropdown-icon em_actor_anatomyBranchIcon fa-solid fa-chevron-down"></i>
                             
@@ -27,7 +27,7 @@
                              {{#if (hasRole "KEEPER")}}
                                 aria-label="{{this.id}}"
                             {{/if}}
-                             oncontextmenu="" onclick='toggleDropdown("{{this.id}}", event)'>
+                             oncontextmenu='loadBodyPart(event)' onclick='toggleDropdown("{{this.id}}", event)'>
                                 {{fetch (fetch anatomy.parts this.id) "name"}}
                                 <i class="dropdown-icon em_actor_anatomyBranchIcon fa-solid fa-chevron-down"></i>
                             </li>
@@ -42,7 +42,6 @@
                         {{/if}}
                         {{/TreeExplorer}}
                     </ul>
-                    
                 {{else }}
                     <p>{{i18n CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_TYPE_ERROR}}</p>
                 {{/if}}
@@ -52,7 +51,7 @@
             {{#if (hasRole "KEEPER")}} 
                 {{!--header --}}
                 <div class="em_actor_bodypartHeader w3-bar w3-display-container">
-                    <a id="em_bodypart_id" class="w3-bar-item"></a>
+                    <a id="em_actor_bodypart_id" class="w3-bar-item"></a>
                     <a class="w3-bar-item w3-display-right" onclick="loadBodyPart('{{actor.id}}',event)">
                         <i class="fa-solid fa-plus"></i>
                     </a>
@@ -78,7 +77,7 @@
                 <div class="em_form_inputContainer">
                     <label for="bodypart_type" class="em_form_inputElement">body type</label>
                     <div class="w3-border em_inputContainer em_form_inputElement">
-                        <input id="em_bodypart_type" class="em_input" name="bodypart_type" value="" readonly="true">
+                        <input id="em_actor_bodypart_type" class="em_input" name="bodypart_type" value="" readonly="true">
                         {{#if (hasRole "KEEPER")}}
                             <i class="em_inputIcon fa-solid fa-pen" onclick="toggleReadonly(event)"></i>
                         {{/if}}
@@ -87,7 +86,7 @@
                 <div class="em_form_inputContainer">
                     <label for="bodypart_attached" class="em_form_inputElement">attached to</label>
                     <div class="w3-border em_inputContainer em_form_inputElement">
-                        <input id="em_bodypart_attached" class="em_input" name="bodypart_attached" value="" data-attachedId="" readonly="true">
+                        <input id="em_actor_bodypart_attached" class="em_input" name="bodypart_attached" value="" data-attachedId="" readonly="true">
                         {{#if (hasRole "KEEPER")}}
                             <i class="em_inputIcon fa-solid fa-pen" onclick="toggleReadonly(event)"></i>
                         {{/if}}
@@ -121,10 +120,9 @@
                     </div>
                 </div>
             </div>
-            
-            
-
-
+            {{#if (hasRole "KEEPER")}}
+                <button class="w3-border em_noShadow w3-hover-light-grey" style="margin-left:0;">add</button>
+            {{/if}}
         </div>
     </div>
     

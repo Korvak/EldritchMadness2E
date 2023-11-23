@@ -57,7 +57,6 @@ Hooks.once("init", function() {
 
     //#region condtional helpers
     Handlebars.registerHelper('gt', function(a,b) {
-      console.log(a,b, a > b);
       return a > b;
     });
 

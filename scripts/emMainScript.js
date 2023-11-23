@@ -1,11 +1,13 @@
 const MAIN_SCRIPT_LOADED = true;
 console.log("loaded main script");
 
-//
+//#region util funcs
 
+function normalize(value, min, max) {
+    return (value - min) / (max - min);
+}
 
-
-
+//#endregion
 //#region html funcs
 function toggleDropdown(id, event) {
     let self = $(event.target);
