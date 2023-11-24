@@ -15,7 +15,7 @@
 /*#endregion */
 
 /*#region navbar */
-.em_actor_navbar {
+.em_navbar {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -25,13 +25,13 @@
     padding-left: 8px;
 }
 
-.em_actor_navbar .em_actor_tabBtn {
+.em_navbar .em_tabBtn {
     flex-shrink: 1;
     z-index: 100;
     padding: 6px 12px !important;
 }
 
-.em_actor_navbar .em_actor_tabBtn:hover {
+.em_navbar .em_tabBtn:hover {
     box-shadow: none !important; 
 }
 
@@ -62,7 +62,7 @@
 
 /*#region anatomy */
 
-.em_actor_anatomyContainer {
+.em_anatomyContainer {
     margin-top: 8px;
     max-height: 45%;
     height: 45%;
@@ -72,32 +72,32 @@
     overflow-x: auto;
 }
 
-.em_actor_anatomyTree {
+.em_anatomyTree {
     padding-left: 0;
 }
 
-.em_actor_anatomyList {
+.em_anatomyList {
     list-style: none;
 }
 
-.em_actor_anatomyNode {
+.em_anatomyNode {
     cursor: default;
     margin-bottom: 2px;
     padding: 4px 8px !important;
     overflow: visible !important;
 }
 
-.em_actor_anatomyBranchIcon {
+.em_anatomyBranchIcon {
     font-size: 0.8em;
 }
 
     /*#region bodypart info*/
 
-        #em_actor_bodypart_id {
+        #em_bodypart_id {
             padding: 4px 8px !important;
         }
 
-        .em_actor_bodypartHeader {
+        .em_bodypartHeader {
             min-height: 1.5em;
             background-color: rgb(0 0 0 / 85%);
             color: #e7e7e7;
@@ -105,11 +105,11 @@
             border-bottom: 2px solid black;
         }
 
-        .em_actor_bodypartConditions {
+        .em_bodypartConditions {
             margin-top: 5px;
         }
 
-        .em_actor_bodypartConditionHolder {
+        .em_bodypartConditionHolder {
             min-height: 10vh;
         }
 

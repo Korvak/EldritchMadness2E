@@ -71,7 +71,8 @@ Hooks.once("init", function() {
     });
 
     Handlebars.registerHelper('fetch', function(item, key) {
-        return item[key];
+        try {return item[key];}
+        catch(error) {console.error(error.message); return undefined;}
     });
 
     Handlebars.registerHelper('hasRole', function(role) {
@@ -81,7 +82,12 @@ Hooks.once("init", function() {
 
     Handlebars.registerHelper('TreeExplorer', function(id, ulClasses, ulAttrs, items, options) {
         // Define a recursive function to generate the tree structure
-        return new Handlebars.SafeString(_generateTree(id, ulClasses, ulAttrs, items, options));
+        try{
+          if (items === undefined || item === null) {items = [];}
+          return new Handlebars.SafeString(_generateTree(id, ulClasses, ulAttrs, items, options));
+        }
+        catch(error) {console.error(error.message);}
+        
     });
 
     preloadHandlebarsTemplates();

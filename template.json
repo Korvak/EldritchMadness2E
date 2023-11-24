@@ -125,54 +125,9 @@
                 "physicalConditions" : [],
                 "anatomy" : {
                     "viewType" : "tree",
-                    "tree" : {
-                        "id" : 10243,
-                        "children" : [
-                            {
-                                "id" : 15243,
-                                "children" : [
-                                    {
-                                        "id" : 15343,
-                                        "children" : []
-                                    },
-                                    {
-                                        "id" : 15344,
-                                        "children" : []
-                                    }
-                                ]
-                            },
-                            {
-                                "id" : 152194,
-                                "children" : []
-                            }
-                        ]
-                    },
+                    "tree" : {},
                     "chart" : {},
-                    "parts" : {
-                        "test" : {
-                            "name" : "test"
-                        },
-                        "10243" : {
-                            "name" : "root",
-                            "durability" : {
-                                "value" : 20,
-                                "min" : 0,
-                                "max" : 100
-                            }
-                        },
-                        "15243" : {
-                            "name" : "leg"
-                        },
-                        "152194" : {
-                            "name" : "arm"
-                        },
-                        "15343" : {
-                            "name" : "ankle"
-                        },
-                        "15344" : {
-                            "name" : "foot"
-                        }
-                    }
+                    "parts" : {}
                 },
                 "options" : {
                     "peel" : true,
@@ -245,8 +200,8 @@
                 "effectsRemovedOnBroken": [],
                 "durability" : {
                     "min" : 0,
-                    "value" : 0,
-                    "max" : 0,
+                    "value" : 100,
+                    "max" : 100,
                     "minTemp" : 0,
                     "temp" : 0,
                     "maxTemp" : 0
