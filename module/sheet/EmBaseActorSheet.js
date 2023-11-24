@@ -142,7 +142,8 @@ export default class EmBaseActorSheet extends ActorSheet {
         setTimeout(() => {navbar.css("visibility","visible");} , 750);
         //we set the default data if needs loading
         //if(this.anatomyLength() < 1) {await this._createDefaultAnatomy();}
-        if (this.getbodyRoot() !== undefined) {this._displayBodypart(this.getbodyRoot().id);}
+        console.log(this.getAnatomy().tree.id);
+        this._displayBodypart(this.getAnatomy().tree.id);
     }
 
 
@@ -297,6 +298,11 @@ export default class EmBaseActorSheet extends ActorSheet {
         //then we add it to the actor anatomy
         anatomy.parts[bodypart.id] = bodypart;
         //we trigger a re-render
+        await this.actor.update({
+            data : {
+                anatomy : anatomy
+            }
+        });
         await this.render(true);
         //finally we return the element data
         return bodypart;
@@ -305,7 +311,7 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     getBodypart(id) {
         //returns the item object of bodypart type of the corresponding ID
-        return this.getActorData().anatomy.parts[id];
+        return this.getAnatomy().parts[id];
     }
 
     _displayBodypartHtml(event) {
@@ -324,6 +330,7 @@ export default class EmBaseActorSheet extends ActorSheet {
          */
         try {
             //first we fetch the data
+            console.log("id to display ",id);
             let element = undefined;
             let bodypart = this.getBodypart(id); //this is the Item Sheet
             let bodypartData = bodypart.system; //this is the data in system

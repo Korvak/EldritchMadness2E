@@ -105,11 +105,11 @@
             border-bottom: 2px solid black;
         }
 
-        .em_bodypartConditions {
+        .em_bodypart_conditions {
             margin-top: 5px;
         }
 
-        .em_bodypartConditionHolder {
+        .em_bodypart_conditionHolder {
             min-height: 10vh;
         }
 

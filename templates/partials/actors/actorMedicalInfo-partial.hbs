@@ -12,7 +12,8 @@
                     <!--#region anatomy tree-->
                     {{!-- Customize the rendering of the nested <ul> --}}
                     <ul class="em_anatomyTree em_anatomyList w3-bar-block">
-                        <li class="dropdown-btn em_anatomyNode em_anatomyBranch w3-button w3-border w3-bar-item hint--bottom" 
+                        <li class="dropdown-btn em_anatomyNode em_anatomyBranch w3-button w3-border w3-bar-item 
+                            {{#if (hasRole "KEEPER")}}hint--bottom{{/if}}" 
                             {{#if (hasRole "KEEPER")}}
                                 aria-label="{{anatomy.tree.id}}"
                             {{/if}}
@@ -23,7 +24,8 @@
                         </li>
                         {{#TreeExplorer anatomy.tree.id "dropdown-content em_anatomyList w3-bar-block" "" anatomy.tree.children as |treeNode| }}
                         {{#if (gt this.children.length 0)}}
-                            <li class="dropdown-btn em_anatomyNode em_anatomyBranch w3-button w3-border w3-bar-item hint--top"
+                            <li class="dropdown-btn em_anatomyNode em_anatomyBranch w3-button w3-border w3-bar-item 
+                            {{#if (hasRole "KEEPER")}}hint--top{{/if}}"
                              {{#if (hasRole "KEEPER")}}
                                 aria-label="{{this.id}}"
                             {{/if}}
@@ -32,7 +34,8 @@
                                 <i class="dropdown-icon em_anatomyBranchIcon fa-solid fa-chevron-down"></i>
                             </li>
                         {{else}}
-                            <li class="em_anatomyNode em_anatomyLeaf w3-button w3-border w3-bar-item hint--top"
+                            <li class="em_anatomyNode em_anatomyLeaf w3-button w3-border w3-bar-item 
+                            {{#if (hasRole "KEEPER")}}hint--top{{/if}}"
                             {{#if (hasRole "KEEPER")}}
                                 aria-label="{{this.id}}"
                             {{/if}}
@@ -99,7 +102,7 @@
             </div>
             {{!-- conditions --}}
             <div>
-                <select class="w3-select w3-container em_noShadow em_bodypartConditions">
+                <select class="w3-select w3-container em_noShadow em_bodypar_conditions">
                     {{#each CONFIG.EmConfig.MEDICAL_CONDITION_TYPES as |conditionType| }}
                         <option>{{i18n conditionType}}</option>
                     {{/each}}

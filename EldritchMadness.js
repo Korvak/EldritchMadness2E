@@ -83,7 +83,7 @@ Hooks.once("init", function() {
     Handlebars.registerHelper('TreeExplorer', function(id, ulClasses, ulAttrs, items, options) {
         // Define a recursive function to generate the tree structure
         try{
-          if (items === undefined || item === null) {items = [];}
+          if (items === undefined || items === null) {items = [];}
           return new Handlebars.SafeString(_generateTree(id, ulClasses, ulAttrs, items, options));
         }
         catch(error) {console.error(error.message);}
