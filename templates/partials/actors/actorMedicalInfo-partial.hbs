@@ -18,6 +18,9 @@
                                 aria-label="{{anatomy.tree.id}}"
                             {{/if}}
                             id="{{anatomy.tree.id}}" data-id="{{anatomy.tree.id}}">
+                            {{#if (hasRole "KEEPER")}}
+                                <i class="em_anatomyBranchIcon em_anatomyDeleteIcon fa-solid fa-trash"></i>
+                            {{/if}}
                             {{anatomy.tree.name}}
                             <i class="dropdown-icon em_anatomyBranchIcon fa-solid fa-chevron-down"></i>
                             
@@ -58,7 +61,7 @@
                 <div class="em_bodypartHeader w3-bar w3-display-container">
                     <a id="em_bodypart_id" class="w3-bar-item"></a>
                     <a id="em_bodypart_createBtn" class="w3-bar-item w3-display-right" data-id="">
-                        <i class="fa-solid fa-plus"></i>
+                        <i id="em_bodypart_createIcon" class="fa-solid fa-plus"></i>
                     </a>
                 </div>
             {{/if}}

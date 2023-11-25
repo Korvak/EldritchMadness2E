@@ -1,4 +1,4 @@
-import {test, normalize, normalizeToRange, treeBreadthSearch} from "../utils.js"
+import {translate, normalize, normalizeToRange, treeBreadthSearch} from "../utils.js"
 import {toggleDropdown, toggleReadonly, onBarValueChange} from "../htmlUtils.js"
 
 export default class EmBaseActorSheet extends ActorSheet {
@@ -10,7 +10,8 @@ export default class EmBaseActorSheet extends ActorSheet {
         //we set some data for ourselves
         console.log("actor", this.getData() );
         console.log("actorItems", this.getData().items);
-        if(this.anatomyLength() < 1) {this._createDefaultAnatomy();}
+        //allows calling async function and almost everything works out
+        if(this.bodypartsCount() < 1) {this._createDefaultAnatomy();}
     }
 
     static get defaultOptions() {
@@ -100,18 +101,23 @@ export default class EmBaseActorSheet extends ActorSheet {
                 $(this).get(0).onclick = toggleReadonly;
             });
             html.find(".dropdown-btn").each(function() {
-                $(this).find(".dropdown-icon").click(function(event) {
+                $(this).find(".dropdown-icon").contextmenu(function(event) {
                     event.preventDefault();
-                    $(this).parents(".dropdown-btn").click();
+                    $(this).parents(".dropdown-btn").contextmenu();
                 });
-                $(this).get(0).onclick = toggleDropdown;
+                $(this).get(0).oncontextmenu = toggleDropdown;
             });
             html.find(".em_barValue").change(onBarValueChange);
             //#endregion
             //#region anatomy page events
-            $(".em_anatomyNode").contextmenu(this._displayBodypartHtml.bind(this));
+            $(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
             //#endregion
             $("#em_bodypart_id").click(this._renderBodypartHtml.bind(this));
+            let foo = async function(event) {
+                alert("alfa");
+                await this._addAndDisplayAnatomy(event);
+            };
+            $("#em_bodypart_createBtn").get(0).onclick = foo.bind(this);
         //#endregion
         html.ready(this._onStart.bind(this) );
 
@@ -141,7 +147,6 @@ export default class EmBaseActorSheet extends ActorSheet {
         setTimeout(() => { flipbook.turn('next'); },500);
         setTimeout(() => {navbar.css("visibility","visible");} , 750);
         //we set the default data if needs loading
-        //if(this.anatomyLength() < 1) {await this._createDefaultAnatomy();}
         console.log(this.getAnatomy().tree.id);
         this._displayBodypart(this.getAnatomy().tree.id);
     }
@@ -247,17 +252,46 @@ export default class EmBaseActorSheet extends ActorSheet {
     //#endregion
 
     //#region anatomy
+
+    //#region event methods
+
+    _renderBodypartHtml(event) {
+        let element = event.target;
+        this._renderBodypart(element.dataset.id);
+    }   
+    
+    _displayBodypartHtml(event) {
+        //displays a bodypart in the actorSheet by fetching the bodypart id from the dataset
+        let element = $(event.target);
+        let id = element.get(0).dataset.id;
+        this._displayBodypart(id);
+    }
+
+    async _addAndDisplayAnatomy(event) {
+        let element = $(event.target);
+        let bodypart = await this.addAnatomy({
+            name : `${CONFIG.EmConfig.anatomy.DEFAULT_NAME}_${this.bodypartsCount()}`,
+            attachedTo : element.get(0).dataset.id,
+            partType : CONFIG.EmConfig.anatomy.DEFAULT_PARTTYPE
+        });
+        if (bodypart !== undefined) {this._displayBodypart(bodypart.id);}
+    }
+
+    //#endregion
+
     getAnatomy() {
         return this.getActorData().anatomy;
     }
 
-    anatomyLength() {return Object.keys(this.getAnatomy().parts).length;}
+    bodypartsCount() {return Object.keys(this.getBodyparts() ).length;}
+
+    getBodyparts() {return this.getAnatomy().parts;}
 
     getbodyRoot() {
         let anatomy = this.getAnatomy();
         switch(anatomy.viewType) {
             case "tree" : {
-                return this.getBodypart(anatomy.tree.id);
+                return this.getBodypart(anatomy.tree);
             }
             case "chart" : {return undefined;}
             default : {return undefined;}
@@ -272,6 +306,10 @@ export default class EmBaseActorSheet extends ActorSheet {
          * 
          * @returns {ItemSheet} : returns the bodypart itemSheet data.
          */
+        if (attachedTo === undefined && this.bodypartsCount() > 0) {
+            console.error( translate(CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_PARENT_ERROR) );
+            return undefined;
+        }
         let anatomy = this.getAnatomy();
         let bodypart = await Item.create({
             "name" : name,
@@ -279,18 +317,18 @@ export default class EmBaseActorSheet extends ActorSheet {
         });
         let bodypartData = bodypart.system;
         //sets the data
-        console.log(bodypart.id);
         bodypartData.partType = partType;
         bodypartData.attachedTo = attachedTo;
         //then we add it to the view types
         if (typeof attachedTo === "string") {
-            let parent = treeBreadthSearch(anatomy.tree, "id", attachedTo);
+            let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
             parent.children.push({ //we create a new TreeNode item and add it to the parent
                 id : bodypart.id,
+                name : bodypart.name,
                 children : []
             });
         }
-        else if (this.anatomyLength() < 1) { //if it's the first element, then we allow it to be detached.
+        else if (this.bodypartsCount() < 1) { //if it's the first element, then we allow it to be detached.
             anatomy.tree["id"] = bodypart.id;
             anatomy.tree["name"] = name;
             anatomy.tree["children"] = [];
@@ -303,22 +341,52 @@ export default class EmBaseActorSheet extends ActorSheet {
                 anatomy : anatomy
             }
         });
-        await this.render(true);
         //finally we return the element data
         return bodypart;
     }
 
+    _deleteAnatomyNode(node) {
+        delete this.getBodyparts[node.id];
+        for (let child of node.children) {
+            this._deleteAnatomyNode(child);
+        }
+    }
+
+    async deleteAnatomy(id) {
+        try {
+            let bodypart = this.getBodypart(id);
+            if (bodypart === undefined) {return false;}
+            let bodypartData = bodypart.system;
+            let anatomy = this.getAnatomy();
+            //we check if it's attached to a parent or is the root
+            if (bodypart.attachedTo === undefined || bodypart.attachedTo === null) {
+                let element = treeBreadthSearch(anatomy.tree, "id" , bodypart.id);
+            }
+            else {
+                //first we remove it in the tree by removing it from the parent
+                let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
+                let element = undefined;
+                //we remove the element from the parent's children
+                for (let i;i < parent.children.length;i++) {
+                    element = parent.children[i];
+                    if (element.id === id) {parent.children.splice(i,1);}
+                }
+            }
+            //we remove the element and it's children from the parts array
+            this._deleteAnatomyNode(element);
+            //then we save everything
+            await this.actor.update({
+                data : {
+                    anatomy : anatomy
+                }
+            });
+        }
+        catch(error) {console.error(error.message);}
+    }
 
     getBodypart(id) {
         //returns the item object of bodypart type of the corresponding ID
         return this.getAnatomy().parts[id];
-    }
-
-    _displayBodypartHtml(event) {
-        //displays a bodypart in the actorSheet by fetching the bodypart id from the dataset
-        let element = $(event.target);
-        let id = element.get(0).dataset.id;
-        this._displayBodypart(id);
     }
 
     _displayBodypart(id) {
@@ -345,6 +413,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             element = this.element.find("#em_bodypart_createBtn");
             if (element.length > 0) {
                 element.get(0).dataset.id = id;
+                element.find("#em_bodypart_createIcon").get(0).dataset.id = id;
             }
             //#endregion
             //#region data fields
@@ -369,11 +438,6 @@ export default class EmBaseActorSheet extends ActorSheet {
     _displayBodypartConditions(id) {
         //fetches all the conditions related to the bodypart id
         //returns 
-    }
-
-    _renderBodypartHtml(event) {
-        let element = event.target;
-        this._renderBodypart(element.dataset.id);
     }
 
     _renderBodypart(id) {

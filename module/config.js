@@ -37,7 +37,8 @@ EmConfig.MEDICAL_CONDITION_TYPES = {
 
 //#region loading and errors
 EmConfig.ERRORS = {
-    MISSING_ANATOMY_TYPE_ERROR : "errors.missingAnatomyType"
+    MISSING_ANATOMY_TYPE_ERROR : "errors.missingAnatomyType",
+    MISSING_ANATOMY_PARENT_ERROR : "errors.missingAnatomyParent"
 };
 
 EmConfig.LOADED = {
@@ -66,35 +67,15 @@ EmConfig.tabs = {
 }
 
 EmConfig.anatomy = {
-    default : {
-        
-    },
-    "bodypart" : {
-        "templates" : [
-            "baseItem",
-            "repairable",
-            "upgradable"
-        ],
-        "tags" : ["bodypart"],
-        "description" : "em.items.bodypart.DEFAULT_DESC",
-        "partType" : "torso",
-        "targetDifficultyMult" : 1.0,
-        "allowedEquippables" : [],
-        "equipped" : {
-            "upper" : null,
-            "lower" : null
-        },
-        "bodySync" : {
-            "hpLink" : {
-                "linked" : true,
-                "linkedToStat" : "hp",
-                "linkDmgConvRate" : 1.0,
-                "maxLinkDmg" : 0.5,
-                "linkTotDmg" : 0.0
-            }
-        },
-        "attachedTo" : null
-    },
+    DEFAULT_NAME : "bodypart",
+    DEFAULT_PARTTYPE : "torso",
+    PARTTYPES : [
+        "torso",
+        "arm",
+        "leg",
+        "organ",
+        "vestigial"
+    ]
 };
 
 EmConfig.flipbook = {
