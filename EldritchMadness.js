@@ -8,7 +8,13 @@ async function preloadHandlebarsTemplates() {
     //#region actor partials
     "systems/EldritchMadness/templates/partials/actors/navbar-partial.hbs",
     "systems/EldritchMadness/templates/partials/actors/actorInfo-partial.hbs",
-    "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs"
+    "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs",
+    //#endregion
+    //#region item partials
+    "systems/EldritchMadness/templates/partials/items/destroyable-partial.hbs",
+    "systems/EldritchMadness/templates/partials/items/repairable-partial.hbs",
+    "systems/EldritchMadness/templates/partials/items/equippable-partial.hbs",
+    "systems/EldritchMadness/templates/partials/items/upgradable-partial.hbs"
     //#endregion
   ];
 
@@ -39,18 +45,23 @@ Hooks.once("init", function() {
 
     //#region register item sheets
     Items.unregisterSheet("core", ItemSheet);
-    Items.registerSheet("emItem", EmBaseItemSheet, {makeDefault: true});
+    Items.registerSheet("EldritchMadness", EmBaseItemSheet, {makeDefault: true});
     //#endregion
 
     //#region register actor sheets
     Actors.unregisterSheet("core", ActorSheet);
-    Actors.registerSheet("emActor", EmBaseActorSheet, {makeDefault: true});
+    Actors.registerSheet(
+      "EldritchMadness", 
+      EmBaseActorSheet, 
+      //types : [your-actor-types],
+      {makeDefault: true}
+    );
     //#endregion
 
     //#region register handlebars
     Handlebars.registerHelper('i18n', function(key) {
         return translate(key);
-      });
+    });
 
     //#region condtional helpers
     Handlebars.registerHelper('and', function(a,b) {

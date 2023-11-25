@@ -41,8 +41,13 @@ EmConfig.ERRORS = {
     MISSING_ANATOMY_PARENT_ERROR : "errors.missingAnatomyParent"
 };
 
-EmConfig.LOADED = {
-    
+EmConfig.GRADES = {
+    A : "em.grades.A",
+    B : "em.grades.B",
+    C : "em.grades.C",
+    D : "em.grades.D",
+    E : "em.grades.E",
+    F : "em.grades.F"
 }
 
 //#endregion

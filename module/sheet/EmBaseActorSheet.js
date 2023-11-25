@@ -27,7 +27,7 @@ export default class EmBaseActorSheet extends ActorSheet {
     get template() {
         console.log("actor", this.getData() );
         console.log("actorItems", this.getData().items);
-        return `systems/EldritchMadness/templates/sheets/actors/${this.actor.type}-sheet.hbs`;
+        return `systems/EldritchMadness/templates/sheets/actors/baseActor-sheet.hbs`;
     }
 
     getData() {

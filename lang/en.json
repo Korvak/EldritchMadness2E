@@ -1,5 +1,13 @@
 {
     "em" : {
+        "grades" : {
+            "A" : "A",
+            "B" : "B",
+            "C" : "C",
+            "D" : "D",
+            "E" : "E",
+            "F" : "F" 
+        },
         "attributes" : {
             "hp": {
                 "short" : "hp",

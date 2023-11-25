@@ -5,7 +5,7 @@
  * Every actor must have one root bodypart which is linked to the @hp attribute and has a @maxLinkDmg of 1.0.
  * Bodyparts are essential since combat is based on targeting and doing damage to bodyparts.
  * 
- * @implements {BaseItem, Repairable, Upgradable}
+ * @implements {BaseItem, Destroyable, Repairable, Upgradable}
  * 
  */
 /** partType

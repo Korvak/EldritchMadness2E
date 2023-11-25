@@ -181,6 +181,7 @@
         "templates" : {
             "baseItem" : {
                 "tags" : [],
+                "grade" : "em.grades.F",
                 "description" : "",
                 "wt" : {
                     "label" : "em.attributes.wt.name",
@@ -212,6 +213,7 @@
                 }
             },
             "repairable" : {
+                "requires" : ["destroyable"],
                 "durabilityTreshold" : {
                     "min" : 0,
                     "max" : 50
@@ -224,9 +226,7 @@
                 }
             },
             "equippable" : {
-                "templates" : [
-                    "repairable"
-                ],
+                "requires" : ["repairable"],
                 "slotsOccupied" : [],
                 "equippableOnto" : [],
                 "unequipWhenBroken" : true,
@@ -240,6 +240,7 @@
             },
             "upgradable" : {
                 "upgradesTo" : "",
+                "upgradeRestrictions" : [],
                 "upgradeCost" : [],
                 "upgradeRequirements" : [],
                 "effectsOnUpgrade" : []
