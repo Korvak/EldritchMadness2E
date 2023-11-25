@@ -8,6 +8,7 @@ export default class EmBaseActorSheet extends ActorSheet {
     constructor(...args) {
         super(...args);
         //we set some data for ourselves
+        console.log("constructor args",args);
         console.log("actor", this.getData() );
         console.log("actorItems", this.getData().items);
         //allows calling async function and almost everything works out
@@ -24,6 +25,8 @@ export default class EmBaseActorSheet extends ActorSheet {
     }
 
     get template() {
+        console.log("actor", this.getData() );
+        console.log("actorItems", this.getData().items);
         return `systems/EldritchMadness/templates/sheets/actors/${this.actor.type}-sheet.hbs`;
     }
 
@@ -111,13 +114,11 @@ export default class EmBaseActorSheet extends ActorSheet {
             //#endregion
             //#region anatomy page events
             $(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
+            $(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
             //#endregion
             $("#em_bodypart_id").click(this._renderBodypartHtml.bind(this));
-            let foo = async function(event) {
-                alert("alfa");
-                await this._addAndDisplayAnatomy(event);
-            };
-            $("#em_bodypart_createBtn").get(0).onclick = foo.bind(this);
+            let createNewBodypart = async function(event) {await this._addAndDisplayAnatomy(event);};
+            $("#em_bodypart_createBtn").get(0).onclick = createNewBodypart.bind(this);
         //#endregion
         html.ready(this._onStart.bind(this) );
 
@@ -186,6 +187,31 @@ export default class EmBaseActorSheet extends ActorSheet {
         return this.getData().actor.system;
     }
 
+    
+    async renderItem(id) {
+        try {
+            let item = await Item.get(id);
+            item.sheet.render(true);
+        }
+        catch(error) {console.error(error.message)};
+    }
+
+    async renderOwnedItem(id) {
+        /** creates a new item sheet then opens it and when closed will destroy it
+         * 
+         */
+        let item = this.getOwnedItem(id);
+        if (item == undefined) {return false;}
+        let renderedItem = await Item.create({
+            "name" : item.name,
+            "type" : item.type
+        });
+        await renderedItem.sheet.render(true);
+        setTimeout(async function() {
+            await renderedItem.sheet.render(false);
+            await renderedItem.delete();
+        },3000);
+    }
 
     //#region inventory methods
     _getAllOwnedItems() {
@@ -201,7 +227,7 @@ export default class EmBaseActorSheet extends ActorSheet {
         for (let item of this._getAllOwnedItems() ) {
             itemData = item.getData().system;
             if ( itemData.tags.filter(x => tags.has(x) )
-                  || Ids.has(item.id) 
+                  || Ids.has(item._id) 
                 ) 
             {
                 results.push(item);
@@ -212,40 +238,48 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     getOwnedItem(itemId) {
         for (let item of this._getAllOwnedItems() ) {
-            if (item.id == itemId) {return item;}
+            if (item._id == itemId) {return item;}
         }
         return undefined;
-    } 
+    }
+
+    getIndexOfOwnedItem(itemId) {
+        let item = undefined;
+        let ownedItems = this._getAllOwnedItems();
+        for (let i = 0;i < ownedItems.length;i++) {
+            item = ownedItems[i];
+            if (item._id == itemId) {return i;} 
+        }
+        return -1;
+    }
 
     addOwnedItem(item) {
+        //should be deprecated since we use the Item.create method instead
         let ownedItems = this._getAllOwnedItems();
         ownedItems.push(item);
         return ownedItems.length - 1;
     }
 
     removeOwnedItem(itemId) {
-        let item = null;
-        let ownedItems = this._getAllOwnedItems();
-        for (let i = 0; i < ownedItems.length;i++) {
-            item = ownedItems[i];
-            if (item.id == itemId) {
-                ownedItems.splice(i, 1);
-                return i;
-            }
+        let index = this.getIndexOfOwnedItem(itemId);
+        try {
+            this._getAllOwnedItems().splice(index,1);
+            return index;
         }
-        return -1;
+        catch(error) {console.error(error.message); return -1;}
     }
 
     async createOwnedItem(itemData) {
         try {
-            let item = await Item.create(itemData);
-            return this.addOwnedItem(item);
+            await Item.create(itemData, {parent : this.actor});
+            return this._getAllOwnedItems().length - 1;
         }
         catch(error) {
             console.error(error.message);
             return -1;
         }
     }
+
     //#endregion
 
 
@@ -255,9 +289,9 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     //#region event methods
 
-    _renderBodypartHtml(event) {
+    async _renderBodypartHtml(event) {
         let element = event.target;
-        this._renderBodypart(element.dataset.id);
+        await this.renderOwnedItem(element.dataset.id);
     }   
     
     _displayBodypartHtml(event) {
@@ -274,7 +308,13 @@ export default class EmBaseActorSheet extends ActorSheet {
             attachedTo : element.get(0).dataset.id,
             partType : CONFIG.EmConfig.anatomy.DEFAULT_PARTTYPE
         });
-        if (bodypart !== undefined) {this._displayBodypart(bodypart.id);}
+        if (bodypart !== undefined) {this._displayBodypart(bodypart._id);}
+    }
+
+    async _deleteAnatomyHtml(event) {
+        event.preventDefault();
+        let element = $(event.target);
+        await this.deleteAnatomy(element.parent().get(0).dataset.id);
     }
 
     //#endregion
@@ -286,6 +326,11 @@ export default class EmBaseActorSheet extends ActorSheet {
     bodypartsCount() {return Object.keys(this.getBodyparts() ).length;}
 
     getBodyparts() {return this.getAnatomy().parts;}
+
+    getBodypart(id) {
+        //returns the item object of bodypart type of the corresponding ID
+        return this.getAnatomy().parts[id];
+    }
 
     getbodyRoot() {
         let anatomy = this.getAnatomy();
@@ -314,7 +359,9 @@ export default class EmBaseActorSheet extends ActorSheet {
         let bodypart = await Item.create({
             "name" : name,
             "type" : "bodypart",
-        });
+            },
+            {parent : this.actor} //this adds it to the actor items instead of the item global collection
+        );
         let bodypartData = bodypart.system;
         //sets the data
         bodypartData.partType = partType;
@@ -323,18 +370,18 @@ export default class EmBaseActorSheet extends ActorSheet {
         if (typeof attachedTo === "string") {
             let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
             parent.children.push({ //we create a new TreeNode item and add it to the parent
-                id : bodypart.id,
+                id : bodypart._id,
                 name : bodypart.name,
                 children : []
             });
         }
         else if (this.bodypartsCount() < 1) { //if it's the first element, then we allow it to be detached.
-            anatomy.tree["id"] = bodypart.id;
+            anatomy.tree["id"] = bodypart._id;
             anatomy.tree["name"] = name;
             anatomy.tree["children"] = [];
         }
         //then we add it to the actor anatomy
-        anatomy.parts[bodypart.id] = bodypart;
+        anatomy.parts[bodypart._id] = bodypart;
         //we trigger a re-render
         await this.actor.update({
             data : {
@@ -345,10 +392,12 @@ export default class EmBaseActorSheet extends ActorSheet {
         return bodypart;
     }
 
-    _deleteAnatomyNode(node) {
+    async _deleteAnatomyNode(node) {
+        //deletes an anatomy tree node references in the parts collection along with all its children
         delete this.getBodyparts[node.id];
+        await Item.delete(node.id);
         for (let child of node.children) {
-            this._deleteAnatomyNode(child);
+            await this._deleteAnatomyNode(child);
         }
     }
 
@@ -358,14 +407,15 @@ export default class EmBaseActorSheet extends ActorSheet {
             if (bodypart === undefined) {return false;}
             let bodypartData = bodypart.system;
             let anatomy = this.getAnatomy();
+            let element = undefined;
             //we check if it's attached to a parent or is the root
             if (bodypart.attachedTo === undefined || bodypart.attachedTo === null) {
-                let element = treeBreadthSearch(anatomy.tree, "id" , bodypart.id);
+                element = treeBreadthSearch(anatomy.tree, "id" , bodypart._id);
             }
             else {
                 //first we remove it in the tree by removing it from the parent
                 let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
-                let element = undefined;
+                element = undefined;
                 //we remove the element from the parent's children
                 for (let i;i < parent.children.length;i++) {
                     element = parent.children[i];
@@ -384,10 +434,6 @@ export default class EmBaseActorSheet extends ActorSheet {
         catch(error) {console.error(error.message);}
     }
 
-    getBodypart(id) {
-        //returns the item object of bodypart type of the corresponding ID
-        return this.getAnatomy().parts[id];
-    }
 
     _displayBodypart(id) {
         /** visually loads the bodypart if the data exists
@@ -398,11 +444,10 @@ export default class EmBaseActorSheet extends ActorSheet {
          */
         try {
             //first we fetch the data
-            console.log("id to display ",id);
             let element = undefined;
             let bodypart = this.getBodypart(id); //this is the Item Sheet
+            if (bodypart === undefined || bodypart === null) {return false;}
             let bodypartData = bodypart.system; //this is the data in system
-            if (bodypart === undefined || bodypart === null || bodypartData === undefined || bodypartData === null) {return false;}
             //Set the id
             //#region header
             element = this.element.find("#em_bodypart_id");
@@ -438,11 +483,6 @@ export default class EmBaseActorSheet extends ActorSheet {
     _displayBodypartConditions(id) {
         //fetches all the conditions related to the bodypart id
         //returns 
-    }
-
-    _renderBodypart(id) {
-        let bodypart = this.getBodypart(id);
-        bodypart.sheet.render(true);
     }
 
     //#endregion

@@ -15,20 +15,17 @@ async function preloadHandlebarsTemplates() {
   return loadTemplates(templatePaths);
 }
 
-function _generateTree(id, ulClasses, ulAttrs, items, options) {
-  //forces each tree element to follow a predefined structure
-  //each element should have an id and must have a children attribute
-  id = id != "" ? `for="${id}"` : "";
-  let result = `<ul ${id} ${ulAttrs}  class="${ulClasses}" >`;
-  for (let item of items) {
-    result += options.fn(item);
-    // Check if the current item has children
-    if (item.children != undefined && item.children.length > 0) {
-      // Recursively call the function for children
-      result += _generateTree(item.id, ulClasses, ulAttrs, item.children, options);
+function _makeTree(ul,node,options) {
+  let result = options.fn(node);
+  if (node.children !== undefined && node.children.length > 0) {
+    let ulAttrs = ul.attrs != undefined ? ul.attrs : '';
+    let ulClasses = ul.classes != undefined ? `class="${ul.classes}"` : '';
+    result += `<ul for="${node.id}" ${ulAttrs} ${ulClasses}>`;
+    for (let child of node.children) {
+      result += _makeTree(ul, child, options);
     }
+    result+= '</ul>';
   }
-  result += '</ul>';
   return result;
 }
 
@@ -56,6 +53,10 @@ Hooks.once("init", function() {
       });
 
     //#region condtional helpers
+    Handlebars.registerHelper('and', function(a,b) {
+      return a && b;
+    });
+
     Handlebars.registerHelper('gt', function(a,b) {
       return a > b;
     });
@@ -80,14 +81,16 @@ Hooks.once("init", function() {
         return game.user.role == role;
     }); 
 
-    Handlebars.registerHelper('TreeExplorer', function(id, ulClasses, ulAttrs, items, options) {
+    Handlebars.registerHelper('TreeExplorer', function(ulClasses, ulAttrs, item, options) {
         // Define a recursive function to generate the tree structure
         try{
-          if (items === undefined || items === null) {items = [];}
-          return new Handlebars.SafeString(_generateTree(id, ulClasses, ulAttrs, items, options));
+          return new Handlebars.SafeString(
+            _makeTree({
+              "classes" : ulClasses,
+              "attrs" : ulAttrs
+            }, item, options));
         }
         catch(error) {console.error(error.message);}
-        
     });
 
     preloadHandlebarsTemplates();

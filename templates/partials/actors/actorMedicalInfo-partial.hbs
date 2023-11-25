@@ -12,42 +12,37 @@
                     <!--#region anatomy tree-->
                     {{!-- Customize the rendering of the nested <ul> --}}
                     <ul class="em_anatomyTree em_anatomyList w3-bar-block">
-                        <li class="dropdown-btn em_anatomyNode em_anatomyBranch w3-button w3-border w3-bar-item 
-                            {{#if (hasRole "KEEPER")}}hint--bottom{{/if}}" 
-                            {{#if (hasRole "KEEPER")}}
-                                aria-label="{{anatomy.tree.id}}"
-                            {{/if}}
-                            id="{{anatomy.tree.id}}" data-id="{{anatomy.tree.id}}">
-                            {{#if (hasRole "KEEPER")}}
-                                <i class="em_anatomyBranchIcon em_anatomyDeleteIcon fa-solid fa-trash"></i>
-                            {{/if}}
-                            {{anatomy.tree.name}}
-                            <i class="dropdown-icon em_anatomyBranchIcon fa-solid fa-chevron-down"></i>
-                            
+                        <li class="w3-button w3-border w3-bar-item w3-center w3-black em_anatomyTreeTitle">
+                            ANATOMY TREE
                         </li>
-                        {{#TreeExplorer anatomy.tree.id "dropdown-content em_anatomyList w3-bar-block" "" anatomy.tree.children as |treeNode| }}
-                        {{#if (gt this.children.length 0)}}
-                            <li class="dropdown-btn em_anatomyNode em_anatomyBranch w3-button w3-border w3-bar-item 
-                            {{#if (hasRole "KEEPER")}}hint--top{{/if}}"
-                             {{#if (hasRole "KEEPER")}}
-                                aria-label="{{this.id}}"
+                        {{#TreeExplorer "dropdown-content em_anatomyList w3-bar-block" "" anatomy.tree as |TreeNode| }}
+                            {{#if (gt this.children.length 0)}}
+                                <li class="dropdown-btn em_anatomyNode em_anatomyBranch w3-button w3-border w3-bar-item 
+                                {{#if (hasRole "KEEPER")}}hint--top{{/if}}"
+                                {{#if (hasRole "KEEPER")}}
+                                    aria-label="{{this.id}}"
+                                {{/if}}
+                                id="{{this.id}}" data-id="{{this.id}}">
+                                    {{#if (hasRole "KEEPER")}}
+                                        <i class="em_anatomyBranchIcon em_anatomyDeleteIcon fa-solid fa-trash" data-id="{{this.id}}"></i>
+                                    {{/if}}
+                                    {{this.name}}
+                                    <i class="dropdown-icon em_anatomyBranchIcon fa-solid fa-chevron-down"></i>
+                                </li>
+                            {{else}}
+                                <li class="em_anatomyNode em_anatomyLeaf w3-button w3-border w3-bar-item 
+                                {{#if (hasRole "KEEPER")}}hint--top{{/if}}"
+                                {{#if (hasRole "KEEPER")}}
+                                    aria-label="{{this.id}}"
+                                {{/if}}
+                                id="{{this.id}}" data-id = "{{this.id}}">
+                                    {{#if (hasRole "KEEPER")}}
+                                        <i class="em_anatomyBranchIcon em_anatomyDeleteIcon fa-solid fa-trash"></i>
+                                    {{/if}}
+                                    {{this.name}}
+                                </li>
                             {{/if}}
-                            id="{{this.id}}" data-id = "{{this.id}}">
-                                {{this.name}}
-                                <i class="dropdown-icon em_anatomyBranchIcon fa-solid fa-chevron-down"></i>
-                            </li>
-                        {{else}}
-                            <li class="em_anatomyNode em_anatomyLeaf w3-button w3-border w3-bar-item 
-                            {{#if (hasRole "KEEPER")}}hint--top{{/if}}"
-                            {{#if (hasRole "KEEPER")}}
-                                aria-label="{{this.id}}"
-                            {{/if}}
-                            id="{{this.id}}" data-id = "{{this.id}}">
-                                {{this.name}}
-                            </li>
-                        {{/if}}
                         {{/TreeExplorer}}
-                        <!--#endregion-->
                     </ul>
                 {{else }}
                     <p>{{i18n CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_TYPE_ERROR}}</p>
@@ -105,7 +100,7 @@
             </div>
             {{!-- conditions --}}
             <div>
-                <select class="w3-select w3-container em_noShadow em_bodypar_conditions">
+                <select class="w3-select w3-container em_noShadow em_bodypart_conditions">
                     {{#each CONFIG.EmConfig.MEDICAL_CONDITION_TYPES as |conditionType| }}
                         <option>{{i18n conditionType}}</option>
                     {{/each}}
