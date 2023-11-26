@@ -1,9 +1,59 @@
-<form autocomplete="off">
-    <header class="sheet-header">
-        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64">
-        <h1><input name="name" type="text" value="{{item.name}}" placeholder="name"></h1>
-    </header>
-    <div class="em_item_bodypart_container">
+<div class="em_bodypart_dataContainer">
+    <div class="w3-container">
+        {{!-- name --}}
+        <div class="w3-border em_inputContainer" style="margin-top:5px;">
+            <input id="em_bodypart_name" class="em_input w3-center" name="name" value="{{item.name}}" readonly="true">
+            {{#if (hasRole "KEEPER")}}
+                <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
+            {{/if}}
+        </div>
+        {{!-- contains the durability bar --}}
         {{> "systems/EldritchMadness/templates/partials/items/destroyable-partial.hbs"}}
+        {{> "systems/EldritchMadness/templates/partials/items/repairable-partial.hbs"}}
+        {{> "systems/EldritchMadness/templates/partials/items/upgradable-partial.hbs"}} 
     </div>
-</form>
+    {{!-- item components and values --}}
+    <div class="w3-container"> 
+        {{!-- type --}}
+        <div class="em_form_inputContainer">
+            <label for="bodypart_type" class="em_form_inputElement">body type</label>
+            <div class="w3-border em_inputContainer em_form_inputElement">
+                <input id="em_bodypart_type" class="em_input"  readonly="true"
+                name="item.system.partType" value="{{item.system.partType}}">
+                {{#if (hasRole "KEEPER")}}
+                    <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
+                {{/if}}
+            </div>
+        </div>
+        {{!-- attached to --}}
+        <div class="em_form_inputContainer">
+            <label for="bodypart_attached" class="em_form_inputElement">attached to</label>
+            <div class="w3-border em_inputContainer em_form_inputElement">
+                <input id="em_bodypart_attached" class="em_input"  readonly="true" data-attachedId="{{item.system.attachedTo}}"
+                name="item.system.attachedTo" value="{{item.system.attachedTo}}"  >
+                {{#if (hasRole "KEEPER")}}
+                    <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
+                {{/if}}
+            </div>
+        </div>
+        {{!-- target difficulty --}}
+        <div class="em_form_inputContainer">
+            <label for="bodypart_targetMult" class="em_form_inputElement">target difficulty</label>
+            <div class="w3-border em_inputContainer em_form_inputElement">
+                <input id="em_bodypart_targetMult" class="em_input" readonly="true"
+                name="item.system.targetDifficultyMult" value="{{item.system.targetDifficultyMult}}" >
+                {{#if (hasRole "KEEPER")}}
+                    <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{!-- allowed equippables --}}
+    <div>
+
+    </div>
+    {{!-- body sync --}}
+    <div>
+        
+    </div>
+</div>

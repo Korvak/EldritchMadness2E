@@ -15,6 +15,7 @@
                         <li class="w3-button w3-border w3-bar-item w3-center w3-black em_anatomyTreeTitle">
                             ANATOMY TREE
                         </li>
+                        <!--#region tree-->
                         {{#TreeExplorer "dropdown-content em_anatomyList w3-bar-block" "" anatomy.tree as |TreeNode| }}
                             {{#if (gt this.children.length 0)}}
                                 <li class="dropdown-btn em_anatomyNode em_anatomyBranch w3-button w3-border w3-bar-item 
@@ -43,6 +44,7 @@
                                 </li>
                             {{/if}}
                         {{/TreeExplorer}}
+                        <!--#endregion-->
                     </ul>
                 {{else }}
                     <p>{{i18n CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_TYPE_ERROR}}</p>
@@ -125,7 +127,7 @@
                 </div>
             </div>
             {{#if (hasRole "KEEPER")}}
-                <button class="w3-border em_noShadow w3-hover-light-grey" style="margin-left:0;">add</button>
+                <button class="w3-border em_noShadow w3-hover-light-grey" style="margin-left:0;">edit</button>
             {{/if}}
         </div>
     </div>

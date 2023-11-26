@@ -192,6 +192,15 @@
                     "minTemp" : 0,
                     "temp" : 0,
                     "maxTemp" : 0
+                },
+                "stack" : {
+                    "value" : 1,
+                    "max" : 1
+                },
+                "price" : {
+                    "min" : "NaN",
+                    "value" : "NaN",
+                    "max" : "NaN"
                 }
             },
             "destroyable" : {
@@ -199,6 +208,7 @@
                 "usableWhenBroken" : false,
                 "effectsOnBroken" : [],
                 "effectsRemovedOnBroken": [],
+                "effectsOnDurabilityLoss" : [],
                 "durability" : {
                     "min" : 0,
                     "value" : 100,
@@ -218,6 +228,7 @@
                     "min" : 0,
                     "max" : 50
                 },
+                "repairRequirements" : [],
                 "repairCost" : [],
                 "repairEffects" : [],
                 "durabilityRestored" : {
@@ -267,6 +278,7 @@
                 "lower" : null
             },
             "bodySync" : {
+
                 "hpLink" : {
                     "linked" : true,
                     "linkedToStat" : "hp",

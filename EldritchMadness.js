@@ -11,6 +11,7 @@ async function preloadHandlebarsTemplates() {
     "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs",
     //#endregion
     //#region item partials
+    "systems/EldritchMadness/templates/partials/items/baseItem-partial.hbs",
     "systems/EldritchMadness/templates/partials/items/destroyable-partial.hbs",
     "systems/EldritchMadness/templates/partials/items/repairable-partial.hbs",
     "systems/EldritchMadness/templates/partials/items/equippable-partial.hbs",
