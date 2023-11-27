@@ -1,7 +1,7 @@
 //#region html funcs
 export function toggleDropdown(event) {
     event.preventDefault();
-    //let self = $(event.target);
+    //let self = $(event.currentTarget);
     let id = this.dataset.id;
     let dropdownContent = $(this).parent().find(`.dropdown-content[for="${id}"]`);
     let icon = $(this).find(".dropdown-icon");
@@ -11,7 +11,7 @@ export function toggleDropdown(event) {
 
 export function toggleReadonly(event) {
     event.preventDefault();
-    let self = $(event.target);
+    let self = $(event.currentTarget);
     self.parent().find("input").each(function() {
         $(this).prop("readonly", ! $(this).prop("readonly") );
     });

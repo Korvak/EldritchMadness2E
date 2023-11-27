@@ -293,19 +293,19 @@ export default class EmBaseActorSheet extends ActorSheet {
     //#region event methods
 
     async _renderBodypartHtml(event) {
-        let element = event.target;
+        let element = event.currentTarget;
         await this.renderOwnedItem(element.dataset.id);
     }   
     
     _displayBodypartHtml(event) {
         //displays a bodypart in the actorSheet by fetching the bodypart id from the dataset
-        let element = $(event.target);
+        let element = $(event.currentTarget);
         let id = element.get(0).dataset.id;
         this._displayBodypart(id);
     }
 
     async _addAndDisplayAnatomy(event) {
-        let element = $(event.target);
+        let element = $(event.currentTarget);
         let bodypart = await this.addAnatomy({
             name : `${CONFIG.EmConfig.anatomy.DEFAULT_NAME}_${this.bodypartsCount()}`,
             attachedTo : element.get(0).dataset.id,
@@ -316,7 +316,7 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     async _deleteAnatomyHtml(event) {
         event.preventDefault();
-        let element = $(event.target);
+        let element = $(event.currentTarget);
         await this.deleteAnatomy(element.parent().get(0).dataset.id);
     }
 
