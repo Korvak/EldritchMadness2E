@@ -111,7 +111,9 @@ export default class EmBaseActorSheet extends ActorSheet {
                 $(this).get(0).oncontextmenu = toggleDropdown;
             });
             //html.find(".em_barValue").change(onBarValueChange);
-            html.find(".em_barContainer").change(renderBar);
+            let valueBars = html.find(".em_barContainer");
+            valueBars.change(renderBar);
+            valueBars.change();
             //#endregion
             //#region anatomy page events
             $(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
@@ -466,11 +468,19 @@ export default class EmBaseActorSheet extends ActorSheet {
             this.element.find("#em_bodypart_name").val(bodypart.name);
             this.element.find("#em_bodypart_type").val(bodypartData.partType);
             this.element.find("#em_bodypart_attached").val(bodypartData.attachedTo);
+            this.element.find("#em_bodypart_hitModifier").val(bodypartData.hitModifier);
             //set health
-            element = this.element.find("#em_bodypart_hp");
-            let dur = bodypartData.durability;
-            element.val(normalize(dur.value, dur.min, dur.max) );
-            element.change();
+            element = this.element.find("#em_item_durabilityBar");
+            setBarValue( element, 
+                {
+                    'val' : bodypartData.durability.value,
+                    'max' : bodypartData.durability.max
+                }, 
+                {
+                    'val' : bodypartData.durability.temp,
+                    'max' : bodypartData.durability.maxTemp
+                }
+            );
             //#endregion
             this._displayBodypartConditions(id);
             return true;

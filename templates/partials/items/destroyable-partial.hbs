@@ -1,11 +1,22 @@
 <div class="em_item_destroyableInterface w3-section">
-    <div id="em_item_durabilityBar" 
-        class="w3-border w3-lightgray w3-round w3-display-container em_barContainer" 
-        data-value="100" data-valueMax="100" data-temp="50" data-tempMax="100"
-    >
-        <span class="w3-center w3-display-middle em_barTxt">100 / 100 + 50</span>
-        <div class="w3-container w3-center w3-round em_bar" data-primaryColor="#f44336" data-secondaryColor="green">
+    <div>
+        <div id="em_item_durabilityBar" 
+        class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
+            data-value="{{item.system.durability.value}}" data-valueMax="{{item.system.durability.max}}" 
+            data-temp="{{item.system.durability.temp}}" data-tempMax="{{item.system.durability.max}}" 
+            {{#if (hasRole "KEEPER")}}data-id="bar_dur"{{/if}}
+        >
+            {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
+            <span class="w3-center w3-display-middle em_barTxt">100 / 100 + 50</span>
+            <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ITEM.HP.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ITEM.HP.TEMP}}">
+            </div>
         </div>
+        {{#if (hasRole "KEEPER")}}
+        <div class="dropdown-content em_hidden" for="bar_dur">
+            <p>hello</p>
+        </div>
+        {{/if}}
     </div>
+    
 
 </div>

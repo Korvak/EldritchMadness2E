@@ -1,10 +1,10 @@
 //#region html funcs
 export function toggleDropdown(event) {
     event.preventDefault();
-    let self = $(event.target);
+    //let self = $(event.target);
     let id = this.dataset.id;
-    let dropdownContent = self.parent().find(`.dropdown-content[for="${id}"]`);
-    let icon = self.find(".dropdown-icon");
+    let dropdownContent = $(this).parent().find(`.dropdown-content[for="${id}"]`);
+    let icon = $(this).find(".dropdown-icon");
     dropdownContent.toggle();
     icon.toggleClass("fa-chevron-up fa-chevron-down");
 }
@@ -72,19 +72,20 @@ export function setBarValue(element, value, temp = {val : 0, max : 0}) {
     //now we calculate how much the value is of the total
     let valPercent = value.val / tot;
     valPercent = Math.round( valPercent * 100);
-    console.log(width,valPercent, tot, tempMax, typeof temp.max);
     //#endregion
     //now we set the element data
     bar.css({
         width : `${width}%`,
         background : `linear-gradient(90deg, ${barData.primarycolor} ${valPercent}%, ${barData.secondarycolor} 0%)`
     });
-    //finally we set the data
+    //#region update the element data
     let elementData = element.get(0).dataset;
     elementData.value = value.val;
-    elementData.valueMax = value.max;
+    elementData.valuemax = value.max;
+    //dataset naming is actually case insensitive so we should use snake case instead of camel or pascal case
     elementData.temp = temp.val;
-    elementData.tempMax = temp.max;
+    elementData.tempmax = temp.max;
+    //#endregion
 }
 
 //#endregion

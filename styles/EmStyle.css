@@ -14,6 +14,10 @@
     user-select: none; /* Standard syntax */
 }
 
+.em_hidden {
+    display: none;
+}
+
 /*#region prefabs */
 
 /*#region bar*/
@@ -23,6 +27,17 @@
 
 .em_barContainer .em_bar {
     padding:  8px;
+}
+
+.em_barContainer.em_barDropdown {
+    padding-left: 1em;
+}
+
+.em_barContainer .em_barDropdownIcon {
+    box-sizing: border-box;
+    height: 100%;
+    font-size: 1em;
+    border: 1px solid grey;
 }
 
 /*#endregion*/

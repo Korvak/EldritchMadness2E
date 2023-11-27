@@ -34,6 +34,20 @@ EmConfig.MEDICAL_CONDITION_TYPES = {
 };
 
 //#endregion
+//#region UI
+
+
+EmConfig.BAR_COLORS = {
+    ITEM : {
+        HP : {
+            PRIMARY : "red",
+            TEMP : "green"
+        }
+    }
+}
+
+
+//#endregion
 
 //#region loading and errors
 EmConfig.ERRORS = {
@@ -54,6 +68,7 @@ EmConfig.GRADES = {
 
 //#region actorSheet
 
+//should be deprecated
 EmConfig.tabs = {
     testActor : {
         info : 2,
@@ -92,3 +107,7 @@ EmConfig.flipbook = {
 
 //#endregion
 
+//#region itemSheet
+
+
+//#endregion
