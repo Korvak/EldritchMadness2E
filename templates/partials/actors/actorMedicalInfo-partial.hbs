@@ -62,44 +62,7 @@
                     </a>
                 </div>
             {{/if}}
-            {{!-- name and hp bar --}}
-            <div class="w3-container">
-                <div class="w3-border em_inputContainer" style="margin-top:5px;">
-                    <input id="em_bodypart_name" class="em_input w3-center" name="bodypart_name" value="" readonly="true">
-                    {{#if (hasRole "KEEPER")}}
-                        <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
-                    {{/if}}
-                </div>
-                {{!-- since bodyparts don't use temp durability we only need  this type of bar --}}
-                <div class="em_barContainer w3-round w3-border">
-                    {{!-- bodypars use durability as hp --}}
-                    <input id="em_bodypart_hp" class="em_barValue" name="bodypart_hp" type="hidden" value="0.5">
-                    <div id="em_bodypart_hpBar" class="w3-red em_bar w3-round">
-                    </div>
-                </div>
-            </div>
-            {{!-- type and attached to --}}
-            <div class="w3-container">
-                <div class="em_form_inputContainer">
-                    <label for="bodypart_type" class="em_form_inputElement">body type</label>
-                    <div class="w3-border em_inputContainer em_form_inputElement">
-                        <input id="em_bodypart_type" class="em_input" name="bodypart_type" value="" readonly="true">
-                        {{#if (hasRole "KEEPER")}}
-                            <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
-                        {{/if}}
-                    </div>
-                </div>
-                <div class="em_form_inputContainer">
-                    <label for="bodypart_attached" class="em_form_inputElement">attached to</label>
-                    <div class="w3-border em_inputContainer em_form_inputElement">
-                        <input id="em_bodypart_attached" class="em_input" name="bodypart_attached" value="" data-attachedId="" readonly="true">
-                        {{#if (hasRole "KEEPER")}}
-                            <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
-                        {{/if}}
-                    </div>
-                </div>
-                
-            </div>
+            {{> "systems/EldritchMadness/templates/sheets/items/bodypart-sheet.hbs"}} 
             {{!-- conditions --}}
             <div>
                 <select class="w3-select w3-container em_noShadow em_bodypart_conditions">

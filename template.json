@@ -271,7 +271,7 @@
             "tags" : ["bodypart"],
             "description" : "em.items.bodypart.DEFAULT_DESC",
             "partType" : "torso",
-            "targetDifficultyMult" : 1.0,
+            "hitModifier" : 1.0,
             "allowedEquippables" : [],
             "equipped" : {
                 "upper" : null,

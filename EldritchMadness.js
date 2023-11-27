@@ -15,7 +15,8 @@ async function preloadHandlebarsTemplates() {
     "systems/EldritchMadness/templates/partials/items/destroyable-partial.hbs",
     "systems/EldritchMadness/templates/partials/items/repairable-partial.hbs",
     "systems/EldritchMadness/templates/partials/items/equippable-partial.hbs",
-    "systems/EldritchMadness/templates/partials/items/upgradable-partial.hbs"
+    "systems/EldritchMadness/templates/partials/items/upgradable-partial.hbs",
+    "systems/EldritchMadness/templates/sheets/items/bodypart-sheet.hbs",
     //#endregion
   ];
 

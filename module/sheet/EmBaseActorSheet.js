@@ -1,5 +1,5 @@
 import {translate, normalize, normalizeToRange, treeBreadthSearch} from "../utils.js"
-import {toggleDropdown, toggleReadonly, onBarValueChange} from "../htmlUtils.js"
+import {toggleDropdown, toggleReadonly, renderBar, setBarValue } from "../htmlUtils.js"
 
 export default class EmBaseActorSheet extends ActorSheet {
 
@@ -110,7 +110,8 @@ export default class EmBaseActorSheet extends ActorSheet {
                 });
                 $(this).get(0).oncontextmenu = toggleDropdown;
             });
-            html.find(".em_barValue").change(onBarValueChange);
+            //html.find(".em_barValue").change(onBarValueChange);
+            html.find(".em_barContainer").change(renderBar);
             //#endregion
             //#region anatomy page events
             $(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));

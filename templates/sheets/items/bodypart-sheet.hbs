@@ -7,6 +7,8 @@
                 <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
             {{/if}}
         </div>
+    </div>
+    <div class="w3-container">
         {{!-- contains the durability bar --}}
         {{> "systems/EldritchMadness/templates/partials/items/destroyable-partial.hbs"}}
         {{> "systems/EldritchMadness/templates/partials/items/repairable-partial.hbs"}}
@@ -38,10 +40,10 @@
         </div>
         {{!-- target difficulty --}}
         <div class="em_form_inputContainer">
-            <label for="bodypart_targetMult" class="em_form_inputElement">target difficulty</label>
+            <label for="bodypart_targetMult" class="em_form_inputElement">hit modifier</label>
             <div class="w3-border em_inputContainer em_form_inputElement">
-                <input id="em_bodypart_targetMult" class="em_input" readonly="true"
-                name="item.system.targetDifficultyMult" value="{{item.system.targetDifficultyMult}}" >
+                <input id="em_bodypart_hitModifier" class="em_input" readonly="true"
+                name="item.system.hitModifier" value="{{item.system.hitModifier}}" >
                 {{#if (hasRole "KEEPER")}}
                     <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
                 {{/if}}
@@ -54,6 +56,6 @@
     </div>
     {{!-- body sync --}}
     <div>
-        
+
     </div>
 </div>
