@@ -118,10 +118,13 @@ export default class EmBaseActorSheet extends ActorSheet {
             //#region anatomy page events
             $(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
             $(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
-            //#endregion
+            //$(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
+            //#region bodypart events
             $("#em_bodypart_id").click(this._renderBodypartHtml.bind(this));
             let createNewBodypart = async function(event) {await this._addAndDisplayAnatomy(event);};
             $("#em_bodypart_createBtn").get(0).onclick = createNewBodypart.bind(this);
+            //#endregion
+            //#endregion
         //#endregion
         html.ready(this._onStart.bind(this) );
 
@@ -283,6 +286,54 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
     }
 
+    async updateOwnedItem(itemId, field, value) {
+        /** fetches and updates an owned item field with the given value
+         * @param {string} itemId : the Foundry ID of the item to fetch
+         * @param {string} field : the name of the field to modify
+         * @param {wildcard} value : the value to use to update the field
+         */
+        let item = this.getOwnedItem(itemId);
+        if (item !== undefined) {
+            try{
+               //first we set the value
+                item.system[field] = value;
+                //then we update it
+                await item.update({
+                    'system' : {
+                        [field] : value
+                    }
+                });
+                return true;
+            }
+            catch(error) {
+                console.error(error.message);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    async updateOwnedItemFields(itemId, fields) {
+        /**
+         * @param {string} itemId : the Foundry ID of the owned item to fetch
+         * @param {Dictionary(string : wildcard)} fields : A dictionary of field names : values to set
+         */
+        let item = this.getOwnedItem(itemId);
+        if (item == undefined) {return false;}
+        try {
+            //we update / set all the values
+            for (let key of Object.keys(fields) ) {item.system[key] = fields[key];}
+            await item.update({
+                'system' : fields //since it's already a dictionary key : value we just pass it
+            });
+        }
+        catch(error) {
+            console.error(error.message);
+            return false;
+        }
+        
+    }
+
     //#endregion
 
 
@@ -369,6 +420,13 @@ export default class EmBaseActorSheet extends ActorSheet {
         //sets the data
         bodypartData.partType = partType;
         bodypartData.attachedTo = attachedTo;
+        //if we don't call the update, it won't change the values
+        await bodypart.update({
+            'system' : {
+                'partType' : partType,
+                'attachedTo' : attachedTo
+            }
+        });
         //then we add it to the view types
         if (typeof attachedTo === "string") {
             let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
@@ -397,8 +455,9 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     async _deleteAnatomyNode(node) {
         //deletes an anatomy tree node references in the parts collection along with all its children
-        delete this.getBodyparts[node.id];
-        await Item.delete(node.id);
+        delete this.getBodyparts()[node.id];
+        let nodeElement = this.element.find(`#${node.id}`);
+        nodeElement.remove();
         for (let child of node.children) {
             await this._deleteAnatomyNode(child);
         }
@@ -410,23 +469,32 @@ export default class EmBaseActorSheet extends ActorSheet {
             if (bodypart === undefined) {return false;}
             let bodypartData = bodypart.system;
             let anatomy = this.getAnatomy();
+            if (id === anatomy.tree.id) {
+                console.error("cannot delete the anatomy root.");
+                return;
+            }
             let element = undefined;
             //we check if it's attached to a parent or is the root
-            if (bodypart.attachedTo === undefined || bodypart.attachedTo === null) {
+            if (bodypartData.attachedTo === undefined || bodypartData.attachedTo === null) {
                 element = treeBreadthSearch(anatomy.tree, "id" , bodypart._id);
             }
             else {
                 //first we remove it in the tree by removing it from the parent
                 let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
-                element = undefined;
+                console.log(parent, id);
                 //we remove the element from the parent's children
-                for (let i;i < parent.children.length;i++) {
-                    element = parent.children[i];
-                    if (element.id === id) {parent.children.splice(i,1);}
+                for (let i = 0;i < parent.children.length;i++) {
+                    if (parent.children[i].id == bodypart._id) {
+                        element = parent.children[i];
+                        parent.children.splice(i,1);
+                        break;
+                    }
                 }
             }
             //we remove the element and it's children from the parts array
-            this._deleteAnatomyNode(element);
+            await this._deleteAnatomyNode(element);
+            //after we removed the bodyparts from the part collection, we update the anatomy tree
+
             //then we save everything
             await this.actor.update({
                 data : {
@@ -436,7 +504,6 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
         catch(error) {console.error(error.message);}
     }
-
 
     _displayBodypart(id) {
         /** visually loads the bodypart if the data exists
@@ -469,9 +536,9 @@ export default class EmBaseActorSheet extends ActorSheet {
             this.element.find("#em_bodypart_type").val(bodypartData.partType);
             this.element.find("#em_bodypart_attached").val(bodypartData.attachedTo);
             this.element.find("#em_bodypart_hitModifier").val(bodypartData.hitModifier);
-            //set health
+            //set health | durability
             element = this.element.find("#em_item_durabilityBar");
-            setBarValue( element, 
+            setBarValue( element,
                 {
                     'val' : bodypartData.durability.value,
                     'max' : bodypartData.durability.max

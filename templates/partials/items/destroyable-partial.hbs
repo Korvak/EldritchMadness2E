@@ -1,4 +1,4 @@
-<div class="em_item_destroyableInterface w3-section">
+<div class="em_item_destroyableInterface em_halfSection">
     <div>
         <div id="em_item_durabilityBar" 
         class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
@@ -12,8 +12,10 @@
             </div>
         </div>
         {{#if (hasRole "KEEPER")}}
-        <div class="dropdown-content em_hidden" for="bar_dur">
-            <p>hello</p>
+        <div class="dropdown-content em_hidden w3-border" for="bar_dur">
+            <div class="w3-container w3-bar">
+                <p><input class="w3-bar-item" value="10">/<input class="w3-bar-item" value="10"></p>
+            </div>
         </div>
         {{/if}}
     </div>

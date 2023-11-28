@@ -88,7 +88,7 @@ EmConfig.tabs = {
 
 EmConfig.anatomy = {
     DEFAULT_NAME : "bodypart",
-    DEFAULT_PARTTYPE : "torso",
+    DEFAULT_PARTTYPE : "vestigial",
     PARTTYPES : [
         "torso",
         "arm",

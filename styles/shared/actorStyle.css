@@ -94,6 +94,10 @@
     font-size: 0.8em;
 }
 
+.em_anatomyDeleteIcon:hover {
+    color : rgb(232, 232, 232);
+}
+
     /*#region bodypart info*/
 
         #em_bodypart_id {

@@ -18,6 +18,15 @@
     display: none;
 }
 
+.em_halfSection {
+    margin-top:6px;
+    margin-bottom: 6px;
+}
+
+.em_halfBottomMargin {
+    margin-bottom: 6px;
+}
+
 /*#region prefabs */
 
 /*#region bar*/
