@@ -1,4 +1,4 @@
-import {translate, normalize, normalizeToRange, treeBreadthSearch} from "../utils.js"
+import {translate, treeBreadthSearch, fieldToObject, overwiteObjectFields} from "../utils.js"
 import {toggleDropdown, toggleReadonly, renderBar, setBarValue } from "../htmlUtils.js"
 
 export default class EmBaseActorSheet extends ActorSheet {
@@ -75,9 +75,9 @@ export default class EmBaseActorSheet extends ActorSheet {
         });
         flipbook.on("turned", function(event,page,view) {
             $(this).prop("controlled", false);
-            /* we will instead do html events that are always bound
-            self._pagesActivationBinding(html);
-            */
+            if (page != 1 && page != $(this).turn("pages") ) {
+                self.getActorData().flipbook.currentPage = page;
+            }
         });
 
         //tab navigation
@@ -151,7 +151,9 @@ export default class EmBaseActorSheet extends ActorSheet {
         navbar.css("visibility","hidden");
         //we turn the first page
         setTimeout(() => { this._onStopDrag(); }, 50);
-        setTimeout(() => { flipbook.turn('next'); },500);
+        let page = this.getActorData().flipbook.currentPage;
+        console.log(page);
+        setTimeout(() => { flipbook.turn('page', page); },500);
         setTimeout(() => {navbar.css("visibility","visible");} , 750);
         //we set the default data if needs loading
         console.log(this.getAnatomy().tree.id);
@@ -270,6 +272,8 @@ export default class EmBaseActorSheet extends ActorSheet {
         let index = this.getIndexOfOwnedItem(itemId);
         try {
             this._getAllOwnedItems().splice(index,1);
+            //we should save here?
+            console.warn("maybe you should save the items when removing an owned item?")
             return index;
         }
         catch(error) {console.error(error.message); return -1;}
@@ -286,6 +290,8 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
     }
 
+    
+
     async updateOwnedItem(itemId, field, value) {
         /** fetches and updates an owned item field with the given value
          * @param {string} itemId : the Foundry ID of the item to fetch
@@ -295,14 +301,13 @@ export default class EmBaseActorSheet extends ActorSheet {
         let item = this.getOwnedItem(itemId);
         if (item !== undefined) {
             try{
-               //first we set the value
-                item.system[field] = value;
-                //then we update it
-                await item.update({
-                    'system' : {
-                        [field] : value
-                    }
-                });
+                //we transform the field into an object of objects for saving
+                let toSave = {'system' : {} };
+                toSave = fieldToObject(field, value, toSave);
+                //then we must save the values
+                overwiteObjectFields(item.system, toSave);
+                //finally we update it
+                await item.update(toSave);
                 return true;
             }
             catch(error) {
@@ -446,7 +451,8 @@ export default class EmBaseActorSheet extends ActorSheet {
         //we trigger a re-render
         await this.actor.update({
             data : {
-                anatomy : anatomy
+                anatomy : anatomy,
+                flipbook : this.getActorData().flipbook
             }
         });
         //finally we return the element data
@@ -498,7 +504,9 @@ export default class EmBaseActorSheet extends ActorSheet {
             //then we save everything
             await this.actor.update({
                 data : {
-                    anatomy : anatomy
+                    anatomy : anatomy,
+                    //since saving triggers a reopening of the book, we save this
+                    flipbook : this.getActorData().flipbook 
                 }
             });
         }
@@ -518,6 +526,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             let bodypart = this.getBodypart(id); //this is the Item Sheet
             if (bodypart === undefined || bodypart === null) {return false;}
             let bodypartData = bodypart.system; //this is the data in system
+            let durability = bodypartData.durability;
             //Set the id
             //#region header
             element = this.element.find("#em_bodypart_id");
@@ -540,14 +549,21 @@ export default class EmBaseActorSheet extends ActorSheet {
             element = this.element.find("#em_item_durabilityBar");
             setBarValue( element,
                 {
-                    'val' : bodypartData.durability.value,
-                    'max' : bodypartData.durability.max
+                    'val' : durability.value,
+                    'max' : durability.max
                 }, 
                 {
-                    'val' : bodypartData.durability.temp,
-                    'max' : bodypartData.durability.maxTemp
+                    'val' : durability.temp,
+                    'max' : durability.maxTemp
                 }
             );
+            //we also set the bar admin inputs
+            this.element.find("#em_item_durabilityMin").val(durability.min);
+            this.element.find("#em_item_durabilityValue").val(durability.value);
+            this.element.find("#em_item_durabilityMax").val(durability.max);
+            this.element.find("#em_item_durabilityMinTemp").val(durability.minTemp);
+            this.element.find("#em_item_durabilityTemp").val(durability.temp);
+            this.element.find("#em_item_durabilityMaxTemp").val(durability.maxTemp);
             //#endregion
             this._displayBodypartConditions(id);
             return true;

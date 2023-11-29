@@ -23,9 +23,15 @@
     margin-bottom: 6px;
 }
 
+.em_halfContainer {
+    margin-left: 6px;
+    margin-right: 6px;
+}
 .em_halfBottomMargin {
     margin-bottom: 6px;
 }
+
+
 
 /*#region prefabs */
 
@@ -87,6 +93,7 @@
 .em_form_inputElement {
     flex: 0.5;
 }
+
 /*#endregion*/
 
 

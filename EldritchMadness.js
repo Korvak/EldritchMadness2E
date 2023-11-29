@@ -42,7 +42,7 @@ function _makeTree(ul,node,options) {
 Hooks.once("init", function() {
     //starting messages
     console.log("loading EM 2E");
-
+    //we insert our Config into the Global Config object
     CONFIG.EmConfig = EmConfig;
 
     //#region register item sheets

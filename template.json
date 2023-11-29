@@ -132,6 +132,9 @@
                 "options" : {
                     "peel" : true,
                     "turning" : true
+                },
+                "flipbook" : {
+                    "currentPage" : 2
                 }
             },
             "baseCharacter" : {
