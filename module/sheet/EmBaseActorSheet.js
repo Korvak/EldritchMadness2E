@@ -118,13 +118,15 @@ export default class EmBaseActorSheet extends ActorSheet {
             html.find(".em_field").change(this._saveOwnedItemFields.bind(this));
             //#endregion
             //#region anatomy page events
-            $(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
-            $(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
+            html.find(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
+            html.find(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
             //$(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
             //#region bodypart events
-            $("#em_bodypart_id").click(this._renderBodypartHtml.bind(this));
+            html.find("#em_bodypart_id").click(this._renderBodypartHtml.bind(this));
             let createNewBodypart = async function(event) {await this._addAndDisplayAnatomy(event);};
-            $("#em_bodypart_createBtn").get(0).onclick = createNewBodypart.bind(this);
+            html.find("#em_bodypart_createBtn").get(0).onclick = createNewBodypart.bind(this);
+            //we set it so that if we change the name of the bodypart, it also changes the name of the tree
+            html.find("#em_bodypart_name").change(this._changeBodypartName.bind(this) );
             //#endregion
             //#endregion
         //#endregion
@@ -316,27 +318,12 @@ export default class EmBaseActorSheet extends ActorSheet {
          * @param {wildcard} value : the value to use to update the field
          */
         let item = this.getOwnedItem(itemId);
-
-        await item.update({
-            'data' : {
-                'durability': {
-                    'min' : 100
-                }
-            }
-        });
-        return true;    
         if (item !== undefined) {
-            try{
+            try {
                 //we transform the field into an object of objects for saving
                 let toSave = fieldToObject(field, value);
-                //then we must save the values
-                overwiteObjectFields(item, toSave); //the name starts from {'item' : itemObject }
-                //finally we update it
-                //await Item.update(toSave);
-                console.log("items" , this.actor.items);
-                await this.actor.update({
-                    'items' : this.actor.items
-                });
+                if (toSave["item"] != undefined) {toSave = toSave["item"];}
+                await item.update(toSave);
                 return true;
             }
             catch(error) {
@@ -344,7 +331,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                 return false;
             }
         }
-        return false;
+        return false; 
     }
 
     async updateOwnedItemFields(itemId, fields) {
@@ -407,6 +394,28 @@ export default class EmBaseActorSheet extends ActorSheet {
                 await this.deleteAnatomy(element.parent().get(0).dataset.id);
             }
 
+            async _changeBodypartName(event) {
+                console.log("start change tree node name");
+                //first we get the input
+                let element = this.element.find("#em_bodypart_name");
+                //then we need the id of the bodypart
+                let container = element.parents(".em_itemContainer");
+                let id = container.find(".em_itemIdContainer").get(0).dataset.id;
+                //then we get the anatomy node
+                let node = treeBreadthSearch(this.getActorData().anatomy.tree, 'id', id);
+                //we set the node name
+                node.name = element.val();
+                //then we save the data
+                await this.actor.update({
+                    data : {
+                        anatomy : {
+                            tree : this.getAnatomy().tree
+                        },
+                        flipbook : this.getActorData().flipbook
+                    }
+                });
+            }
+
         //#endregion
 
         getAnatomy() {
@@ -423,7 +432,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             let anatomy = this.getAnatomy();
             switch(anatomy.viewType) {
                 case "tree" : {
-                    return this.getOwnedItem(anatomy.tree);
+                    return this.getOwnedItem(anatomy.tree.id);
                 }
                 case "chart" : {return undefined;}
                 default : {return undefined;}
@@ -460,7 +469,6 @@ export default class EmBaseActorSheet extends ActorSheet {
                     'attachedTo' : attachedTo
                 }
             });
-            console.log(this.bodypartsCount() , this.getBodyparts());
             //then we add it to the view types
             if (typeof attachedTo === "string") {
                 let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
@@ -569,6 +577,15 @@ export default class EmBaseActorSheet extends ActorSheet {
                 //set the values
                 element = html.find(".em_field");
                 setInputsFromData(data, element );
+                //we set the attachedTo to the node name instead, if it's not the root
+                console.log(typeof bodypart.system.attachedTo);
+                if (typeof bodypart.system.attachedTo == "string" 
+                        && game.user.role < 3 //4 is GM, 3 is Assistant GM
+                ) 
+                {
+                    let item = this.getOwnedItem(bodypart.system.attachedTo);
+                    html.find("#em_bodypart_attached").val(item.name);
+                }
                 //set health | durability
                 element = html.find("#em_item_durabilityBar");
                 setBarValue( element,
