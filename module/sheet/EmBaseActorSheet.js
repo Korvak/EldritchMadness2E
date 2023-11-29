@@ -245,20 +245,20 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     //#region inventory methods
     _getAllOwnedItems() {
-        return this.getData().items;
+        return this.actor.items;
     }
 
-    getOwnedItems({tags : [], Ids : []}) {
+    getOwnedItems({tags = [], Ids = []}) {
         let results = [];
         let itemData = undefined;
         if (tags.length + Ids.length == 0) {return results;}
         tags = new Set(tags);
         Ids = new Set(Ids);
         for (let item of this._getAllOwnedItems() ) {
-            itemData = item.getData().system;
+            itemData = item.system;
             if ( itemData.tags.filter(x => tags.has(x) )
-                  || Ids.has(item._id) 
-                ) 
+                  || Ids.has(item._id)
+                )
             {
                 results.push(item);
             }
@@ -267,10 +267,7 @@ export default class EmBaseActorSheet extends ActorSheet {
     }
 
     getOwnedItem(itemId) {
-        for (let item of this._getAllOwnedItems() ) {
-            if (item._id == itemId) {return item;}
-        }
-        return undefined;
+        return this.actor.items.get(itemId);
     }
 
     getIndexOfOwnedItem(itemId) {
@@ -319,6 +316,15 @@ export default class EmBaseActorSheet extends ActorSheet {
          * @param {wildcard} value : the value to use to update the field
          */
         let item = this.getOwnedItem(itemId);
+
+        await item.update({
+            'data' : {
+                'durability': {
+                    'min' : 100
+                }
+            }
+        });
+        return true;    
         if (item !== undefined) {
             try{
                 //we transform the field into an object of objects for saving
@@ -409,18 +415,15 @@ export default class EmBaseActorSheet extends ActorSheet {
 
         bodypartsCount() {return Object.keys(this.getBodyparts() ).length;}
 
-        getBodyparts() {return this.getAnatomy().parts;}
-
-        getBodypart(id) {
-            //returns the item object of bodypart type of the corresponding ID
-            return this.getAnatomy().parts[id];
+        getBodyparts() {
+            return this.getOwnedItems({tags : ["bodypart"]});
         }
 
         getbodyRoot() {
             let anatomy = this.getAnatomy();
             switch(anatomy.viewType) {
                 case "tree" : {
-                    return this.getBodypart(anatomy.tree);
+                    return this.getOwnedItem(anatomy.tree);
                 }
                 case "chart" : {return undefined;}
                 default : {return undefined;}
@@ -457,6 +460,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                     'attachedTo' : attachedTo
                 }
             });
+            console.log(this.bodypartsCount() , this.getBodyparts());
             //then we add it to the view types
             if (typeof attachedTo === "string") {
                 let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
@@ -466,16 +470,15 @@ export default class EmBaseActorSheet extends ActorSheet {
                     children : []
                 });
             }
-            else if (this.bodypartsCount() < 1) { //if it's the first element, then we allow it to be detached.
+            //since we get it from the items and we create an item, then it must 2 if it's not the root
+            else if (this.bodypartsCount() == 1) { //if it's the first element, then we allow it to be detached.
                 anatomy.tree["id"] = bodypart._id;
                 anatomy.tree["name"] = name;
                 anatomy.tree["children"] = [];
             }
-            //then we add it to the actor anatomy
-            anatomy.parts[bodypart._id] = bodypart;
             //we trigger a re-render
             await this.actor.update({
-                data : {
+                data : { //data is the same as calling system
                     anatomy : anatomy,
                     flipbook : this.getActorData().flipbook
                 }
@@ -486,7 +489,7 @@ export default class EmBaseActorSheet extends ActorSheet {
 
         async _deleteAnatomyNode(node) {
             //deletes an anatomy tree node references in the parts collection along with all its children
-            delete this.getBodyparts()[node.id];
+            await this.getOwnedItem(node.id).delete(); //we delete the item in the items collection
             let nodeElement = this.element.find(`#${node.id}`);
             nodeElement.remove();
             for (let child of node.children) {
@@ -496,7 +499,7 @@ export default class EmBaseActorSheet extends ActorSheet {
 
         async deleteAnatomy(id) {
             try {
-                let bodypart = this.getBodypart(id);
+                let bodypart = this.getOwnedItem(id);
                 if (bodypart === undefined) {return false;}
                 let bodypartData = bodypart.system;
                 let anatomy = this.getAnatomy();
@@ -546,9 +549,8 @@ export default class EmBaseActorSheet extends ActorSheet {
              * @returns {boolean} : wether the data was found or not
              */
             try {
-                console.log("start display bodypart");
                 let element = undefined;
-                let bodypart = this.getBodypart(id); //this is the Item Sheet
+                let bodypart = this.getOwnedItem(id); //this is the Item Sheet
                 if (bodypart === undefined || bodypart === null) {return false;}
                 let data = {'item' : bodypart};
                 let html = this.element.find("#em_bodypart_dataContainer");
@@ -569,7 +571,6 @@ export default class EmBaseActorSheet extends ActorSheet {
                 setInputsFromData(data, element );
                 //set health | durability
                 element = html.find("#em_item_durabilityBar");
-                console.log(bodypart.system);
                 setBarValue( element,
                     {
                         'val' : bodypart.system.durability.value,
@@ -580,6 +581,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                         'max' : bodypart.system.durability.maxTemp
                     }
                 );
+                //stil uninplemented
                 this._displayBodypartConditions(id);
                 return true;
             }
@@ -589,66 +591,6 @@ export default class EmBaseActorSheet extends ActorSheet {
             }
         }
 
-        _displayBodypartOld(id) {
-            /** visually loads the bodypart if the data exists
-             * 
-             * @param {string} id : the id of the bodypart item contained in the anatomy.parts collection
-             * 
-             * @returns {boolean} : wether the data was found or not
-             */
-            try {
-                //first we fetch the data
-                let element = undefined;
-                let bodypart = this.getBodypart(id); //this is the Item Sheet
-                if (bodypart === undefined || bodypart === null) {return false;}
-                let bodypartData = bodypart.system; //this is the data in system
-                let durability = bodypartData.durability;
-                //Set the id
-                //#region header
-                element = this.element.find("#em_bodypart_id");
-                if (element.length > 0) {
-                    element.text(id);
-                    element.get(0).dataset.id = id;
-                }
-                element = this.element.find("#em_bodypart_createBtn");
-                if (element.length > 0) {
-                    element.get(0).dataset.id = id;
-                    element.find("#em_bodypart_createIcon").get(0).dataset.id = id;
-                }
-                //#endregion
-                //#region data fields
-                this.element.find("#em_bodypart_name").val(bodypart.name);
-                this.element.find("#em_bodypart_type").val(bodypartData.partType);
-                this.element.find("#em_bodypart_attached").val(bodypartData.attachedTo);
-                this.element.find("#em_bodypart_hitModifier").val(bodypartData.hitModifier);
-                //set health | durability
-                element = this.element.find("#em_item_durabilityBar");
-                setBarValue( element,
-                    {
-                        'val' : durability.value,
-                        'max' : durability.max
-                    }, 
-                    {
-                        'val' : durability.temp,
-                        'max' : durability.maxTemp
-                    }
-                );
-                //we also set the bar admin inputs
-                this.element.find("#em_item_durabilityMin").val(durability.min);
-                this.element.find("#em_item_durabilityValue").val(durability.value);
-                this.element.find("#em_item_durabilityMax").val(durability.max);
-                this.element.find("#em_item_durabilityMinTemp").val(durability.minTemp);
-                this.element.find("#em_item_durabilityTemp").val(durability.temp);
-                this.element.find("#em_item_durabilityMaxTemp").val(durability.maxTemp);
-                //#endregion
-                this._displayBodypartConditions(id);
-                return true;
-            }
-            catch(error) {
-                console.error(error.message); 
-                return false;
-            }
-        }
 
         _displayBodypartConditions(id) {
             //fetches all the conditions related to the bodypart id

@@ -125,9 +125,12 @@
                 "physicalConditions" : [],
                 "anatomy" : {
                     "viewType" : "tree",
-                    "tree" : {},
-                    "chart" : {},
-                    "parts" : {}
+                    "tree" : {
+                        "id" : null,
+                        "name" : null,
+                        "children" : []
+                    },
+                    "chart" : {}
                 },
                 "options" : {
                     "peel" : true,
@@ -271,7 +274,7 @@
                 "repairable",
                 "upgradable"
             ],
-            "tags" : ["bodypart"],
+            "tags" : ["bodypart", "hidden"],
             "description" : "em.items.bodypart.DEFAULT_DESC",
             "partType" : "torso",
             "hitModifier" : 1.0,
