@@ -1,4 +1,4 @@
-import {translate, treeBreadthSearch, fieldToObject, overwiteObjectFields} from "../utils.js"
+import {translate, treeBreadthSearch, fieldToObject, overwiteObjectFields, setInputsFromData, getValueFromFields} from "../utils.js"
 import {toggleDropdown, toggleReadonly, renderBar, setBarValue } from "../htmlUtils.js"
 
 export default class EmBaseActorSheet extends ActorSheet {
@@ -114,6 +114,8 @@ export default class EmBaseActorSheet extends ActorSheet {
             let valueBars = html.find(".em_barContainer");
             valueBars.change(renderBar);
             valueBars.change();
+            // on modify fields save themselves
+            html.find(".em_field").change(this._saveOwnedItemFields.bind(this));
             //#endregion
             //#region anatomy page events
             $(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
@@ -134,42 +136,41 @@ export default class EmBaseActorSheet extends ActorSheet {
     //#endregion
     //#region start method
 
-    _onStart() {
-        let html = this.element.find("form");    
-        //first we start turn.js
-        let flipbook = html.find("#flipbook");
-        flipbook.prop("controlled", false);
-        flipbook.turn({
-            width: html.width() - CONFIG.EmConfig.flipbook.wMargin,
-            height: html.height() - CONFIG.EmConfig.flipbook.hMargin,
-            autoCenter: true,
-            display : "double",
-            peel : false
-        });
-        //we hide the navbar because it's floating
-        let navbar = html.find(".em_actor_navbar");
-        navbar.css("visibility","hidden");
-        //we turn the first page
-        setTimeout(() => { this._onStopDrag(); }, 50);
-        let page = this.getActorData().flipbook.currentPage;
-        console.log(page);
-        setTimeout(() => { flipbook.turn('page', page); },500);
-        setTimeout(() => {navbar.css("visibility","visible");} , 750);
-        //we set the default data if needs loading
-        console.log(this.getAnatomy().tree.id);
-        this._displayBodypart(this.getAnatomy().tree.id);
-    }
+        _onStart() {
+            let html = this.element.find("form");    
+            //first we start turn.js
+            let flipbook = html.find("#flipbook");
+            flipbook.prop("controlled", false);
+            flipbook.turn({
+                width: html.width() - CONFIG.EmConfig.flipbook.wMargin,
+                height: html.height() - CONFIG.EmConfig.flipbook.hMargin,
+                autoCenter: true,
+                display : "double",
+                peel : false
+            });
+            //we hide the navbar because it's floating
+            let navbar = html.find(".em_actor_navbar");
+            navbar.css("visibility","hidden");
+            //we turn the first page
+            setTimeout(() => { this._onStopDrag(); }, 50);
+            let page = this.getActorData().flipbook.currentPage;
+            console.log(page);
+            setTimeout(() => { flipbook.turn('page', page); },500);
+            setTimeout(() => {navbar.css("visibility","visible");} , 750);
+            //we set the default data if needs loading
+            this._displayBodypart(this.getAnatomy().tree.id);
+        }
 
 
-    async _createDefaultAnatomy() {
-        //we do it like this in case we want to modify things etc...
-        await this.addAnatomy({
-            name : "root",
-            attachedTo : undefined, 
-            partType : "torso"
-        });
+        async _createDefaultAnatomy() {
+            //we do it like this in case we want to modify things etc...
+            await this.addAnatomy({
+                name : "root",
+                attachedTo : undefined, 
+                partType : "torso"
+            });
 
-    }
+        }
 
 
     //#region event methods
@@ -189,6 +190,19 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     //#endregion
     //#endregion
+    //#region event methods 
+
+        async _saveOwnedItemFields(event) {
+            event.preventDefault();
+            let element = $(event.currentTarget);
+            let container = element.parents(".em_itemContainer");
+            let id = container.find(".em_itemIdContainer").get(0).dataset.id;
+            await this.updateOwnedItem(id, element.attr('name'), element.val() );
+        }
+
+
+    //#endregion
+    
     //#region helper methods
 
     getActorData() {
@@ -215,10 +229,18 @@ export default class EmBaseActorSheet extends ActorSheet {
             "type" : item.type
         });
         await renderedItem.sheet.render(true);
+        let closeBtn = renderedItem.element.closest(".header-button .control .close");
+        console.log(renderedItem.element, closeBtn);
+        closeBtn.click( async function() {
+            alert("afl");
+            await renderedItem.delete();
+        });
+        /*
         setTimeout(async function() {
             await renderedItem.sheet.render(false);
             await renderedItem.delete();
         },3000);
+        */
     }
 
     //#region inventory methods
@@ -290,8 +312,6 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
     }
 
-    
-
     async updateOwnedItem(itemId, field, value) {
         /** fetches and updates an owned item field with the given value
          * @param {string} itemId : the Foundry ID of the item to fetch
@@ -302,12 +322,15 @@ export default class EmBaseActorSheet extends ActorSheet {
         if (item !== undefined) {
             try{
                 //we transform the field into an object of objects for saving
-                let toSave = {'system' : {} };
-                toSave = fieldToObject(field, value, toSave);
+                let toSave = fieldToObject(field, value);
                 //then we must save the values
-                overwiteObjectFields(item.system, toSave);
+                overwiteObjectFields(item, toSave); //the name starts from {'item' : itemObject }
                 //finally we update it
-                await item.update(toSave);
+                //await Item.update(toSave);
+                console.log("items" , this.actor.items);
+                await this.actor.update({
+                    'items' : this.actor.items
+                });
                 return true;
             }
             catch(error) {
@@ -344,240 +367,293 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     //#endregion
 
+
+
     //#region anatomy
 
-    //#region event methods
+        //#region event methods
 
-    async _renderBodypartHtml(event) {
-        let element = event.currentTarget;
-        await this.renderOwnedItem(element.dataset.id);
-    }   
-    
-    _displayBodypartHtml(event) {
-        //displays a bodypart in the actorSheet by fetching the bodypart id from the dataset
-        let element = $(event.currentTarget);
-        let id = element.get(0).dataset.id;
-        this._displayBodypart(id);
-    }
-
-    async _addAndDisplayAnatomy(event) {
-        let element = $(event.currentTarget);
-        let bodypart = await this.addAnatomy({
-            name : `${CONFIG.EmConfig.anatomy.DEFAULT_NAME}_${this.bodypartsCount()}`,
-            attachedTo : element.get(0).dataset.id,
-            partType : CONFIG.EmConfig.anatomy.DEFAULT_PARTTYPE
-        });
-        if (bodypart !== undefined) {this._displayBodypart(bodypart._id);}
-    }
-
-    async _deleteAnatomyHtml(event) {
-        event.preventDefault();
-        let element = $(event.currentTarget);
-        await this.deleteAnatomy(element.parent().get(0).dataset.id);
-    }
-
-    //#endregion
-
-    getAnatomy() {
-        return this.getActorData().anatomy;
-    }
-
-    bodypartsCount() {return Object.keys(this.getBodyparts() ).length;}
-
-    getBodyparts() {return this.getAnatomy().parts;}
-
-    getBodypart(id) {
-        //returns the item object of bodypart type of the corresponding ID
-        return this.getAnatomy().parts[id];
-    }
-
-    getbodyRoot() {
-        let anatomy = this.getAnatomy();
-        switch(anatomy.viewType) {
-            case "tree" : {
-                return this.getBodypart(anatomy.tree);
+            async _renderBodypartHtml(event) {
+                let element = event.currentTarget;
+                await this.renderOwnedItem(element.dataset.id);
+            }   
+            
+            _displayBodypartHtml(event) {
+                //displays a bodypart in the actorSheet by fetching the bodypart id from the dataset
+                let element = $(event.currentTarget);
+                let id = element.get(0).dataset.id;
+                this._displayBodypart(id);
             }
-            case "chart" : {return undefined;}
-            default : {return undefined;}
-        }
-    }
 
-    async addAnatomy({name ,attachedTo, partType, extraData = {} }) {
-        /**
-         * @param {string} name : the name of the new bodypart
-         * @param {ID} attachedTo : the string ID of the bodypart item it will be attached to
-         * @param {partType} partType : the type of the part of the new bodypart
-         * 
-         * @returns {ItemSheet} : returns the bodypart itemSheet data.
-         */
-        if (attachedTo === undefined && this.bodypartsCount() > 0) {
-            console.error( translate(CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_PARENT_ERROR) );
-            return undefined;
-        }
-        let anatomy = this.getAnatomy();
-        let bodypart = await Item.create({
-            "name" : name,
-            "type" : "bodypart",
-            },
-            {parent : this.actor} //this adds it to the actor items instead of the item global collection
-        );
-        let bodypartData = bodypart.system;
-        //sets the data
-        bodypartData.partType = partType;
-        bodypartData.attachedTo = attachedTo;
-        //if we don't call the update, it won't change the values
-        await bodypart.update({
-            'system' : {
-                'partType' : partType,
-                'attachedTo' : attachedTo
+            async _addAndDisplayAnatomy(event) {
+                let element = $(event.currentTarget);
+                let bodypart = await this.addAnatomy({
+                    name : `${CONFIG.EmConfig.anatomy.DEFAULT_NAME}_${this.bodypartsCount()}`,
+                    attachedTo : element.get(0).dataset.id,
+                    partType : CONFIG.EmConfig.anatomy.DEFAULT_PARTTYPE
+                });
+                if (bodypart !== undefined) {this._displayBodypart(bodypart._id);}
             }
-        });
-        //then we add it to the view types
-        if (typeof attachedTo === "string") {
-            let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
-            parent.children.push({ //we create a new TreeNode item and add it to the parent
-                id : bodypart._id,
-                name : bodypart.name,
-                children : []
-            });
-        }
-        else if (this.bodypartsCount() < 1) { //if it's the first element, then we allow it to be detached.
-            anatomy.tree["id"] = bodypart._id;
-            anatomy.tree["name"] = name;
-            anatomy.tree["children"] = [];
-        }
-        //then we add it to the actor anatomy
-        anatomy.parts[bodypart._id] = bodypart;
-        //we trigger a re-render
-        await this.actor.update({
-            data : {
-                anatomy : anatomy,
-                flipbook : this.getActorData().flipbook
+
+            async _deleteAnatomyHtml(event) {
+                event.preventDefault();
+                let element = $(event.currentTarget);
+                await this.deleteAnatomy(element.parent().get(0).dataset.id);
             }
-        });
-        //finally we return the element data
-        return bodypart;
-    }
 
-    async _deleteAnatomyNode(node) {
-        //deletes an anatomy tree node references in the parts collection along with all its children
-        delete this.getBodyparts()[node.id];
-        let nodeElement = this.element.find(`#${node.id}`);
-        nodeElement.remove();
-        for (let child of node.children) {
-            await this._deleteAnatomyNode(child);
+        //#endregion
+
+        getAnatomy() {
+            return this.getActorData().anatomy;
         }
-    }
 
-    async deleteAnatomy(id) {
-        try {
-            let bodypart = this.getBodypart(id);
-            if (bodypart === undefined) {return false;}
-            let bodypartData = bodypart.system;
+        bodypartsCount() {return Object.keys(this.getBodyparts() ).length;}
+
+        getBodyparts() {return this.getAnatomy().parts;}
+
+        getBodypart(id) {
+            //returns the item object of bodypart type of the corresponding ID
+            return this.getAnatomy().parts[id];
+        }
+
+        getbodyRoot() {
             let anatomy = this.getAnatomy();
-            if (id === anatomy.tree.id) {
-                console.error("cannot delete the anatomy root.");
-                return;
-            }
-            let element = undefined;
-            //we check if it's attached to a parent or is the root
-            if (bodypartData.attachedTo === undefined || bodypartData.attachedTo === null) {
-                element = treeBreadthSearch(anatomy.tree, "id" , bodypart._id);
-            }
-            else {
-                //first we remove it in the tree by removing it from the parent
-                let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
-                console.log(parent, id);
-                //we remove the element from the parent's children
-                for (let i = 0;i < parent.children.length;i++) {
-                    if (parent.children[i].id == bodypart._id) {
-                        element = parent.children[i];
-                        parent.children.splice(i,1);
-                        break;
-                    }
+            switch(anatomy.viewType) {
+                case "tree" : {
+                    return this.getBodypart(anatomy.tree);
                 }
+                case "chart" : {return undefined;}
+                default : {return undefined;}
             }
-            //we remove the element and it's children from the parts array
-            await this._deleteAnatomyNode(element);
-            //after we removed the bodyparts from the part collection, we update the anatomy tree
+        }
 
-            //then we save everything
+        async addAnatomy({name ,attachedTo, partType, extraData = {} }) {
+            /**
+             * @param {string} name : the name of the new bodypart
+             * @param {ID} attachedTo : the string ID of the bodypart item it will be attached to
+             * @param {partType} partType : the type of the part of the new bodypart
+             * 
+             * @returns {ItemSheet} : returns the bodypart itemSheet data.
+             */
+            if (attachedTo === undefined && this.bodypartsCount() > 0) {
+                console.error( translate(CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_PARENT_ERROR) );
+                return undefined;
+            }
+            let anatomy = this.getAnatomy();
+            let bodypart = await Item.create({
+                "name" : name,
+                "type" : "bodypart",
+                },
+                {parent : this.actor} //this adds it to the actor items instead of the item global collection
+            );
+            let bodypartData = bodypart.system;
+            //sets the data
+            bodypartData.partType = partType;
+            bodypartData.attachedTo = attachedTo;
+            //if we don't call the update, it won't change the values
+            await bodypart.update({
+                'system' : {
+                    'partType' : partType,
+                    'attachedTo' : attachedTo
+                }
+            });
+            //then we add it to the view types
+            if (typeof attachedTo === "string") {
+                let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
+                parent.children.push({ //we create a new TreeNode item and add it to the parent
+                    id : bodypart._id,
+                    name : bodypart.name,
+                    children : []
+                });
+            }
+            else if (this.bodypartsCount() < 1) { //if it's the first element, then we allow it to be detached.
+                anatomy.tree["id"] = bodypart._id;
+                anatomy.tree["name"] = name;
+                anatomy.tree["children"] = [];
+            }
+            //then we add it to the actor anatomy
+            anatomy.parts[bodypart._id] = bodypart;
+            //we trigger a re-render
             await this.actor.update({
                 data : {
                     anatomy : anatomy,
-                    //since saving triggers a reopening of the book, we save this
-                    flipbook : this.getActorData().flipbook 
+                    flipbook : this.getActorData().flipbook
                 }
             });
+            //finally we return the element data
+            return bodypart;
         }
-        catch(error) {console.error(error.message);}
-    }
 
-    _displayBodypart(id) {
-        /** visually loads the bodypart if the data exists
-         * 
-         * @param {string} id : the id of the bodypart item contained in the anatomy.parts collection
-         * 
-         * @returns {boolean} : wether the data was found or not
-         */
-        try {
-            //first we fetch the data
-            let element = undefined;
-            let bodypart = this.getBodypart(id); //this is the Item Sheet
-            if (bodypart === undefined || bodypart === null) {return false;}
-            let bodypartData = bodypart.system; //this is the data in system
-            let durability = bodypartData.durability;
-            //Set the id
-            //#region header
-            element = this.element.find("#em_bodypart_id");
-            if (element.length > 0) {
-                element.text(id);
-                element.get(0).dataset.id = id;
+        async _deleteAnatomyNode(node) {
+            //deletes an anatomy tree node references in the parts collection along with all its children
+            delete this.getBodyparts()[node.id];
+            let nodeElement = this.element.find(`#${node.id}`);
+            nodeElement.remove();
+            for (let child of node.children) {
+                await this._deleteAnatomyNode(child);
             }
-            element = this.element.find("#em_bodypart_createBtn");
-            if (element.length > 0) {
-                element.get(0).dataset.id = id;
-                element.find("#em_bodypart_createIcon").get(0).dataset.id = id;
-            }
-            //#endregion
-            //#region data fields
-            this.element.find("#em_bodypart_name").val(bodypart.name);
-            this.element.find("#em_bodypart_type").val(bodypartData.partType);
-            this.element.find("#em_bodypart_attached").val(bodypartData.attachedTo);
-            this.element.find("#em_bodypart_hitModifier").val(bodypartData.hitModifier);
-            //set health | durability
-            element = this.element.find("#em_item_durabilityBar");
-            setBarValue( element,
-                {
-                    'val' : durability.value,
-                    'max' : durability.max
-                }, 
-                {
-                    'val' : durability.temp,
-                    'max' : durability.maxTemp
+        }
+
+        async deleteAnatomy(id) {
+            try {
+                let bodypart = this.getBodypart(id);
+                if (bodypart === undefined) {return false;}
+                let bodypartData = bodypart.system;
+                let anatomy = this.getAnatomy();
+                if (id === anatomy.tree.id) {
+                    console.error("cannot delete the anatomy root.");
+                    return;
                 }
-            );
-            //we also set the bar admin inputs
-            this.element.find("#em_item_durabilityMin").val(durability.min);
-            this.element.find("#em_item_durabilityValue").val(durability.value);
-            this.element.find("#em_item_durabilityMax").val(durability.max);
-            this.element.find("#em_item_durabilityMinTemp").val(durability.minTemp);
-            this.element.find("#em_item_durabilityTemp").val(durability.temp);
-            this.element.find("#em_item_durabilityMaxTemp").val(durability.maxTemp);
-            //#endregion
-            this._displayBodypartConditions(id);
-            return true;
-        }
-        catch(error) {
-            console.error(error.message); 
-            return false;
-        }
-    }
+                let element = undefined;
+                //we check if it's attached to a parent or is the root
+                if (bodypartData.attachedTo === undefined || bodypartData.attachedTo === null) {
+                    element = treeBreadthSearch(anatomy.tree, "id" , bodypart._id);
+                }
+                else {
+                    //first we remove it in the tree by removing it from the parent
+                    let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
+                    console.log(parent, id);
+                    //we remove the element from the parent's children
+                    for (let i = 0;i < parent.children.length;i++) {
+                        if (parent.children[i].id == bodypart._id) {
+                            element = parent.children[i];
+                            parent.children.splice(i,1);
+                            break;
+                        }
+                    }
+                }
+                //we remove the element and it's children from the parts array
+                await this._deleteAnatomyNode(element);
+                //after we removed the bodyparts from the part collection, we update the anatomy tree
 
-    _displayBodypartConditions(id) {
-        //fetches all the conditions related to the bodypart id
-        //returns 
-    }
+                //then we save everything
+                await this.actor.update({
+                    data : {
+                        anatomy : anatomy,
+                        //since saving triggers a reopening of the book, we save this
+                        flipbook : this.getActorData().flipbook 
+                    }
+                });
+            }
+            catch(error) {console.error(error.message);}
+        }
+
+        _displayBodypart(id) {
+            /** visually loads the bodypart if the data exists
+             * 
+             * @param {string} id : the id of the bodypart item contained in the anatomy.parts collection
+             * 
+             * @returns {boolean} : wether the data was found or not
+             */
+            try {
+                console.log("start display bodypart");
+                let element = undefined;
+                let bodypart = this.getBodypart(id); //this is the Item Sheet
+                if (bodypart === undefined || bodypart === null) {return false;}
+                let data = {'item' : bodypart};
+                let html = this.element.find("#em_bodypart_dataContainer");
+                //#region header
+                element = this.element.find("#em_bodypart_id");
+                if (element.length > 0) {
+                    element.text(id);
+                    element.get(0).dataset.id = id;
+                }
+                element = this.element.find("#em_bodypart_createBtn");
+                if (element.length > 0) {
+                    element.get(0).dataset.id = id;
+                    element.find("#em_bodypart_createIcon").get(0).dataset.id = id;
+                }
+                //#endregion
+                //set the values
+                element = html.find(".em_field");
+                setInputsFromData(data, element );
+                //set health | durability
+                element = html.find("#em_item_durabilityBar");
+                console.log(bodypart.system);
+                setBarValue( element,
+                    {
+                        'val' : bodypart.system.durability.value,
+                        'max' : bodypart.system.durability.max
+                    }, 
+                    {
+                        'val' : bodypart.system.durability.temp,
+                        'max' : bodypart.system.durability.maxTemp
+                    }
+                );
+                this._displayBodypartConditions(id);
+                return true;
+            }
+            catch(error) {
+                console.error(error.message); 
+                return false;
+            }
+        }
+
+        _displayBodypartOld(id) {
+            /** visually loads the bodypart if the data exists
+             * 
+             * @param {string} id : the id of the bodypart item contained in the anatomy.parts collection
+             * 
+             * @returns {boolean} : wether the data was found or not
+             */
+            try {
+                //first we fetch the data
+                let element = undefined;
+                let bodypart = this.getBodypart(id); //this is the Item Sheet
+                if (bodypart === undefined || bodypart === null) {return false;}
+                let bodypartData = bodypart.system; //this is the data in system
+                let durability = bodypartData.durability;
+                //Set the id
+                //#region header
+                element = this.element.find("#em_bodypart_id");
+                if (element.length > 0) {
+                    element.text(id);
+                    element.get(0).dataset.id = id;
+                }
+                element = this.element.find("#em_bodypart_createBtn");
+                if (element.length > 0) {
+                    element.get(0).dataset.id = id;
+                    element.find("#em_bodypart_createIcon").get(0).dataset.id = id;
+                }
+                //#endregion
+                //#region data fields
+                this.element.find("#em_bodypart_name").val(bodypart.name);
+                this.element.find("#em_bodypart_type").val(bodypartData.partType);
+                this.element.find("#em_bodypart_attached").val(bodypartData.attachedTo);
+                this.element.find("#em_bodypart_hitModifier").val(bodypartData.hitModifier);
+                //set health | durability
+                element = this.element.find("#em_item_durabilityBar");
+                setBarValue( element,
+                    {
+                        'val' : durability.value,
+                        'max' : durability.max
+                    }, 
+                    {
+                        'val' : durability.temp,
+                        'max' : durability.maxTemp
+                    }
+                );
+                //we also set the bar admin inputs
+                this.element.find("#em_item_durabilityMin").val(durability.min);
+                this.element.find("#em_item_durabilityValue").val(durability.value);
+                this.element.find("#em_item_durabilityMax").val(durability.max);
+                this.element.find("#em_item_durabilityMinTemp").val(durability.minTemp);
+                this.element.find("#em_item_durabilityTemp").val(durability.temp);
+                this.element.find("#em_item_durabilityMaxTemp").val(durability.maxTemp);
+                //#endregion
+                this._displayBodypartConditions(id);
+                return true;
+            }
+            catch(error) {
+                console.error(error.message); 
+                return false;
+            }
+        }
+
+        _displayBodypartConditions(id) {
+            //fetches all the conditions related to the bodypart id
+            //returns 
+        }
 
     //#endregion
 

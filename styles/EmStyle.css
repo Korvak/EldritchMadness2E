@@ -31,7 +31,19 @@
     margin-bottom: 6px;
 }
 
+.em_halfTopMargin {
+    margin-top: 6px;
+}
 
+.em_halfLeftMargin {
+    margin-left : 6px;
+}
+
+
+
+.em_leftContainer {
+    margin-left: 12px;
+}
 
 /*#region prefabs */
 

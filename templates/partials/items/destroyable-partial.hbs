@@ -14,60 +14,69 @@
         {{#if (hasRole "KEEPER")}}
         {{!-- this allows setting the durability bar's value, min and max --}}
         <div class="dropdown-content em_hidden w3-border w3-light-gray" for="bar_dur">
-            {{!-- value --}}
-            <div class="em_halfSection">
-                {{!-- labels --}}
-                <div class="w3-cell-row ">
-                    <div class="w3-cell" style="width:33%">
-                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px)">min</p>
+            <div class="em_leftContainer">
+                {{!-- value --}}
+                <div class="em_halfSection">
+                    {{!-- labels --}}
+                    <div class="w3-cell-row ">
+                        <div class="w3-cell" style="width:33%">
+                            <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">min</p>
+                        </div>
+                        <div class="w3-cell" style="width:33%">
+                            <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">value</p>
+                        </div>
+                        <div class="w3-cell" style="width:33%">
+                            <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">max</p>
+                        </div>
                     </div>
-                    <div class="w3-cell" style="width:33%">
-                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px)">value</p>
-                    </div>
-                    <div class="w3-cell" style="width:33%">
-                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px)">max</p>
+                    {{!-- inputs --}}
+                    <div class="w3-cell-row">
+                        <div class="w3-cell" style="width:33%">
+                            <input id="em_item_durabilityMin" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                            name="item.system.durability.min" value="{{item.system.durability.min}}" style="width:calc(90% - 12px)">
+                        </div>
+                        <div class="w3-cell" style="width:33%">
+                            <input id="em_item_durabilityValue" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                            name="item.system.durability.value" value="{{item.system.durability.value}}" style="width:calc(90% - 12px)">
+                        </div>
+                        <div class="w3-cell" style="width:33%">
+                            <input id="em_item_durabilityMax" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                name="item.system.durability.max" value="{{item.system.durability.max}}" style="width:calc(90% - 12px)">
+                        </div>
                     </div>
                 </div>
-                {{!-- inputs --}}
-                <div class="w3-cell-row">
-                    <div class="w3-cell" style="width:33%">
-                        <input id="em_item_durabilityMin" class="w3-center em_input_cell em_halfContainer" value="{{item.system.durability.min}}" style="width:calc(90% - 12px)">
+                {{!-- temp values --}}
+                <div class="em_halfSection">
+                    {{! -- labels --}}
+                    <div class="w3-cell-row ">
+                        <div class="w3-cell" style="width:33%">
+                            <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp min</p>
+                        </div>
+                        <div class="w3-cell" style="width:33%">
+                            <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp</p>
+                        </div>
+                        <div class="w3-cell" style="width:33%">
+                            <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp max</p>
+                        </div>
                     </div>
-                    <div class="w3-cell" style="width:33%">
-                        <input id="em_item_durabilityValue" class="w3-center em_input_cell em_halfContainer" value="{{item.system.durability.value}}" style="width:calc(90% - 12px)">
-                    </div>
-                    <div class="w3-cell" style="width:33%">
-                        <input id="em_item_durabilityMax" class="w3-center em_input_cell em_halfContainer" value="{{item.system.durability.max}}" style="width:calc(90% - 12px)">
+                    {{!-- inputs --}}
+                    <div class="w3-cell-row">
+                        <div class="w3-cell" style="width:33%">
+                            <input id="em_item_durabilityMinTemp" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                name="item.system.durability.minTemp" value="{{item.system.durability.minTemp}}" style="width:calc(90% - 12px)">
+                        </div>
+                        <div class="w3-cell" style="width:33%">
+                            <input id="em_item_durabilityTemp" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                name="item.system.durability.temp" value="{{item.system.durability.temp}}" style="width:calc(90% - 12px)">
+                        </div>
+                        <div class="w3-cell" style="width:33%">
+                            <input id="em_item_durabilityMaxTemp" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                name="item.system.durability.maxTemp" value="{{item.system.durability.maxTemp}}" style="width:calc(90% - 12px)">
+                        </div>
                     </div>
                 </div>
             </div>
-            {{!-- temp values --}}
-            <div class="em_halfSection">
-                {{! -- labels --}}
-                <div class="w3-cell-row ">
-                    <div class="w3-cell" style="width:33%">
-                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px)">temp min</p>
-                    </div>
-                    <div class="w3-cell" style="width:33%">
-                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px)">temp</p>
-                    </div>
-                    <div class="w3-cell" style="width:33%">
-                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px)">temp max</p>
-                    </div>
-                </div>
-                {{!-- inputs --}}
-                <div class="w3-cell-row">
-                    <div class="w3-cell" style="width:33%">
-                        <input id="em_item_durabilityMinTemp" class="w3-center em_input_cell em_halfContainer" value="{{item.system.durability.minTemp}}" style="width:calc(90% - 12px)">
-                    </div>
-                    <div class="w3-cell" style="width:33%">
-                        <input id="em_item_durabilityTemp" class="w3-center em_input_cell em_halfContainer" value="{{item.system.durability.temp}}" style="width:calc(90% - 12px)">
-                    </div>
-                    <div class="w3-cell" style="width:33%">
-                        <input id="em_item_durabilityMaxTemp" class="w3-center em_input_cell em_halfContainer" value="{{item.system.durability.maxTemp}}" style="width:calc(90% - 12px)">
-                    </div>
-                </div>
-            </div>
+            
         </div>
         {{/if}}
     </div>

@@ -122,7 +122,7 @@ export function overwiteObjectFields(base, data) {
 }
 
 export function setInputsFromData(data, inputs) {
-    /** fetches from the inputs dataset the fields to use to get the data and then sets the data of the inputs
+    /** fetches the data by using the input's name and then sets the data of the inputs
      * 
      * @param {Object} data : an object of objects that contains the desired data. 
      *                          Usually corresponds to the actor/item or the system objects
@@ -130,9 +130,10 @@ export function setInputsFromData(data, inputs) {
      */
     inputs.each(function() {
         //first we get the corresponding field
-        let field = this.dataset.field;
-        //then we save it
-        $(this).val( getValueFromFields(field) );
+        let element = $(this);
+        let name = element.attr('name');
+        let value = getValueFromFields(data, name );
+        element.val( value );
     });
 }
 

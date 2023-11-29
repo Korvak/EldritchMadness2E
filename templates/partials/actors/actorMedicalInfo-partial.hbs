@@ -51,11 +51,11 @@
             {{/with}}
         </div>
         {{!-- bodypart data viewer --}}
-        <div class="em_bodypartInfo w3-card w3-section">
+        <div class="em_itemContainer em_bodypartInfo w3-card w3-section">
             {{#if (hasRole "KEEPER")}} 
                 {{!--header --}}
                 <div class="em_bodypartHeader w3-bar w3-display-container">
-                    <a id="em_bodypart_id" class="w3-bar-item"></a>
+                    <a id="em_bodypart_id" class="w3-bar-item em_itemIdContainer" data-id=""></a>
                     <a id="em_bodypart_createBtn" class="w3-bar-item w3-display-right" data-id="">
                         <i id="em_bodypart_createIcon" class="fa-solid fa-plus"></i>
                     </a>

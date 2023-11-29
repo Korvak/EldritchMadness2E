@@ -1,8 +1,8 @@
-<div class="em_bodypart_dataContainer">
+<div id="em_bodypart_dataContainer">
     <div class="w3-container">
         {{!-- name --}}
         <div class="w3-border em_inputContainer" style="margin-top:5px;">
-            <input id="em_bodypart_name" class="em_input w3-center" name="name" value="{{item.name}}" readonly="true">
+            <input id="em_bodypart_name" class="em_input w3-center em_field" name="item.name" value="{{item.name}}" readonly="true">
             {{#if (hasRole "KEEPER")}}
                 <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
             {{/if}}
@@ -20,7 +20,7 @@
         <div class="em_form_inputContainer">
             <label for="bodypart_type" class="em_form_inputElement">body type</label>
             <div class="w3-border em_inputContainer em_form_inputElement">
-                <input id="em_bodypart_type" class="em_input"  readonly="true"
+                <input id="em_bodypart_type" class="em_input em_field"  readonly="true"
                 name="item.system.partType" value="{{item.system.partType}}">
                 {{#if (hasRole "KEEPER")}}
                     <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
@@ -31,7 +31,7 @@
         <div class="em_form_inputContainer">
             <label for="bodypart_attached" class="em_form_inputElement">attached to</label>
             <div class="w3-border em_inputContainer em_form_inputElement">
-                <input id="em_bodypart_attached" class="em_input"  readonly="true" data-attachedId="{{item.system.attachedTo}}"
+                <input id="em_bodypart_attached" class="em_input em_field"  readonly="true" data-attachedId="{{item.system.attachedTo}}"
                 name="item.system.attachedTo" value="{{item.system.attachedTo}}"  >
                 {{#if (hasRole "KEEPER")}}
                     <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
@@ -42,7 +42,7 @@
         <div class="em_form_inputContainer">
             <label for="bodypart_targetMult" class="em_form_inputElement">hit modifier</label>
             <div class="w3-border em_inputContainer em_form_inputElement">
-                <input id="em_bodypart_hitModifier" class="em_input" readonly="true"
+                <input id="em_bodypart_hitModifier" class="em_input em_field" readonly="true"
                 name="item.system.hitModifier" value="{{item.system.hitModifier}}" >
                 {{#if (hasRole "KEEPER")}}
                     <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
