@@ -1,7 +1,90 @@
 {
     "Actor" : {
         "templates" : {
+            "combatSkills" : {
+                "heavy_guns" : {
+                    "name" : "em.skills.heavy_guns.name",
+                    "desc" : "em.skills.heavy_guns.desc",
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "firearms" : {
+                    "name" : "em.skills.firearms",
+                    "desc" : "em.skills.firearms.desc",
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "fighting" : {
+                    "name" : "em.skills.fighting",
+                    "desc" : "em.skills.fighting.desc",
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "first_aid" : {
+                    "name" : "em.skills.first_aid",
+                    "desc" : "em.skills.first_aid.desc",
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "medicine" : {
+                    "name" : "em.skills.medicine",
+                    "desc" : "em.skills.medicine.desc",
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "throw" : {
+                    "name" : "em.skills.throw",
+                    "desc" : "em.skills.throw.desc",
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "dodge" : {
+                    "name" : "em.skills.dodge",
+                    "desc" : "em.skills.dodge.desc",
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                }
+            },
+            "knowledgeSkills" : {
 
+            },
+            "movementSkills" : {
+
+            },
+            "socialSkills" : {
+
+            },
+            "detectiveSkills" : {
+
+            },
             "baseActor" : {
                 "tags" : ["actor"],
                 "description" : "a base actor with no implementation.",
@@ -122,6 +205,9 @@
                     }
 
                 },
+                "skills" : {
+
+                },
                 "physicalConditions" : [],
                 "anatomy" : {
                     "viewType" : "tree",
@@ -213,7 +299,6 @@
                 "destroyable" : false,
                 "usableWhenBroken" : false,
                 "effectsOnBroken" : [],
-                "effectsRemovedOnBroken": [],
                 "effectsOnDurabilityLoss" : [],
                 "durability" : {
                     "min" : 0,

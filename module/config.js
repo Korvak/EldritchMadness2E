@@ -88,13 +88,28 @@ EmConfig.tabs = {
 
 EmConfig.anatomy = {
     DEFAULT_NAME : "bodypart",
-    DEFAULT_PARTTYPE : "vestigial",
-    PARTTYPES : [
-        "torso",
-        "arm",
-        "leg",
-        "organ",
-        "vestigial"
+    DEFAULT_PART_TYPE : "vestigial",
+    PART_TYPES : [
+        {
+            name : "torso",
+            label : "em.actor.anatomy.partTypes.torso"
+        },
+        {
+            name : "arm",
+            label : "em.actor.anatomy.partTypes.arm"
+        },
+        {
+            name : "leg",
+            label : "em.actor.anatomy.partTypes.leg"
+        },
+        {
+            name : "organ",
+            label : "em.actor.anatomy.partTypes.organ"
+        },
+        {
+            name : "vestigial",
+            label : "em.actor.anatomy.partTypes.vestigial"
+        }
     ],
     FOLDER_ID : "8kzDEEDLhS6aCSbj"
 };

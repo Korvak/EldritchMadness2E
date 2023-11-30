@@ -71,6 +71,15 @@
                 "illness" : "illness",
                 "injury" : "injury",
                 "psyche" : "psyche"
+            },
+            "anatomy" : {
+                "partTypes" : {
+                    "torso" : "torso",
+                    "arm" : "arm",
+                    "leg" : "leg",
+                    "organ" : "organ",
+                    "vestigial" : "vestigial"
+                }
             }
         },
         "items" : {

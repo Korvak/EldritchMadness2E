@@ -1,4 +1,5 @@
 <div class="em_item_destroyableInterface em_halfSection">
+    {{!-- durability bar section --}}
     <div>
         <div id="em_item_durabilityBar" 
         class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
@@ -80,6 +81,12 @@
         </div>
         {{/if}}
     </div>
-    
+    {{#if (hasRole "KEEPER")}}
+        {{!-- Keeper exclusive part --}}
 
+        {{!-- checks (usableWhenBroken, Destroyable) --}}
+
+        {{!-- effects (onBroken, onDurLoss, onDurGain) --}}
+
+    {{/if}}
 </div>

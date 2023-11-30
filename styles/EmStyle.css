@@ -39,8 +39,6 @@
     margin-left : 6px;
 }
 
-
-
 .em_leftContainer {
     margin-left: 12px;
 }
@@ -82,13 +80,24 @@
 .em_input {
     display: block;
     width: 100%;
-    max-width: calc(100% - 1em);
+    height: 100%;
+    max-width: calc(100% - 1.1em);
     border: none;
+    font-size: 1em !important;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.1em !important;
+    color: black;
 }
 
-.em_input:read-only {
+.em_input:not(:disabled) {
+    color: rgb(0, 0, 0) !important;
+}
+
+.em_input:read-only,.em_input:disabled {
     color: rgb(181, 181, 181);
 }
+
+
 
 .em_inputIcon {
     display: block;

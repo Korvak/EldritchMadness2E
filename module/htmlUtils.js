@@ -12,8 +12,9 @@ export function toggleDropdown(event) {
 export function toggleReadonly(event) {
     event.preventDefault();
     let self = $(event.currentTarget);
-    self.parent().find("input").each(function() {
+    self.parent().find(".em_input").each(function() {
         $(this).prop("readonly", ! $(this).prop("readonly") );
+        $(this).prop("disabled", ! $(this).prop("disabled") );
     });
 }
 

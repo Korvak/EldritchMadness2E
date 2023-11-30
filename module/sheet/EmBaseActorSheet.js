@@ -231,12 +231,14 @@ export default class EmBaseActorSheet extends ActorSheet {
             "type" : item.type
         });
         await renderedItem.sheet.render(true);
-        let closeBtn = renderedItem.element.closest(".header-button .control .close");
-        console.log(renderedItem.element, closeBtn);
-        closeBtn.click( async function() {
-            alert("afl");
-            await renderedItem.delete();
-        });
+        setTimeout(function() {
+            let element = $(`div[id$=${renderedItem.id}]`);
+            let closeBtn = element.find(".header-button.control.close");
+            closeBtn.click( async function() {
+                await renderedItem.delete();
+            });
+        }, 50);
+        
         /*
         setTimeout(async function() {
             await renderedItem.sheet.render(false);
@@ -383,7 +385,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                 let bodypart = await this.addAnatomy({
                     name : `${CONFIG.EmConfig.anatomy.DEFAULT_NAME}_${this.bodypartsCount()}`,
                     attachedTo : element.get(0).dataset.id,
-                    partType : CONFIG.EmConfig.anatomy.DEFAULT_PARTTYPE
+                    partType : CONFIG.EmConfig.anatomy.DEFAULT_PART_TYPE
                 });
                 if (bodypart !== undefined) {this._displayBodypart(bodypart._id);}
             }
@@ -462,13 +464,6 @@ export default class EmBaseActorSheet extends ActorSheet {
             //sets the data
             bodypartData.partType = partType;
             bodypartData.attachedTo = attachedTo;
-            //if we don't call the update, it won't change the values
-            await bodypart.update({
-                'system' : {
-                    'partType' : partType,
-                    'attachedTo' : attachedTo
-                }
-            });
             //then we add it to the view types
             if (typeof attachedTo === "string") {
                 let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
@@ -489,6 +484,13 @@ export default class EmBaseActorSheet extends ActorSheet {
                 data : { //data is the same as calling system
                     anatomy : anatomy,
                     flipbook : this.getActorData().flipbook
+                }
+            });
+            //if we don't call the update, it won't change the values
+            await bodypart.update({
+                'system' : {
+                    'partType' : partType,
+                    'attachedTo' : attachedTo
                 }
             });
             //finally we return the element data
@@ -545,6 +547,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                         flipbook : this.getActorData().flipbook 
                     }
                 });
+                
             }
             catch(error) {console.error(error.message);}
         }
