@@ -73,6 +73,7 @@
                 "psyche" : "psyche"
             },
             "anatomy" : {
+                "default_anatomy_name" : "bodypart",
                 "partTypes" : {
                     "torso" : "torso",
                     "arm" : "arm",

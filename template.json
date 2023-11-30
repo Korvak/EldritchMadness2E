@@ -208,7 +208,7 @@
                 "skills" : {
 
                 },
-                "physicalConditions" : [],
+                "conditions" : [],
                 "anatomy" : {
                     "viewType" : "tree",
                     "tree" : {
@@ -216,7 +216,18 @@
                         "name" : null,
                         "children" : []
                     },
-                    "chart" : {}
+                    "chart" : {},
+                    "age" : -1,
+                    "currentGrowthStage" : "default",
+                    "growthCycle" : [
+                        {
+                            "id" : "default",
+                            "name" : "default",
+                            "desc" : "em.actor.anatomy.DEFAULT_GROWTH_STAGE_DESC",
+                            "startsAtAge" : -1,
+                            "background": null
+                        }
+                    ]
                 },
                 "options" : {
                     "peel" : true,

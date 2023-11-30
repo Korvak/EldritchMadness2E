@@ -87,8 +87,9 @@ EmConfig.tabs = {
 }
 
 EmConfig.anatomy = {
-    DEFAULT_NAME : "bodypart",
+    DEFAULT_NAME : "em.actor.anatomy.default_anatomy_name",
     DEFAULT_PART_TYPE : "vestigial",
+    ROOT_PART_TYPE : "torso",
     PART_TYPES : [
         {
             name : "torso",
@@ -111,7 +112,8 @@ EmConfig.anatomy = {
             label : "em.actor.anatomy.partTypes.vestigial"
         }
     ],
-    FOLDER_ID : "8kzDEEDLhS6aCSbj"
+    FOLDER_ID : "8kzDEEDLhS6aCSbj",
+    DEFAULT_GROWTH_STAGE_DESC : "em."
 };
 
 EmConfig.flipbook = {

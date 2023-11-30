@@ -169,7 +169,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             await this.addAnatomy({
                 name : "root",
                 attachedTo : undefined, 
-                partType : "torso"
+                partType : CONFIG.EmConfig.anatomy.ROOT_PART_TYPE
             });
 
         }
@@ -231,6 +231,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             "type" : item.type
         });
         await renderedItem.sheet.render(true);
+        //we have to wait for a bit for the itemSheet to be created
         setTimeout(function() {
             let element = $(`div[id$=${renderedItem.id}]`);
             let closeBtn = element.find(".header-button.control.close");
@@ -383,7 +384,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             async _addAndDisplayAnatomy(event) {
                 let element = $(event.currentTarget);
                 let bodypart = await this.addAnatomy({
-                    name : `${CONFIG.EmConfig.anatomy.DEFAULT_NAME}_${this.bodypartsCount()}`,
+                    name : `${translate(CONFIG.EmConfig.anatomy.DEFAULT_NAME)}_${this.bodypartsCount()}`,
                     attachedTo : element.get(0).dataset.id,
                     partType : CONFIG.EmConfig.anatomy.DEFAULT_PART_TYPE
                 });
