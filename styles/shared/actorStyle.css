@@ -29,6 +29,10 @@
     padding: 6px 12px !important;
 }
 
+.em_navbar .em_tabBtn.selected {
+    transform: scale(1.1);
+}
+
 .em_navbar .em_tabBtn:hover {
     box-shadow: none !important; 
 }
