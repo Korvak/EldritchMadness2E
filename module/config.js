@@ -117,8 +117,8 @@ EmConfig.anatomy = {
 };
 
 EmConfig.flipbook = {
-    wMargin : 10,
-    hMargin : 45
+    wMargin : 25,
+    hMargin : 37
 };
 
 

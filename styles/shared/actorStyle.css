@@ -6,6 +6,10 @@
 
 .em_actorSheet .window-content {
     overflow: hidden;
+    background-image: url("../../resources/images/flipbook/leatherDarkBrownBg.png");
+    background-repeat: repeat;
+    background-position: center;
+    background-size: 280px 224px;
 }
 
 .em_actorFormContainer {
@@ -16,18 +20,12 @@
 
 /*#region navbar */
 .em_navbar {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-end;
-    flex-wrap: nowrap;
-
-    padding-left: 8px;
+    padding-top: 24px;
 }
 
 .em_navbar .em_tabBtn {
-    flex-shrink: 1;
     z-index: 100;
+    text-align: center;
     padding: 6px 12px !important;
 }
 
@@ -41,8 +39,9 @@
 #flipbook {
     margin-left: auto !important;
     margin-right: auto;
+    top: 12px;
 
-    max-height: calc(100% - 10px);
+    max-height: calc(100% - 22px);
 
     overflow-x: hidden;
     overflow-y: hidden;

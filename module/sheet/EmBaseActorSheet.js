@@ -139,7 +139,7 @@ export default class EmBaseActorSheet extends ActorSheet {
     //#region start method
 
         _onStart() {
-            let html = this.element.find("form");    
+            let html = this.element.find("form");
             //first we start turn.js
             let flipbook = html.find("#flipbook");
             flipbook.prop("controlled", false);
@@ -151,14 +151,20 @@ export default class EmBaseActorSheet extends ActorSheet {
                 peel : false
             });
             //we hide the navbar because it's floating
-            let navbar = html.find(".em_actor_navbar");
+            let navbar = html.find(".em_navbar");
+            let bgElement = this.element.find(".window-content");
+            let oldBg = bgElement.css("background-image");
             navbar.css("visibility","hidden");
+            bgElement.css("background-image", "none");
             //we turn the first page
             setTimeout(() => { this._onStopDrag(); }, 50);
             let page = this.getActorData().flipbook.currentPage;
-            console.log(page);
+            
             setTimeout(() => { flipbook.turn('page', page); },500);
-            setTimeout(() => {navbar.css("visibility","visible");} , 750);
+            setTimeout(() => {
+                navbar.css("visibility","visible");
+                bgElement.css("background-image", oldBg);
+            } , 850);
             //we set the default data if needs loading
             this._displayBodypart(this.getAnatomy().tree.id);
         }
