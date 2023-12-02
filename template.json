@@ -210,6 +210,9 @@
                 },
                 "conditions" : [],
                 "anatomy" : {
+                    "age" : 0,
+                    "sex" : "",
+                    "origin" : "",
                     "viewType" : "tree",
                     "tree" : {
                         "id" : null,
@@ -217,7 +220,6 @@
                         "children" : []
                     },
                     "chart" : {},
-                    "age" : -1,
                     "currentGrowthStage" : "default",
                     "growthCycle" : [
                         {

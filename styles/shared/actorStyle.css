@@ -10,6 +10,7 @@
     background-repeat: repeat;
     background-position: center;
     background-size: 280px 224px;
+
 }
 
 .em_actorFormContainer {
@@ -29,7 +30,7 @@
     padding: 6px 12px !important;
 }
 
-.em_navbar .em_tabBtn.selected {
+.em_navbar .em_tabBtn[current="true"] {
     transform: scale(1.1);
 }
 
@@ -59,6 +60,25 @@
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+/*#endregion*/
+
+/*#region info */
+
+.em_portraitContainer {
+    max-width: 100%;
+}
+
+.em_actorPortrait {
+    object-fit: cover;
+    object-position: center;
+    box-sizing: border-box;
+
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: inherit;
 }
 
 /*#endregion*/

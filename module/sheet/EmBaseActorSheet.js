@@ -71,12 +71,15 @@ export default class EmBaseActorSheet extends ActorSheet {
             if (!$(this).prop("controlled")) {
                 stopFlipbookTurning(event,$(this), page);
                 if ($(this).prop("forbiddenTurn") == true) {event.preventDefault();}
+                else if (page != 1 && page != $(this).turn("pages") ) {
+                    self._setActiveFlipbbookPage(page);
+                }
             }
         });
         flipbook.on("turned", function(event,page,view) {
             $(this).prop("controlled", false);
             if (page != 1 && page != $(this).turn("pages") ) {
-                self.getActorData().flipbook.currentPage = page;
+                self._setActiveFlipbbookPage(page);
             }
         });
 
@@ -96,38 +99,41 @@ export default class EmBaseActorSheet extends ActorSheet {
                 console.error(error.message);
             }
         });
-        //set in the partial itself since it lost the event 
+
         //#endregion
         //#region html events
+        
             //#region base events
-            html.find(".em_readonlyIcon").each(function() {
-                $(this).get(0).onclick = toggleReadonly;
-            });
-            html.find(".dropdown-btn").each(function() {
-                $(this).find(".dropdown-icon").contextmenu(function(event) {
-                    event.preventDefault();
-                    $(this).parents(".dropdown-btn").contextmenu();
+                html.find(".em_readonlyIcon").each(function() {
+                    $(this).get(0).onclick = toggleReadonly;
                 });
-                $(this).get(0).oncontextmenu = toggleDropdown;
-            });
-            //html.find(".em_barValue").change(onBarValueChange);
-            let valueBars = html.find(".em_barContainer");
-            valueBars.change(renderBar);
-            valueBars.change();
-            // on modify fields save themselves
-            html.find(".em_field").change(this._saveOwnedItemFields.bind(this));
+                html.find(".dropdown-btn").each(function() {
+                    $(this).find(".dropdown-icon").contextmenu(function(event) {
+                        event.preventDefault();
+                        $(this).parents(".dropdown-btn").contextmenu();
+                    });
+                    $(this).get(0).oncontextmenu = toggleDropdown;
+                });
+                //html.find(".em_barValue").change(onBarValueChange);
+                let valueBars = html.find(".em_barContainer");
+                valueBars.change(renderBar);
+                valueBars.change();
+                // on modify fields save themselves
+                html.find(".em_field").change(this._saveOwnedItemFields.bind(this));
+            //#endregion
+            //#region info page events
             //#endregion
             //#region anatomy page events
-            html.find(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
-            html.find(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
-            //$(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
-            //#region bodypart events
-            html.find("#em_bodypart_id").click(this._renderBodypartHtml.bind(this));
-            let createNewBodypart = async function(event) {await this._addAndDisplayAnatomy(event);};
-            html.find("#em_bodypart_createBtn").get(0).onclick = createNewBodypart.bind(this);
-            //we set it so that if we change the name of the bodypart, it also changes the name of the tree
-            html.find("#em_bodypart_name").change(this._changeBodypartName.bind(this) );
+                html.find(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
+                html.find(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
+                //$(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
             //#endregion
+            //#region bodypart events
+                html.find("#em_bodypart_id").click(this._renderBodypartHtml.bind(this));
+                let createNewBodypart = async function(event) {await this._addAndDisplayAnatomy(event);};
+                html.find("#em_bodypart_createBtn").get(0).onclick = createNewBodypart.bind(this);
+                //we set it so that if we change the name of the bodypart, it also changes the name of the tree
+                html.find("#em_bodypart_name").change(this._changeBodypartName.bind(this) );
             //#endregion
         //#endregion
         html.ready(this._onStart.bind(this) );
@@ -181,22 +187,43 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
 
 
-    //#region event methods
+        //#region event methods
 
-    _onStopDrag() {
-        try {
-            let html = this.element.find("form");
-            let flipbook = html.find("#flipbook");
-            flipbook.turn('size', 
-                html.width() - CONFIG.EmConfig.flipbook.wMargin,
-                html.height() - CONFIG.EmConfig.flipbook.hMargin
-            );
-            flipbook.turn("resize");
-        }
-        catch(error) {console.error(error.message);}
-    }
+            _onStopDrag() {
+                try {
+                    let html = this.element.find("form");
+                    let flipbook = html.find("#flipbook");
+                    flipbook.turn('size', 
+                        html.width() - CONFIG.EmConfig.flipbook.wMargin,
+                        html.height() - CONFIG.EmConfig.flipbook.hMargin
+                    );
+                    flipbook.turn("resize");
+                }
+                catch(error) {console.error(error.message);}
+            }
 
-    //#endregion
+            _setActiveFlipbbookPage(page) {
+                try {
+                    page = parseInt(page);
+                    //if odd then it goes to the next page since our tab btns are only even
+                    page = page % 2 == 0 ? page : page - 1;
+                    this.getActorData().flipbook.currentPage = page;
+                    let navbar = this.element.find("form .em_navbar");
+                    navbar.find('.em_tabBtn[current="true"]').attr("current", "false");
+                    navbar.find(`.em_tabBtn[data-page="${page}"]`).attr("current", "true");
+                    return true;
+                }
+                catch(error) {
+                    console.error(error.message);
+                    return false;
+                }
+            }
+
+            _getPageContent(page) {
+                return this.element.find(`form #flipbook .em_page[data-page=${page}]`);
+            }
+
+        //#endregion
     //#endregion
     //#region event methods 
 
@@ -213,48 +240,48 @@ export default class EmBaseActorSheet extends ActorSheet {
     
     //#region helper methods
 
-    getActorData() {
-        return this.getData().actor.system;
-    }
-
-    
-    async renderItem(id) {
-        try {
-            let item = await Item.get(id);
-            item.sheet.render(true);
+        getActorData() {
+            return this.getData().actor.system;
         }
-        catch(error) {console.error(error.message)};
-    }
 
-    async renderOwnedItem(id) {
-        /** creates a new item sheet then opens it and when closed will destroy it
-         * 
-         */
-        let item = this.getOwnedItem(id);
-        if (item == undefined) {return false;}
-        let renderedItem = await Item.create({
-            "name" : item.name,
-            "type" : item.type
-        });
-        await renderedItem.sheet.render(true);
-        //we have to wait for a bit for the itemSheet to be created
-        setTimeout(function() {
-            let element = $(`div[id$=${renderedItem.id}]`);
-            let closeBtn = element.find(".header-button.control.close");
-            closeBtn.click( async function() {
-                await renderedItem.delete();
-            });
-        }, 50);
         
-        /*
-        setTimeout(async function() {
-            await renderedItem.sheet.render(false);
-            await renderedItem.delete();
-        },3000);
-        */
-    }
+        async renderItem(id) {
+            try {
+                let item = await Item.get(id);
+                item.sheet.render(true);
+            }
+            catch(error) {console.error(error.message)};
+        }
 
-    //#region inventory methods
+        async renderOwnedItem(id) {
+            /** creates a new item sheet then opens it and when closed will destroy it
+             * 
+             */
+            let item = this.getOwnedItem(id);
+            if (item == undefined) {return false;}
+            let renderedItem = await Item.create({
+                "name" : item.name,
+                "type" : item.type
+            });
+            await renderedItem.sheet.render(true);
+            //we have to wait for a bit for the itemSheet to be created
+            setTimeout(function() {
+                let element = $(`div[id$=${renderedItem.id}]`);
+                let closeBtn = element.find(".header-button.control.close");
+                closeBtn.click( async function() {
+                    await renderedItem.delete();
+                });
+            }, 50);
+            
+            /*
+            setTimeout(async function() {
+                await renderedItem.sheet.render(false);
+                await renderedItem.delete();
+            },3000);
+            */
+        }
+
+        //#region inventory methods
     _getAllOwnedItems() {
         return this.actor.items;
     }
@@ -368,7 +395,6 @@ export default class EmBaseActorSheet extends ActorSheet {
 
 
     //#endregion
-
 
 
     //#region anatomy
@@ -588,7 +614,6 @@ export default class EmBaseActorSheet extends ActorSheet {
                 element = html.find(".em_field");
                 setInputsFromData(data, element );
                 //we set the attachedTo to the node name instead, if it's not the root
-                console.log(typeof bodypart.system.attachedTo);
                 if (typeof bodypart.system.attachedTo == "string" 
                         && game.user.role < 3 //4 is GM, 3 is Assistant GM
                 ) 

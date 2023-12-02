@@ -9,6 +9,7 @@ async function preloadHandlebarsTemplates() {
     "systems/EldritchMadness/templates/partials/actors/navbar-partial.hbs",
     "systems/EldritchMadness/templates/partials/actors/actorInfo-partial.hbs",
     "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs",
+    "systems/EldritchMadness/templates/partials/actors/actorOptions-partial.hbs",
     //#endregion
     //#region item partials
     "systems/EldritchMadness/templates/partials/items/baseItem-partial.hbs",

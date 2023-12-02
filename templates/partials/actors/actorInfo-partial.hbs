@@ -1,11 +1,33 @@
 <div class="em_actorInfoContainer">
-    <h1 class="w3-round-large w3-center w3-border">
+    <h2 class="w3-round-large w3-border">
+        <img id="" class="w3-black w3-round-large" src="{{actor.img}}" name="actor.img" data-edit="img" title="{{actor.name}}" height="32" width="32">
         {{actor.name}}
-    </h1>
-    <div class="em_portraitContainer">
-        <img >
-    </div>
-    <div class="em_propertiesContainer">
-
-    </div>
+    </h2>
+</div>
+<div class="em_propertiesContainer">
+    {{!-- hp, san, mp and luck --}}
+    
+</div>
+<div class="em_actorInfo w3-section">
+        {{!-- part type --}}
+        <div class="em_form_inputContainer">
+            <label for="bodypart_type" class="em_form_inputElement">body type</label>
+            <div class="w3-border em_form_inputElement em_inputContainer">
+                <select id="em_bodypart_attached" class="w3-white em_noShadow em_input em_field" 
+                    name="item.system.partType" readonly="true" disabled="true">
+                    {{#each CONFIG.EmConfig.anatomy.PART_TYPES}}
+                        <option class="w3-white" {{#if (eq this.name item.system.partType)}}selected="true"{{/if}}>
+                            {{!-- 
+                                for now we leave it like this... maybe in the future we will find a solution 
+                                that also translates and sets the data using a single function
+                            --}}
+                            {{this.name}}
+                        </option>
+                    {{/each}}
+                </select>
+                {{#if (hasRole "KEEPER")}}
+                    <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
+                {{/if}}
+            </div>
+        </div>
 </div>

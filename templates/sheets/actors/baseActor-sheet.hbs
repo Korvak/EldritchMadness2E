@@ -1,61 +1,61 @@
 <form class="em_actorFormContainer w3-container" autocomplete="off">
     {{> "systems/EldritchMadness/templates/partials/actors/navbar-partial.hbs"}}
     <div id="flipbook" class="w3-cell w3-rest w3-round">
-        <div class="hard w3-brown w3-border">
+        <div class="hard w3-brown w3-border" data-page="1">
             <div class="w3-container w3-section">
                 <h3>{{actor.name}} detective journal</h3>
             </div>            
         </div>
-        <div class="em_page w3-border-right w3-white w3-border-right">
+        <div class="em_page w3-border-right w3-white w3-border-right" data-page="2">
             <div class="w3-section w3-container em_pageContent">
                 {{> "systems/EldritchMadness/templates/partials/actors/actorInfo-partial.hbs"}}
             </div>
         </div>
-        <div class="em_page w3-white">
+        <div class="em_page w3-white" data-page="3">
             <div class="w3-section w3-container em_pageContent">
                 Page 2-3
             </div>
         </div>
-        <div class="em_page w3-border-right w3-white w3-border-right">
+        <div class="em_page w3-border-right w3-white w3-border-right" data-page="4">
             <div class="w3-section w3-container em_pageContent">
 
             </div>
         </div>
-        <div class="em_page w3-white">
+        <div class="em_page w3-white" data-page="5" >
             <div class="w3-section w3-container em_pageContent">
                 Page 4-5
             </div>
         </div>
-        <div class="em_page w3-border-right w3-white w3-border-right">
+        <div class="em_page w3-border-right w3-white w3-border-right" data-page="6" >
             <div class="w3-section w3-container em_pageContent">
                 {{> "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs"}}
             </div>
         </div>
-        <div class="em_page w3-white">
+        <div class="em_page w3-white" data-page="7" >
             <div class="w3-section w3-container em_pageContent">
                 Page 6-7
             </div>
         </div>
-        <div class="em_page w3-border-right w3-white w3-border-right">
+        <div class="em_page w3-border-right w3-white w3-border-right" data-page="8" >
             <div class="w3-section w3-container em_pageContent">
                 
             </div>
         </div>
-        <div class="em_page w3-white">
+        <div class="em_page w3-white" data-page="9" >
             <div class="w3-section w3-container em_pageContent">
                 Page 8-9
             </div>
         </div>
-        <div class="em_page w3-border-right w3-white w3-border-right">
+        <div class="em_page w3-border-right w3-white w3-border-right" data-page="10" >
             <div class="w3-section w3-container em_pageContent">
-                
+                {{> "systems/EldritchMadness/templates/partials/actors/actorOptions-partial.hbs"}}
             </div>
         </div>
-        <div class="em_page w3-white">
+        <div class="em_page w3-white" data-page="11" >
             <div class="w3-section w3-container em_pageContent">
                 Page 10-11
             </div>
         </div>
-        <div class="hard w3-black"></div>
+        <div class="hard w3-black" data-page="12" ></div>
     </div>
 </form>
