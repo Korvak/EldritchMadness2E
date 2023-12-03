@@ -5,6 +5,32 @@
     </h2>
 </div>
 {{> "systems/EldritchMadness/templates/partials/actors/actorAttributes-partial.hbs"}}
-<div class="em_actorInfo w3-section">
-
+{{!-- characteristics container --}}
+<div class="em_charact_wrapper">
+    <h3 class="em_charact_title">characteristics</h3>
+    <div class="w3-border em_inputContainer" style="margin-top:5px;">
+        <input id="em_charact_searchbar" class="em_input em_searchbar" data-id="em_charact_search" data-search="startsWith">
+        <i class="em_inputIcon fa-solid fa-search"></i>
+    </div>
+    <div class="em_charact_container w3-border" style="padding-top:8px;" for="em_charact_search">
+        {{#each actor.system.characteristics}}
+            <div class="em_charact w3-border w3-round-large w3-center w3-badge w3-white" data-search="{{i18n this.label}}">
+                <p class="em_charact_text hint--bottom" aria-label="{{i18n this.label}}" >{{i18n this.short}}</p>
+                <p class="w3-border w3-round-large w3-hover-black em_charact_text em_charact_btn">{{this.value}}</p>
+                <p class="w3-badge w3-black em_charact_text"> + {{this.temp}}</p>
+            </div>
+        {{/each}}
+    </div>
+</div>
+{{!-- skills container --}}
+<div class="em_skill_wrapper">
+    <h3 class="em_skill_title">Skills</h3>
+    <div class="w3-border em_inputContainer" style="margin-top:5px;">
+        <input id="em_skill_searchbar" class="em_input em_searchbar" data-id="em_skill_search" data-search="startsWith">
+        <i class="em_inputIcon fa-solid fa-search"></i>
+    </div>
+    <div class="em_skill_container w3-border" style="padding-top:8px;" for="em_skill_search">
+        {{#each actor.system.skills}}
+        {{/each}}
+    </div>
 </div>

@@ -6,7 +6,7 @@
         {{!-- hp bar visuals --}}
         class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
             data-value="{{actor.system.attributes.hp.value}}" data-valueMax="{{actor.system.attributes.hp.max}}" 
-            data-temp="{{actor.system.attributes.hp.temp}}" data-tempMax="{{actor.system.attributes.hp.maxTemp}}" 
+            data-temp="{{actor.system.attributes.hp.temp}}" data-tempMax="{{actor.system.attributes.hp.maxTemp}}"
             {{#if (hasRole "KEEPER")}}data-id="bar_hp"{{/if}}
         >
             {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}

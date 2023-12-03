@@ -18,6 +18,37 @@ export function toggleReadonly(event) {
     });
 }
 
+const SEARCH_MODE = {
+    "contains" : "*=",
+    "startsWith" : "^=",
+    "endsWith" : "$=",
+    "equals" : "=",
+    "default ": "="
+}
+
+export function searchByTags(event) {
+    event.preventDefault();
+    let element = $(this);
+    //then we get the container linked to the searchbar
+    let parent = element.parent();
+    //in case the input it's in a container, then we get the next parent
+    if (parent.hasClass("em_inputContainer") ) {parent = parent.parent();}
+    let container = parent.find(`[for=${this.dataset.id}]`);
+    //we get the search character which can be *=, = , ^=
+    let searchChar = SEARCH_MODE[this.dataset.search];
+    //if doesn't exists then we get the default
+    searchChar = searchChar == undefined ? SEARCH_MODE["default"] : searchChar;
+    //then we get the container linked to the searchbar
+    //first we show all the elements in the container
+    container.children().show();
+    if (element.val().length > 0) {
+        //then we hide all the elements that don't follow our search rule
+        container.find(`>:not([data-search${searchChar}${element.val()}])`).hide();
+    }
+    
+}
+
+
 //#region bar value
 
 const BAR_CLASS = {

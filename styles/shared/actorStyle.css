@@ -1,125 +1,142 @@
 /*#region actor sheet */
-.em_actorSheet {
-    min-height: 450px !important;
-    min-width: 530px !important;
-}
 
-.em_actorSheet .window-content {
-    overflow: hidden;
-    background-image: url("../../resources/images/flipbook/leatherDarkBrownBg.png");
-    background-repeat: repeat;
-    background-position: center;
-    background-size: 280px 224px;
+    .em_actorSheet {
+        min-height: 450px !important;
+        min-width: 530px !important;
+    }
 
-}
+    .em_actorSheet .window-content {
+        overflow: hidden;
+        background-image: url("../../resources/images/flipbook/leatherDarkBrownBg.png");
+        background-repeat: repeat;
+        background-position: center;
+        background-size: 280px 224px;
 
-.em_actorFormContainer {
-    box-sizing: border-box;
-    max-height: 100%;
-}
+    }
+
+    .em_actorFormContainer {
+        box-sizing: border-box;
+        max-height: 100%;
+    }
 /*#endregion */
 
 /*#region navbar */
-.em_navbar {
-    padding-top: 24px;
-}
 
-.em_navbar .em_tabBtn {
-    z-index: 100;
-    text-align: center;
-    padding: 6px 12px !important;
-}
+    .em_navbar {
+        padding-top: 24px;
+    }
 
-.em_navbar .em_tabBtn[current="true"] {
-    transform: scale(1.1);
-}
+    .em_navbar .em_tabBtn {
+        z-index: 100;
+        text-align: center;
+        padding: 6px 12px !important;
+    }
 
-.em_navbar .em_tabBtn:hover {
-    box-shadow: none !important; 
-}
+    .em_navbar .em_tabBtn[current="true"] {
+        transform: scale(1.1);
+    }
+
+    .em_navbar .em_tabBtn:hover {
+        box-shadow: none !important; 
+    }
 
 /*#endregion */
 
 /*#region flipbook */
-#flipbook {
-    margin-left: auto !important;
-    margin-right: auto;
-    top: 12px;
 
-    max-height: calc(100% - 22px);
+    #flipbook {
+        margin-left: auto !important;
+        margin-right: auto;
+        top: 12px;
 
-    overflow-x: hidden;
-    overflow-y: hidden;
-}
+        max-height: calc(100% - 22px);
 
-#flipbook .page-wrapper {
-    max-height: 100%;
-}
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
 
-#flipbook .em_page {
-    box-sizing: border-box;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
+    #flipbook .page-wrapper {
+        max-height: 100%;
+    }
+
+    #flipbook .em_page {
+        box-sizing: border-box;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
 
 /*#endregion*/
 
 /*#region info */
 
-.em_portraitContainer {
-    max-width: 100%;
-}
+    .em_charact_container {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: baseline;
+        
+        max-width: 100%;
+        width: 100%;
+        max-height: 180px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+    
 
-.em_actorPortrait {
-    object-fit: cover;
-    object-position: center;
-    box-sizing: border-box;
+    .em_charact {
+        margin-bottom: 8px;
+    }
 
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    max-height: inherit;
-}
+    .em_charact_btn {
+        cursor: pointer;
+    }
+
+    .em_charact_text {
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
 
 /*#endregion*/
 
 /*#region anatomy */
 
-.em_anatomyContainer {
-    margin-top: 8px;
-    max-height: 45%;
-    height: 45%;
+    .em_anatomyContainer {
+        margin-top: 8px;
+        max-height: 45%;
+        height: 45%;
 
-    overflow-y: auto;
-    overflow-x: auto;
-}
+        overflow-y: auto;
+        overflow-x: auto;
+    }
 
-.em_anatomyTree {
-    padding-left: 0;
-}
+    .em_anatomyTree {
+        padding-left: 0;
+    }
 
-.em_anatomyTreeTitle {
-    margin-bottom: 5px;
-}
+    .em_anatomyTreeTitle {
+        margin-bottom: 5px;
+    }
 
-.em_anatomyList {
-    list-style: none;
-}
+    .em_anatomyList {
+        list-style: none;
+    }
 
-.em_anatomyNode {
-    cursor: default;
-    margin-bottom: 2px;
-    padding: 4px 8px !important;
-    overflow: visible !important;
-}
+    .em_anatomyNode {
+        cursor: default;
+        margin-bottom: 2px;
+        padding: 4px 8px !important;
+        overflow: visible !important;
+    }
 
-.em_anatomyBranchIcon {
-    font-size: 0.8em;
-}
+    .em_anatomyBranchIcon {
+        font-size: 0.8em;
+    }
 
-.em_anatomyDeleteIcon:hover {
-    color : rgb(232, 232, 232);
-}
+    .em_anatomyDeleteIcon:hover {
+        color : rgb(232, 232, 232);
+    }
 
     /*#region bodypart info*/
 
@@ -143,8 +160,6 @@
             min-height: 10vh;
         }
 
-
     /*#endregion*/
-
 
 /*#endregion*/

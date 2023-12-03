@@ -6,19 +6,25 @@ import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
 async function preloadHandlebarsTemplates() {
   const templatePaths = [
     //#region actor partials
-    "systems/EldritchMadness/templates/partials/actors/navbar-partial.hbs",
-    "systems/EldritchMadness/templates/partials/actors/actorInfo-partial.hbs",
-    "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs",
-    "systems/EldritchMadness/templates/partials/actors/actorOptions-partial.hbs",
-    "systems/EldritchMadness/templates/partials/actors/actorAttributes-partial.hbs",
+      "systems/EldritchMadness/templates/partials/actors/navbar-partial.hbs",
+      "systems/EldritchMadness/templates/partials/actors/actorInfo-partial.hbs",
+      //#region actor data partials
+        "systems/EldritchMadness/templates/partials/actors/dataPartials/actorData-partial.hbs",
+        "systems/EldritchMadness/templates/partials/actors/dataPartials/passportData-partial.hbs",
+        "systems/EldritchMadness/templates/partials/actors/dataPartials/bestiaryData-partial.hbs",
+        "systems/EldritchMadness/templates/partials/actors/dataPartials/reportData-partial.hbs",
+      //#endregion
+      "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs",
+      "systems/EldritchMadness/templates/partials/actors/actorOptions-partial.hbs",
+      "systems/EldritchMadness/templates/partials/actors/actorAttributes-partial.hbs",
     //#endregion
     //#region item partials
-    "systems/EldritchMadness/templates/partials/items/baseItem-partial.hbs",
-    "systems/EldritchMadness/templates/partials/items/destroyable-partial.hbs",
-    "systems/EldritchMadness/templates/partials/items/repairable-partial.hbs",
-    "systems/EldritchMadness/templates/partials/items/equippable-partial.hbs",
-    "systems/EldritchMadness/templates/partials/items/upgradable-partial.hbs",
-    "systems/EldritchMadness/templates/sheets/items/bodypart-sheet.hbs",
+      "systems/EldritchMadness/templates/partials/items/baseItem-partial.hbs",
+      "systems/EldritchMadness/templates/partials/items/destroyable-partial.hbs",
+      "systems/EldritchMadness/templates/partials/items/repairable-partial.hbs",
+      "systems/EldritchMadness/templates/partials/items/equippable-partial.hbs",
+      "systems/EldritchMadness/templates/partials/items/upgradable-partial.hbs",
+      "systems/EldritchMadness/templates/sheets/items/bodypart-sheet.hbs",
     //#endregion
   ];
 
@@ -84,6 +90,15 @@ Hooks.once("init", function() {
 
     Handlebars.registerHelper('set', function(item, key, value) {
         item[key] = value;
+    });
+
+    Handlebars.registerHelper('contains', function(item,value) {
+      if (Array.isArray(item) || typeof item == 'string') {
+        return item.includes(value);
+      }
+      else {
+        return item[value] !== undefined;
+      }
     });
 
     Handlebars.registerHelper('fetch', function(item, key) {

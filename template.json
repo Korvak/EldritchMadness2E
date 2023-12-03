@@ -5,6 +5,7 @@
                 "heavy_guns" : {
                     "name" : "em.skills.heavy_guns.name",
                     "desc" : "em.skills.heavy_guns.desc",
+                    "tags" : ["combat"],
                     "min": 0,
                     "value" : 0,
                     "max" : 100,
@@ -15,6 +16,7 @@
                 "firearms" : {
                     "name" : "em.skills.firearms",
                     "desc" : "em.skills.firearms.desc",
+                    "tags" : ["combat"],
                     "min": 0,
                     "value" : 0,
                     "max" : 100,
@@ -25,26 +27,7 @@
                 "fighting" : {
                     "name" : "em.skills.fighting",
                     "desc" : "em.skills.fighting.desc",
-                    "min": 0,
-                    "value" : 0,
-                    "max" : 100,
-                    "minTemp" : 0,
-                    "temp" : 0,
-                    "maxTemp" : 50
-                },
-                "first_aid" : {
-                    "name" : "em.skills.first_aid",
-                    "desc" : "em.skills.first_aid.desc",
-                    "min": 0,
-                    "value" : 0,
-                    "max" : 100,
-                    "minTemp" : 0,
-                    "temp" : 0,
-                    "maxTemp" : 50
-                },
-                "medicine" : {
-                    "name" : "em.skills.medicine",
-                    "desc" : "em.skills.medicine.desc",
+                    "tags" : ["combat"],
                     "min": 0,
                     "value" : 0,
                     "max" : 100,
@@ -55,6 +38,7 @@
                 "throw" : {
                     "name" : "em.skills.throw",
                     "desc" : "em.skills.throw.desc",
+                    "tags" : ["combat"],
                     "min": 0,
                     "value" : 0,
                     "max" : 100,
@@ -65,6 +49,86 @@
                 "dodge" : {
                     "name" : "em.skills.dodge",
                     "desc" : "em.skills.dodge.desc",
+                    "tags" : ["combat"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "mythos" : {
+                    "name" : "em.skills.mythos",
+                    "desc" : "em.skills.mythos.desc",
+                    "tags" : ["combat", "knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "occult" : {
+                    "name" : "em.skills.occult",
+                    "desc" : "em.skills.occult.desc",
+                    "tags" : ["combat", "knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                }
+            },
+            "healingSkills" : {
+                "first_aid" : {
+                    "name" : "em.skills.first_aid",
+                    "desc" : "em.skills.first_aid.desc",
+                    "tags" : ["healing", "combat"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "medicine" : {
+                    "name" : "em.skills.medicine",
+                    "desc" : "em.skills.medicine.desc",
+                    "tags" : ["healing", "combat"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "mech_repairs" : {
+                    "name" : "em.skills.mech_repairs",
+                    "desc" : "em.skills.mech_repairs.desc",
+                    "tags" : ["healing", "crafts"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "elec_repairs" : {
+                    "name" : "em.skills.elec_repairs",
+                    "desc" : "em.skills.elec_repairs.desc",
+                    "tags" : ["healing", "crafts"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "psychology" : {
+                    "name" : "em.skills.psychology",
+                    "desc" : "em.skills.psychology.desc",
+                    "tags" : ["healing", "social"],
                     "min": 0,
                     "value" : 0,
                     "max" : 100,
@@ -74,19 +138,422 @@
                 }
             },
             "knowledgeSkills" : {
-
+                "anthropology" : {
+                    "name" : "em.skills.anthropology",
+                    "desc" : "em.skills.anthropology.desc",
+                    "tags" : ["knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "archeology" : {
+                    "name" : "em.skills.archeology",
+                    "desc" : "em.skills.archeology.desc",
+                    "tags" : ["knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "history" : {
+                    "name" : "em.skills.history",
+                    "desc" : "em.skills.history.desc",
+                    "tags" : ["knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "natural_science" : {
+                    "name" : "em.skills.natural_science",
+                    "desc" : "em.skills.natural_science.desc",
+                    "tags" : ["knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "science" : {
+                    "name" : "em.skills.science",
+                    "desc" : "em.skills.science.desc",
+                    "tags" : ["knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "law" : {
+                    "name" : "em.skills.law",
+                    "desc" : "em.skills.law.desc",
+                    "tags" : ["knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "linguistics" : {
+                    "name" : "em.skills.linguistics",
+                    "desc" : "em.skills.linguistics.desc",
+                    "tags" : ["social", "knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "librarianship" : {
+                    "name" : "em.skills.librarianship",
+                    "desc" : "em.skills.librarianship.desc",
+                    "tags" : ["detective", "knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "accounting" : {
+                    "name" : "em.skills.accounting",
+                    "desc" : "em.skills.accounting.desc",
+                    "tags" : ["detective", "knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "mythos" : {
+                    "name" : "em.skills.mythos",
+                    "desc" : "em.skills.mythos.desc",
+                    "tags" : ["combat", "knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "occult" : {
+                    "name" : "em.skills.occult",
+                    "desc" : "em.skills.occult.desc",
+                    "tags" : ["combat", "knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "arts_and_crafts" : {
+                    "name" : "em.skills.arts_and_crafts",
+                    "desc" : "em.skills.arts_and_crafts.desc",
+                    "tags" : ["crafts", "knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                }
             },
             "movementSkills" : {
-
+                "climb" : {
+                    "name" : "em.skills.climb",
+                    "desc" : "em.skills.climb.desc",
+                    "tags" : ["move"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "drive" : {
+                    "name" : "em.skills.drive",
+                    "desc" : "em.skills.drive.desc",
+                    "tags" : ["move"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "jump" : {
+                    "name" : "em.skills.jump",
+                    "desc" : "em.skills.jump.desc",
+                    "tags" : ["move"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "navigate" : {
+                    "name" : "em.skills.navigate",
+                    "desc" : "em.skills.navigate.desc",
+                    "tags" : ["move"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "pilot" : {
+                    "name" : "em.skills.pilot",
+                    "desc" : "em.skills.pilot.desc",
+                    "tags" : ["move"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "ride" : {
+                    "name" : "em.skills.ride",
+                    "desc" : "em.skills.ride.desc",
+                    "tags" : ["move"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                }
             },
             "socialSkills" : {
-
+                "charm" : {
+                    "name" : "em.skills.charm",
+                    "desc" : "em.skills.charm.desc",
+                    "tags" : ["social"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "intimidate" : {
+                    "name" : "em.skills.intimidate",
+                    "desc" : "em.skills.intimidate.desc",
+                    "tags" : ["social"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "persuade" : {
+                    "name" : "em.skills.persuade",
+                    "desc" : "em.skills.persuade.desc",
+                    "tags" : ["social"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "deceive" : {
+                    "name" : "em.skills.deceive",
+                    "desc" : "em.skills.deceive.desc",
+                    "tags" : ["social"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "disguise" : {
+                    "name" : "em.skills.disguise",
+                    "desc" : "em.skills.disguise.desc",
+                    "tags" : ["social" , "detective"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "sleight_of_hand" : {
+                    "name" : "em.skills.sleight_of_hand",
+                    "desc" : "em.skills.sleight_of_hand.desc",
+                    "tags" : ["social", "detective"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "psychoanalysis" : {
+                    "name" : "em.skills.psychoanalysis",
+                    "desc" : "em.skills.psychoanalysis.desc",
+                    "tags" : ["social"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "psychology" : {
+                    "name" : "em.skills.psychoanalysis",
+                    "desc" : "em.skills.psychoanalysis.desc",
+                    "tags" : ["healing", "social"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "listen" : {
+                    "name" : "em.skills.psychoanalysis",
+                    "desc" : "em.skills.psychoanalysis.desc",
+                    "tags" : ["detective", "social"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                }
             },
             "detectiveSkills" : {
-
+                "appraise" : {
+                    "name" : "em.skills.appraise",
+                    "desc" : "em.skills.appraise.desc",
+                    "tags" : ["detective"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "disguise" : {
+                    "name" : "em.skills.disguise",
+                    "desc" : "em.skills.disguise.desc",
+                    "tags" : ["social" , "detective"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "librarianship" : {
+                    "name" : "em.skills.librarianship",
+                    "desc" : "em.skills.librarianship.desc",
+                    "tags" : ["detective", "knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "accounting" : {
+                    "name" : "em.skills.accounting",
+                    "desc" : "em.skills.accounting.desc",
+                    "tags" : ["detective", "knowledge"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "locksmith" : {
+                    "name" : "em.skills.locksmith",
+                    "desc" : "em.skills.locksmith.desc",
+                    "tags" : ["detective"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "spot" : {
+                    "name" : "em.skills.spot",
+                    "desc" : "em.skills.spot.desc",
+                    "tags" : ["detective"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "stealth" : {
+                    "name" : "em.skills.stealth",
+                    "desc" : "em.skills.stealth.desc",
+                    "tags" : ["detective"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "listen" : {
+                    "name" : "em.skills.listen",
+                    "desc" : "em.skills.listen.desc",
+                    "tags" : ["detective", "social"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "sleight_of_hand" : {
+                    "name" : "em.skills.sleight_of_hand",
+                    "desc" : "em.skills.sleight_of_hand.desc",
+                    "tags" : ["social", "detective"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                },
+                "survival" : {
+                    "name" : "em.skills.survival",
+                    "desc" : "em.skills.survival.desc",
+                    "tags" : ["detective"],
+                    "min": 0,
+                    "value" : 0,
+                    "max" : 100,
+                    "minTemp" : 0,
+                    "temp" : 0,
+                    "maxTemp" : 50
+                }
             },
             "baseActor" : {
-                "tags" : ["actor"],
+                "tags" : ["actor", "human"],
                 "description" : "a base actor with no implementation.",
                 "attributes" : {
                     "hp" : {
@@ -279,7 +746,12 @@
             "testActor"
         ],
         "testActor" : {
-            "templates" : ["baseActor"]
+            "templates" : [
+                "combatSkills",
+                "movementSKills",
+                "healingSkills",
+                "baseActor"
+            ]
         }
     },
     "Item" : {

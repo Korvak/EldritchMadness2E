@@ -31,6 +31,10 @@
             }
         },
         "characteristics" : {
+            "str" : {
+                "short" : "str",
+                "name" : "strength"
+            },
             "dex": {
                 "short" : "dex",
                 "name" : "dexterity"

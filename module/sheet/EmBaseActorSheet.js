@@ -1,5 +1,5 @@
 import {translate, treeBreadthSearch, fieldToObject, overwiteObjectFields, setInputsFromData, getValueFromFields} from "../utils.js"
-import {toggleDropdown, toggleReadonly, renderBar, setBarValue } from "../htmlUtils.js"
+import {toggleDropdown, toggleReadonly, renderBar, setBarValue, searchByTags } from "../htmlUtils.js"
 
 export default class EmBaseActorSheet extends ActorSheet {
 
@@ -111,9 +111,14 @@ export default class EmBaseActorSheet extends ActorSheet {
         //#region html events
         
             //#region base events
+                //readonly input toggle
                 html.find(".em_readonlyIcon").each(function() {
                     $(this).get(0).onclick = toggleReadonly;
                 });
+                html.find(".em_searchbar").each(function() {
+                    $(this).get(0).onkeyup = searchByTags;
+                });
+                //dropdown functionality
                 html.find(".dropdown-btn").each(function() {
                     $(this).find(".dropdown-icon").contextmenu(function(event) {
                         event.preventDefault();
@@ -121,7 +126,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                     });
                     $(this).get(0).oncontextmenu = toggleDropdown;
                 });
-                //html.find(".em_barValue").change(onBarValueChange);
+                //bars setup and inital set data
                 let valueBars = html.find(".em_barContainer");
                 valueBars.change(renderBar);
                 valueBars.change();
@@ -130,6 +135,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                 html.find(".em_inline-field").change(this._saveActorFields.bind(this));
             //#endregion
             //#region info page events
+                
             //#endregion
             //#region anatomy page events
                 html.find(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
