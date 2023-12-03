@@ -1,7 +1,8 @@
 <div class="em_propertiesContainer">
     {{!-- hp bar --}}
-    <div class="em_hpBarContainer">
-        <div id="em_item_durabilityBar"
+    <div class="em_hpBarContainer em_halfSection">
+        {{!-- hp bar visuals --}}
+        <div id="em_actor_hpBar"
         {{!-- hp bar visuals --}}
         class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
             data-value="{{actor.system.attributes.hp.value}}" data-valueMax="{{actor.system.attributes.hp.max}}" 
@@ -13,7 +14,6 @@
             <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.HP.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.HP.TEMP}}">
             </div>
         </div>
-        {{!-- end hp bar visuals --}}
         {{!-- hp bar editor dropdown --}}
         {{#if (hasRole "KEEPER")}}
             <div class="dropdown-content em_hidden w3-border w3-light-gray" for="bar_hp">
@@ -35,15 +35,15 @@
                         {{!-- inputs --}}
                         <div class="w3-cell-row">
                             <div class="w3-cell" style="width:33%">
-                                <input id="em_actor_hpMin" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                <input id="em_actor_hpMin" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
                                 name="actor.system.attributes.hp.min" value="{{actor.system.attributes.hp.min}}" style="width:calc(90% - 12px)">
                             </div>
                             <div class="w3-cell" style="width:33%">
-                                <input id="em_actor_hpValue" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                <input id="em_actor_hpValue" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
                                 name="actor.system.attributes.hp.value" value="{{actor.system.attributes.hp.value}}" style="width:calc(90% - 12px)">
                             </div>
                             <div class="w3-cell" style="width:33%">
-                                <input id="em_actor_hpMax" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                <input id="em_actor_hpMax" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
                                     name="actor.system.attributes.hp.max" value="{{actor.system.attributes.hp.max}}" style="width:calc(90% - 12px)">
                             </div>
                         </div>
@@ -65,15 +65,15 @@
                         {{!-- inputs --}}
                         <div class="w3-cell-row">
                             <div class="w3-cell" style="width:33%">
-                                <input id="em_actor_hpMinTemp" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                <input id="em_actor_hpMinTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
                                     name="actor.system.attributes.hp.minTemp" value="{{actor.system.attributes.hp.minTemp}}" style="width:calc(90% - 12px)">
                             </div>
                             <div class="w3-cell" style="width:33%">
-                                <input id="em_actor_hpTemp" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                <input id="em_actor_hpTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
                                     name="actor.system.attributes.hp.temp" value="{{actor.system.attributes.hp.temp}}" style="width:calc(90% - 12px)">
                             </div>
                             <div class="w3-cell" style="width:33%">
-                                <input id="em_actor_hpMaxTemp" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                <input id="em_actor_hpMaxTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
                                     name="actor.system.attributes.hp.maxTemp" value="{{actor.system.attributes.hp.maxTemp}}" style="width:calc(90% - 12px)">
                             </div>
                         </div>
@@ -85,14 +85,260 @@
     </div>
     {{!-- if the element has a sanity that it displays it's attribute bar --}}
     {{#if actor.system.attributes.san }}
-        <p>sanity</p>
+        <div class="em_sanBarContainer em_halfSection">
+            {{!-- hp bar visuals --}}
+            <div id="em_actor_sanBar"
+            {{!-- hp bar visuals --}}
+            class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
+                data-value="{{actor.system.attributes.san.value}}" data-valueMax="{{actor.system.attributes.san.max}}" 
+                data-temp="{{actor.system.attributes.san.temp}}" data-tempMax="{{actor.system.attributes.san.maxTemp}}" 
+                {{#if (hasRole "KEEPER")}}data-id="bar_san"{{/if}}
+            >
+                {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
+                <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.san.value}} / {{actor.system.attributes.san.max}} + {{actor.system.attributes.san.temp}}</span>
+                <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.SAN.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.SAN.TEMP}}">
+                </div>
+            </div>
+            {{!-- hp bar editor dropdown --}}
+            {{#if (hasRole "KEEPER")}}
+                <div class="dropdown-content em_hidden w3-border w3-light-gray" for="bar_san">
+                    <div class="em_leftContainer">
+                        {{!-- value --}}
+                        <div class="em_halfSection">
+                            {{!-- labels --}}
+                            <div class="w3-cell-row ">
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">min</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">value</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">max</p>
+                                </div>
+                            </div>
+                            {{!-- inputs --}}
+                            <div class="w3-cell-row">
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_sanMin" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                    name="actor.system.attributes.san.min" value="{{actor.system.attributes.san.min}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_sanValue" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                    name="actor.system.attributes.san.value" value="{{actor.system.attributes.san.value}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_sanMax" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.san.max" value="{{actor.system.attributes.san.max}}" style="width:calc(90% - 12px)">
+                                </div>
+                            </div>
+                        </div>
+                        {{!-- temp values --}}
+                        <div class="em_halfSection">
+                            {{! -- labels --}}
+                            <div class="w3-cell-row ">
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp min</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp max</p>
+                                </div>
+                            </div>
+                            {{!-- inputs --}}
+                            <div class="w3-cell-row">
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_sanMinTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.san.minTemp" value="{{actor.system.attributes.san.minTemp}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_sanTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.san.temp" value="{{actor.system.attributes.san.temp}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_sanMaxTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.san.maxTemp" value="{{actor.system.attributes.san.maxTemp}}" style="width:calc(90% - 12px)">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {{/if}}
+        </div>
     {{/if}}
     {{!-- mp bar --}}
-    <div class="em_mpBarContainer">
+    {{#if actor.system.attributes.mp }}
+        <div class="em_mpBarContainer em_halfSection">
+            {{!-- hp bar visuals --}}
+            <div id="em_actor_mpBar"
+            {{!-- hp bar visuals --}}
+            class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
+                data-value="{{actor.system.attributes.mp.value}}" data-valueMax="{{actor.system.attributes.mp.max}}" 
+                data-temp="{{actor.system.attributes.mp.temp}}" data-tempMax="{{actor.system.attributes.mp.maxTemp}}" 
+                {{#if (hasRole "KEEPER")}}data-id="bar_mp"{{/if}}
+            >
+                {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
+                <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.mp.value}} / {{actor.system.attributes.mp.max}} + {{actor.system.attributes.mp.temp}}</span>
+                <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.MP.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.MP.TEMP}}">
+                </div>
+            </div>
+            {{!-- hp bar editor dropdown --}}
+            {{#if (hasRole "KEEPER")}}
+                <div class="dropdown-content em_hidden w3-border w3-light-gray" for="bar_mp">
+                    <div class="em_leftContainer">
+                        {{!-- value --}}
+                        <div class="em_halfSection">
+                            {{!-- labels --}}
+                            <div class="w3-cell-row ">
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">min</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">value</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">max</p>
+                                </div>
+                            </div>
+                            {{!-- inputs --}}
+                            <div class="w3-cell-row">
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_mpMin" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                    name="actor.system.attributes.mp.min" value="{{actor.system.attributes.mp.min}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_mpValue" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                    name="actor.system.attributes.mp.value" value="{{actor.system.attributes.mp.value}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_mpMax" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.mp.max" value="{{actor.system.attributes.mp.max}}" style="width:calc(90% - 12px)">
+                                </div>
+                            </div>
+                        </div>
+                        {{!-- temp values --}}
+                        <div class="em_halfSection">
+                            {{! -- labels --}}
+                            <div class="w3-cell-row ">
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp min</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp max</p>
+                                </div>
+                            </div>
+                            {{!-- inputs --}}
+                            <div class="w3-cell-row">
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_mpMinTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.mp.minTemp" value="{{actor.system.attributes.mp.minTemp}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_mpTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.mp.temp" value="{{actor.system.attributes.mp.temp}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_mpMaxTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.mp.maxTemp" value="{{actor.system.attributes.mp.maxTemp}}" style="width:calc(90% - 12px)">
+                                </div>
+                            </div>
+                        </div>
 
-    </div>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+    {{/if}}
     {{!-- luck bar --}}
     {{#if actor.system.attributes.luck }}
-        <p>luck</p>
+        <div class="em_luckBarContainer em_halfSection">
+            {{!-- hp bar visuals --}}
+            <div id="em_actor_luckBar"
+            {{!-- hp bar visuals --}}
+            class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
+                data-value="{{actor.system.attributes.luck.value}}" data-valueMax="{{actor.system.attributes.luck.max}}" 
+                data-temp="{{actor.system.attributes.luck.temp}}" data-tempMax="{{actor.system.attributes.luck.maxTemp}}" 
+                {{#if (hasRole "KEEPER")}}data-id="bar_luck"{{/if}}
+            >
+                {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
+                <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.luck.value}} / {{actor.system.attributes.luck.max}} + {{actor.system.attributes.luck.temp}}</span>
+                <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.LUCK.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.LUCK.TEMP}}">
+                </div>
+            </div>
+            {{!-- hp bar editor dropdown --}}
+            {{#if (hasRole "KEEPER")}}
+                <div class="dropdown-content em_hidden w3-border w3-light-gray" for="bar_luck">
+                    <div class="em_leftContainer">
+                        {{!-- value --}}
+                        <div class="em_halfSection">
+                            {{!-- labels --}}
+                            <div class="w3-cell-row ">
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">min</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">value</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">max</p>
+                                </div>
+                            </div>
+                            {{!-- inputs --}}
+                            <div class="w3-cell-row">
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_luckMin" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                    name="actor.system.attributes.luck.min" value="{{actor.system.attributes.luck.min}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_luckValue" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                    name="actor.system.attributes.luck.value" value="{{actor.system.attributes.luck.value}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_luckMax" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.luck.max" value="{{actor.system.attributes.luck.max}}" style="width:calc(90% - 12px)">
+                                </div>
+                            </div>
+                        </div>
+                        {{!-- temp values --}}
+                        <div class="em_halfSection">
+                            {{! -- labels --}}
+                            <div class="w3-cell-row ">
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp min</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp</p>
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp max</p>
+                                </div>
+                            </div>
+                            {{!-- inputs --}}
+                            <div class="w3-cell-row">
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_luckMinTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.luck.minTemp" value="{{actor.system.attributes.luck.minTemp}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_luckTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.luck.temp" value="{{actor.system.attributes.luck.temp}}" style="width:calc(90% - 12px)">
+                                </div>
+                                <div class="w3-cell" style="width:33%">
+                                    <input id="em_actor_luckMaxTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.luck.maxTemp" value="{{actor.system.attributes.luck.maxTemp}}" style="width:calc(90% - 12px)">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {{/if}}
+        </div>
     {{/if}}
 </div>

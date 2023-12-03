@@ -48,6 +48,10 @@ EmConfig.BAR_COLORS = {
         HP : {
             PRIMARY : "red",
             TEMP : "green"
+        },
+        MP : {
+            PRIMARY : "#1E90FF",
+            TEMP : "#82CAFF"
         }
     }
 }

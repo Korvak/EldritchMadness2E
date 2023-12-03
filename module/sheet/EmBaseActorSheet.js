@@ -127,6 +127,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                 valueBars.change();
                 // on modify fields save themselves
                 html.find(".em_field").change(this._saveOwnedItemFields.bind(this));
+                html.find(".em_inline-field").change(this._saveActorFields.bind(this));
             //#endregion
             //#region info page events
             //#endregion
@@ -138,7 +139,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             //#region bodypart events
                 html.find("#em_bodypart_id").click(this._renderBodypartHtml.bind(this));
                 let createNewBodypart = async function(event) {await this._addAndDisplayAnatomy(event);};
-                html.find("#em_bodypart_createBtn").get(0).onclick = createNewBodypart.bind(this);
+                html.find("#em_bodypart_createBtn").click(createNewBodypart.bind(this) );
                 //we set it so that if we change the name of the bodypart, it also changes the name of the tree
                 html.find("#em_bodypart_name").change(this._changeBodypartName.bind(this) );
             //#endregion
@@ -242,6 +243,13 @@ export default class EmBaseActorSheet extends ActorSheet {
             await this.updateOwnedItem(id, element.attr('name'), element.val() );
         }
 
+        async _saveActorFields(event) {
+            /** fetches the data from the called element and calls this._updateActorField to update the actor
+            */
+            event.preventDefault();
+            let element = $(event.currentTarget);
+            await this._updateActorField(element.attr('name'), element.val() );
+        }
 
     //#endregion
     
@@ -251,7 +259,26 @@ export default class EmBaseActorSheet extends ActorSheet {
             return this.getData().actor.system;
         }
 
-        
+        async _updateActorField(field,value) {
+            /** fetches and updates an owned item field with the given value
+             * @param {string} itemId : the Foundry ID of the item to fetch
+             * @param {string} field : the name of the field to modify
+             * @param {wildcard} value : the value to use to update the field
+            */
+            try {
+                //we transform the field into an object of objects for saving
+                let toSave = fieldToObject(field, value);
+                //we remove the header since it's useless
+                if (toSave["actor"] != undefined) {toSave = toSave["actor"];}
+                await this.actor.update(toSave);
+                return true;
+            }
+            catch(error) {
+                console.error(error.message);
+                return false;
+            }
+        }
+
         async renderItem(id) {
             try {
                 let item = await Item.get(id);
@@ -279,126 +306,121 @@ export default class EmBaseActorSheet extends ActorSheet {
                     await renderedItem.delete();
                 });
             }, 50);
-            
-            /*
-            setTimeout(async function() {
-                await renderedItem.sheet.render(false);
-                await renderedItem.delete();
-            },3000);
-            */
         }
+
+
 
         //#region inventory methods
-    _getAllOwnedItems() {
-        return this.actor.items;
-    }
-
-    getOwnedItems({tags = [], Ids = []}) {
-        let results = [];
-        let itemData = undefined;
-        if (tags.length + Ids.length == 0) {return results;}
-        tags = new Set(tags);
-        Ids = new Set(Ids);
-        for (let item of this._getAllOwnedItems() ) {
-            itemData = item.system;
-            if ( itemData.tags.filter(x => tags.has(x) )
-                  || Ids.has(item._id)
-                )
-            {
-                results.push(item);
+            _getAllOwnedItems() {
+                return this.actor.items;
             }
-        }
-        return results;
-    }
 
-    getOwnedItem(itemId) {
-        return this.actor.items.get(itemId);
-    }
-
-    getIndexOfOwnedItem(itemId) {
-        let item = undefined;
-        let ownedItems = this._getAllOwnedItems();
-        for (let i = 0;i < ownedItems.length;i++) {
-            item = ownedItems[i];
-            if (item._id == itemId) {return i;} 
-        }
-        return -1;
-    }
-
-    addOwnedItem(item) {
-        //should be deprecated since we use the Item.create method instead
-        let ownedItems = this._getAllOwnedItems();
-        ownedItems.push(item);
-        return ownedItems.length - 1;
-    }
-
-    removeOwnedItem(itemId) {
-        let index = this.getIndexOfOwnedItem(itemId);
-        try {
-            this._getAllOwnedItems().splice(index,1);
-            //we should save here?
-            console.warn("maybe you should save the items when removing an owned item?")
-            return index;
-        }
-        catch(error) {console.error(error.message); return -1;}
-    }
-
-    async createOwnedItem(itemData) {
-        try {
-            await Item.create(itemData, {parent : this.actor});
-            return this._getAllOwnedItems().length - 1;
-        }
-        catch(error) {
-            console.error(error.message);
-            return -1;
-        }
-    }
-
-    async updateOwnedItem(itemId, field, value) {
-        /** fetches and updates an owned item field with the given value
-         * @param {string} itemId : the Foundry ID of the item to fetch
-         * @param {string} field : the name of the field to modify
-         * @param {wildcard} value : the value to use to update the field
-         */
-        let item = this.getOwnedItem(itemId);
-        if (item !== undefined) {
-            try {
-                //we transform the field into an object of objects for saving
-                let toSave = fieldToObject(field, value);
-                if (toSave["item"] != undefined) {toSave = toSave["item"];}
-                await item.update(toSave);
-                return true;
+            getOwnedItems({tags = [], Ids = []}) {
+                let results = [];
+                let itemData = undefined;
+                if (tags.length + Ids.length == 0) {return results;}
+                tags = new Set(tags);
+                Ids = new Set(Ids);
+                for (let item of this._getAllOwnedItems() ) {
+                    itemData = item.system;
+                    if ( itemData.tags.filter(x => tags.has(x) )
+                        || Ids.has(item._id)
+                        )
+                    {
+                        results.push(item);
+                    }
+                }
+                return results;
             }
-            catch(error) {
-                console.error(error.message);
-                return false;
+
+            getOwnedItem(itemId) {
+                return this.actor.items.get(itemId);
             }
-        }
-        return false; 
-    }
 
-    async updateOwnedItemFields(itemId, fields) {
-        /**
-         * @param {string} itemId : the Foundry ID of the owned item to fetch
-         * @param {Dictionary(string : wildcard)} fields : A dictionary of field names : values to set
-         */
-        let item = this.getOwnedItem(itemId);
-        if (item == undefined) {return false;}
-        try {
-            //we update / set all the values
-            for (let key of Object.keys(fields) ) {item.system[key] = fields[key];}
-            await item.update({
-                'system' : fields //since it's already a dictionary key : value we just pass it
-            });
-        }
-        catch(error) {
-            console.error(error.message);
-            return false;
-        }
-        
-    }
+            getIndexOfOwnedItem(itemId) {
+                let item = undefined;
+                let ownedItems = this._getAllOwnedItems();
+                for (let i = 0;i < ownedItems.length;i++) {
+                    item = ownedItems[i];
+                    if (item._id == itemId) {return i;} 
+                }
+                return -1;
+            }
 
-    //#endregion
+            addOwnedItem(item) {
+                //should be deprecated since we use the Item.create method instead
+                let ownedItems = this._getAllOwnedItems();
+                ownedItems.push(item);
+                return ownedItems.length - 1;
+            }
+
+            removeOwnedItem(itemId) {
+                let index = this.getIndexOfOwnedItem(itemId);
+                try {
+                    this._getAllOwnedItems().splice(index,1);
+                    //we should save here?
+                    console.warn("maybe you should save the items when removing an owned item?")
+                    return index;
+                }
+                catch(error) {console.error(error.message); return -1;}
+            }
+
+            async createOwnedItem(itemData) {
+                try {
+                    await Item.create(itemData, {parent : this.actor});
+                    return this._getAllOwnedItems().length - 1;
+                }
+                catch(error) {
+                    console.error(error.message);
+                    return -1;
+                }
+            }
+
+            async updateOwnedItem(itemId, field, value) {
+                /** fetches and updates an owned item field with the given value
+                 * @param {string} itemId : the Foundry ID of the item to fetch
+                 * @param {string} field : the name of the field to modify
+                 * @param {wildcard} value : the value to use to update the field
+                 */
+                let item = this.getOwnedItem(itemId);
+                if (item !== undefined) {
+                    try {
+                        //we transform the field into an object of objects for saving
+                        let toSave = fieldToObject(field, value);
+                        if (toSave["item"] != undefined) {toSave = toSave["item"];}
+                        await item.update(toSave);
+                        return true;
+                    }
+                    catch(error) {
+                        console.error(error.message);
+                        return false;
+                    }
+                }
+                return false; 
+            }
+
+            async updateOwnedItemFields(itemId, fields) {
+                /**
+                 * @param {string} itemId : the Foundry ID of the owned item to fetch
+                 * @param {Dictionary(string : wildcard)} fields : A dictionary of field names : values to set
+                 */
+                let item = this.getOwnedItem(itemId);
+                if (item == undefined) {return false;}
+                try {
+                    //we update / set all the values
+                    for (let key of Object.keys(fields) ) {item.system[key] = fields[key];}
+                    await item.update({
+                        'system' : fields //since it's already a dictionary key : value we just pass it
+                    });
+                }
+                catch(error) {
+                    console.error(error.message);
+                    return false;
+                }
+                
+            }
+
+        //#endregion
 
 
     //#endregion
