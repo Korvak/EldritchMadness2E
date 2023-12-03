@@ -10,6 +10,7 @@ async function preloadHandlebarsTemplates() {
     "systems/EldritchMadness/templates/partials/actors/actorInfo-partial.hbs",
     "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs",
     "systems/EldritchMadness/templates/partials/actors/actorOptions-partial.hbs",
+    "systems/EldritchMadness/templates/partials/actors/actorAttributes-partial.hbs",
     //#endregion
     //#region item partials
     "systems/EldritchMadness/templates/partials/items/baseItem-partial.hbs",
@@ -86,8 +87,18 @@ Hooks.once("init", function() {
     });
 
     Handlebars.registerHelper('fetch', function(item, key) {
-        try {return item[key];}
-        catch(error) {console.error(error.message); return undefined;}
+        try {
+          console.log(item, key, typeof item, typeof key);
+          switch(typeof item) {
+            case "function" : {return item(...key);}
+            case "object" : {return item[key];}
+            default : {return item[key];}
+          }
+        }
+        catch(error) {
+          console.error(error.message); 
+          return undefined;
+        }
     });
 
     Handlebars.registerHelper('hasRole', function(role) {

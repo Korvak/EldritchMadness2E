@@ -1,0 +1,98 @@
+<div class="em_propertiesContainer">
+    {{!-- hp bar --}}
+    <div class="em_hpBarContainer">
+        <div id="em_item_durabilityBar"
+        {{!-- hp bar visuals --}}
+        class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
+            data-value="{{actor.system.attributes.hp.value}}" data-valueMax="{{actor.system.attributes.hp.max}}" 
+            data-temp="{{actor.system.attributes.hp.temp}}" data-tempMax="{{actor.system.attributes.hp.maxTemp}}" 
+            {{#if (hasRole "KEEPER")}}data-id="bar_hp"{{/if}}
+        >
+            {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
+            <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.hp.value}} / {{actor.system.attributes.hp.max}} + {{actor.system.attributes.hp.temp}}</span>
+            <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.HP.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.HP.TEMP}}">
+            </div>
+        </div>
+        {{!-- end hp bar visuals --}}
+        {{!-- hp bar editor dropdown --}}
+        {{#if (hasRole "KEEPER")}}
+            <div class="dropdown-content em_hidden w3-border w3-light-gray" for="bar_hp">
+                <div class="em_leftContainer">
+                    {{!-- value --}}
+                    <div class="em_halfSection">
+                        {{!-- labels --}}
+                        <div class="w3-cell-row ">
+                            <div class="w3-cell" style="width:33%">
+                                <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">min</p>
+                            </div>
+                            <div class="w3-cell" style="width:33%">
+                                <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">value</p>
+                            </div>
+                            <div class="w3-cell" style="width:33%">
+                                <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">max</p>
+                            </div>
+                        </div>
+                        {{!-- inputs --}}
+                        <div class="w3-cell-row">
+                            <div class="w3-cell" style="width:33%">
+                                <input id="em_actor_hpMin" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                name="actor.system.attributes.hp.min" value="{{actor.system.attributes.hp.min}}" style="width:calc(90% - 12px)">
+                            </div>
+                            <div class="w3-cell" style="width:33%">
+                                <input id="em_actor_hpValue" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                name="actor.system.attributes.hp.value" value="{{actor.system.attributes.hp.value}}" style="width:calc(90% - 12px)">
+                            </div>
+                            <div class="w3-cell" style="width:33%">
+                                <input id="em_actor_hpMax" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                    name="actor.system.attributes.hp.max" value="{{actor.system.attributes.hp.max}}" style="width:calc(90% - 12px)">
+                            </div>
+                        </div>
+                    </div>
+                    {{!-- temp values --}}
+                    <div class="em_halfSection">
+                        {{! -- labels --}}
+                        <div class="w3-cell-row ">
+                            <div class="w3-cell" style="width:33%">
+                                <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp min</p>
+                            </div>
+                            <div class="w3-cell" style="width:33%">
+                                <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp</p>
+                            </div>
+                            <div class="w3-cell" style="width:33%">
+                                <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">temp max</p>
+                            </div>
+                        </div>
+                        {{!-- inputs --}}
+                        <div class="w3-cell-row">
+                            <div class="w3-cell" style="width:33%">
+                                <input id="em_actor_hpMinTemp" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                    name="actor.system.attributes.hp.minTemp" value="{{actor.system.attributes.hp.minTemp}}" style="width:calc(90% - 12px)">
+                            </div>
+                            <div class="w3-cell" style="width:33%">
+                                <input id="em_actor_hpTemp" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                    name="actor.system.attributes.hp.temp" value="{{actor.system.attributes.hp.temp}}" style="width:calc(90% - 12px)">
+                            </div>
+                            <div class="w3-cell" style="width:33%">
+                                <input id="em_actor_hpMaxTemp" class="w3-center em_input_cell em_halfContainer em_field" type="number"
+                                    name="actor.system.attributes.hp.maxTemp" value="{{actor.system.attributes.hp.maxTemp}}" style="width:calc(90% - 12px)">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        {{/if}}
+    </div>
+    {{!-- if the element has a sanity that it displays it's attribute bar --}}
+    {{#if actor.system.attributes.san }}
+        <p>sanity</p>
+    {{/if}}
+    {{!-- mp bar --}}
+    <div class="em_mpBarContainer">
+
+    </div>
+    {{!-- luck bar --}}
+    {{#if actor.system.attributes.luck }}
+        <p>luck</p>
+    {{/if}}
+</div>

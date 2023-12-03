@@ -30,6 +30,13 @@ export default class EmBaseActorSheet extends ActorSheet {
         return `systems/EldritchMadness/templates/sheets/actors/baseActor-sheet.hbs`;
     }
 
+    getTemplates(templateName) {
+        switch(templateName) {
+            case "bodypart" : {return "systems/EldritchMadness/templates/sheets/items/bodypart-sheet.hbs";}
+            default : {return "";}
+        }
+    }
+
     getData() {
         let data = super.getData();
         //system holds all the data

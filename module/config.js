@@ -43,6 +43,12 @@ EmConfig.BAR_COLORS = {
             PRIMARY : "red",
             TEMP : "green"
         }
+    },
+    ACTOR : {
+        HP : {
+            PRIMARY : "red",
+            TEMP : "green"
+        }
     }
 }
 

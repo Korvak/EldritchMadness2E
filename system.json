@@ -1,6 +1,6 @@
 {
     "name" : "EldritchMadness",
-    "title" : "Eldritch Madness 2E",
+    "title" : "Eldritch Madness - 2nd Edition",
     "description" : "A homebrew version of CoC7",
     "version": "0.0.1",
     "authors": [
@@ -11,7 +11,7 @@
     ],
     "compatibility": {
         "minimum": "10",
-        "verified": "11.299"
+        "verified": "11.315"
     },
     "esmodules" : [
         "resources/turnjs4/lib/turn.min.js",
