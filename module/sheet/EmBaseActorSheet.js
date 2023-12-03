@@ -1,5 +1,5 @@
 import {translate, treeBreadthSearch, fieldToObject, overwiteObjectFields, setInputsFromData, getValueFromFields} from "../utils.js"
-import {toggleDropdown, toggleReadonly, renderBar, setBarValue, searchByTags } from "../htmlUtils.js"
+import {toggleDropdown, toggleReadonly, renderBar, setBarValue, searchByTags , toggleBtnState } from "../htmlUtils.js"
 
 export default class EmBaseActorSheet extends ActorSheet {
 
@@ -115,9 +115,30 @@ export default class EmBaseActorSheet extends ActorSheet {
                 html.find(".em_readonlyIcon").each(function() {
                     $(this).get(0).onclick = toggleReadonly;
                 });
+                //toggle btns setup
+                html.find(".em_toggleBtn").each(function() {
+                    $(this).get(0).onclick = toggleBtnState;
+                });
+                html.find(".em_searchbarTag").each(function() {
+                    //onchange finds the linked searchbar and triggers it
+                    //onchange is called when the toggleBtnState is activated.
+                    $(this).get(0).onchange = function(event) {
+                        let parent = $(this).parents(".em_tagContainer[for]");
+                        if (parent.length > 0) {
+                            //if the parent is bound that they must be in the same container
+                            //so it gets the parent of the tag container and searches for the searchbar
+                            //then it triggers its' keyup event.
+                            let container = parent.parent();
+                            let searchbar = container.find(`.em_searchbar[data-id=${parent.attr("for")}]`);
+                            searchbar.keyup();
+                        }
+                    };
+                });
+                //searchbar setup
                 html.find(".em_searchbar").each(function() {
                     $(this).get(0).onkeyup = searchByTags;
                 });
+
                 //dropdown functionality
                 html.find(".dropdown-btn").each(function() {
                     $(this).find(".dropdown-icon").contextmenu(function(event) {
