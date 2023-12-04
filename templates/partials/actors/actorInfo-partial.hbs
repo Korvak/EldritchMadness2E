@@ -6,15 +6,15 @@
 </div>
 {{> "systems/EldritchMadness/templates/partials/actors/actorAttributes-partial.hbs"}}
 {{!-- characteristics container --}}
-<div class="em_charact_wrapper w3-section">
+<div class="em_charact_wrapper em_searchable_wrapper w3-section">
     <h3 class="em_charact_title">characteristics</h3>
     <div class="w3-border em_inputContainer em_halfTopMargin">
         <input id="em_charact_searchbar" class="em_input em_searchbar" data-id="em_charact_search" data-search="startsWith">
         <i class="em_inputIcon fa-solid fa-search"></i>
     </div>
-    <div class="em_charact_container w3-border" style="padding-top:8px;" for="em_charact_search">
+    <div class="em_charact_container em_searchable_container w3-border" style="padding-top:8px;" for="em_charact_search">
         {{#each actor.system.characteristics}}
-            <div class="em_charact w3-border w3-round-large w3-center w3-badge w3-white" data-search="{{i18n this.label}}">
+            <div class="em_charact em_searchable w3-border w3-round-large w3-center w3-badge w3-white" data-search="{{i18n this.label}}">
                 <p class="em_charact_text hint--bottom" aria-label="{{i18n this.label}}" >{{i18n this.short}}</p>
                 <p class="w3-border w3-round-large w3-hover-black em_charact_text em_charact_btn">{{this.value}}</p>
                 <p class="w3-badge w3-black em_charact_text">{{this.temp}}</p>
@@ -23,7 +23,7 @@
     </div>
 </div>
 {{!-- skills container --}}
-<div class="em_skill_wrapper">
+<div class="em_skill_wrapper em_searchable_wrapper">
     <h3 class="em_skill_title">skills</h3>
     <div class="w3-border em_inputContainer em_halfTopMargin">
         <input id="em_skill_searchbar" class="em_input em_searchbar" data-id="em_skill_search" data-search="startsWith">
@@ -39,15 +39,15 @@
         <button class="w3-round-large w3-hover-black em_noShadow em_searchbarTag em_toggleBtn" tag="combat" active="false">combat</button>
         <button class="w3-round-large w3-hover-black em_noShadow em_searchbarTag em_toggleBtn" tag="craft" active="false">craft</button>
     </div>
-    <div class="em_skill_container w3-border" style="padding-top:8px;" for="em_skill_search">
+    <div class="em_skill_container em_searchable_container w3-border" style="padding-top:8px;" for="em_skill_search">
         {{#each actor.system.skills}}
-            <div class="em_charact w3-border w3-round-large w3-center w3-badge w3-white" data-search="{{i18n this.label}}">
-                <p class="em_charact_text hint--bottom-right hint--medium" aria-label="{{i18n this.name}}" >{{i18n this.name}}</p>
-                <p class="w3-border w3-round-large w3-hover-black em_charact_text em_charact_btn"
+            <div class="em_skill em_searchable w3-border w3-card w3-round-large w3-center w3-badge w3-white" data-search="{{i18n this.label}}">
+                <p class="em_skill_text hint--bottom-right hint--medium" aria-label="{{i18n this.name}}" >{{i18n this.name}}</p>
+                <p class="w3-border w3-round-large w3-hover-black em_skill_text em_skill_btn"
                 aria-label="{{this.value}}/{{this.max}} + {{this.temp}}/{{this.maxTemp}}">
                     {{sum this.value this.temp}}
                 </p>
-                <p class="w3-badge w3-black em_charact_text">{{this.min}}</p>
+                <p class="w3-badge w3-black em_skill_text">{{this.min}}</p>
             </div>
         {{/each}}
     </div>

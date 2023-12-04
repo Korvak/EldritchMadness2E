@@ -49,7 +49,6 @@
          */
         event.preventDefault();
         let element = $(this);
-        console.log("hello");
         //then we get the container linked to the searchbar
         let parent = element.parent();
         //in case the input it's in a container, then we get the next parent
@@ -63,7 +62,7 @@
         container.children().show();
         if (element.val().length > 0) {
             //then we hide all the elements that don't follow our search rule
-            container.find(`>:not([data-search${searchChar}${element.val()}])`).hide();
+            container.find(`>.em_searchable:not([data-search${searchChar}${element.val()}])`).hide();
         }
         //#region tags resolution if exists
         let tagsContainer = parent.find(`.em_tagContainer[tagsFor=${this.dataset.id}]`);
@@ -82,10 +81,6 @@
             });
         }
         //#endregion
-    }
-
-    export function retrigger() {
-
     }
 
 //#endregion
