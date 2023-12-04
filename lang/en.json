@@ -68,6 +68,180 @@
                 "name" : "movement"
             }
         },
+        "skills" : {
+            "heavy_guns" : {
+                "name" : "heavy guns",
+                "desc" : "proficiency in using high caliber firearms."
+            },
+            "firearms" : {
+                "name" : "firearms",
+                "desc" : "proficiency in using small caliber firearms."
+            },
+            "fighting" : {
+                "name" : "fighting",
+                "desc" : "proficiency in close combat."
+            },
+            "throw" : {
+                "name" : "throw",
+                "desc" : "proficiency in throwing objects."
+            },
+            "dodge" : {
+                "name" : "dodge",
+                "desc" : "how skilled you are at dodging."
+            },
+            "mythos" : {
+                "name" : "eldritch mythos",
+                "desc" : "knowledge of eldritch mythos."
+            },
+            "occult" : {
+                "name" : "occult",
+                "desc" : "knowledge of occult arts."
+            },
+            "first_aid" : {
+                "name" : "first aid",
+                "desc" : "in-fight healing proficiency."
+            },
+            "medicine" : {
+                "name" : "medicine",
+                "desc" : "knowledge of medicine and healing."
+            },
+            "mech_repairs" : {
+                "name" : "mechanical repairs",
+                "desc" : "proficiency in repairing mechanical objects."
+            },
+            "elec_repairs" : {
+                "name" : "electrical repairs",
+                "desc" : "proficiency in repairing mechanical circuits."
+            },
+            "psychology" : {
+                "name" : "psychology",
+                "desc" : "knowledge and control of oneself."
+            },
+            "psychoanalysis" : {
+                "name" : "psychoanalysis",
+                "desc" : "proficiency in analyzing others' psyches."
+            },
+            "anthropology" : {
+                "name" : "anthropology",
+                "desc" : "knowledge of human behaviours and the human world."
+            },
+            "archeology" : {
+                "name" : "archeology",
+                "desc" : "procificiency in unhearting artifacts and knowledge of human history."
+            },
+            "history" : {
+                "name" : "history",
+                "desc" : "knowledge of history."
+            },
+            "natural_science" : {
+                "name" : "natural science",
+                "desc" : "attunement with the natural world and knowledge of natural sciences."
+            },
+            "science" : {
+                "name" : "science",
+                "desc" : "proficiency in understanding modern science."
+            },
+            "law" : {
+                "name" : "law",
+                "desc" : "knowledge of the laws."
+            },
+            "linguistics" : {
+                "name" : "linguistics",
+                "desc" : "proficiency in undestanding languages."
+            },
+            "librarianship" : {
+                "name" : "librarianship",
+                "desc" : "ability to search for books and reading proficiency."
+            },
+            "accounting" : {
+                "name" : "accounting",
+                "desc" : "proficiency in recording, classifying and understanding financial transactions."
+            },
+            "arts_and_crafts" : {
+                "name" : "arts & crafts",
+                "desc" : "proficiency in most crafts."
+            },
+            "climb" : {
+                "name" : "climb",
+                "desc" : "proficiency in climbing."
+            },
+            "drive" : {
+                "name" : "drive",
+                "desc" : "proficiency in driving ground vehicles."
+            },
+            "jump" : {
+                "name" : "jump",
+                "desc" : "proficiency in jumping and doing air acrobacies."
+            },
+            "navigate" : {
+                "name" : "navigate",
+                "desc" : "proficiency in sailing."
+            },
+            "pilot" : {
+                "name" : "pilot",
+                "desc" : "proficiency in piloting aircrafts."
+            },
+            "ride" : {
+                "name" : "ride",
+                "desc" : "ability in riding animals and monsters."
+            },
+            "operate_machinery" : {
+                "name" : "operate machinery",
+                "desc" : "proficiency in operating heavy machinery."
+            },
+            "charm" : {
+                "name" : "charm",
+                "desc" : "ability in gaining favourability with people."
+            },
+            "intimidate" : {
+                "name" : "intimidate",
+                "desc" : "ability to instill fear in people."
+            },
+            "persuade" : {
+                "name" : "persuade",
+                "desc" : "ability to convince people."
+            },
+            "deceive" : {
+                "name" : "deceive",
+                "desc" : "ability to make people believe lies."
+            },
+            "disguise" : {
+                "name" : "disguise",
+                "desc" : "proficiency in disguising objects and people."
+            },
+            "sleight_of_hand" : {
+                "name" : "sleight of hand",
+                "desc" : "proficiency in doing tricks using your hands."
+            },
+            "listen" : {
+                "name" : "listen",
+                "desc" : "ability to search for things using your hearing."
+            },
+            "appraise" : {
+                "name" : "appraise",
+                "desc" : "knowledge in items and ability to discern the value of items."
+            },
+            "locksmith" : {
+                "name" : "locksmith",
+                "desc" : "proficiency in unlocking locks."
+            },
+            "spot" : {
+                "name" : "spot",
+                "desc" : "ability to search for things using your sight."
+            },
+            "track" : {
+                "name" : "track",
+                "desc" : "proficiency in spotting tracks and finding people."
+            },
+            "stealth" : {
+                "name" : "stealth",
+                "desc" : "proficiency in hiding."
+            },
+            "survival" : {
+                "name" : "survival",
+                "desc" : "proficiency in foraging and spotting environmental hazards."
+            }
+        },
         "actors" : {
             "conditions" : {
                 "buff" : "buff",

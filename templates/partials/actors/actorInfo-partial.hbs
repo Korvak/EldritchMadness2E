@@ -17,7 +17,7 @@
             <div class="em_charact w3-border w3-round-large w3-center w3-badge w3-white" data-search="{{i18n this.label}}">
                 <p class="em_charact_text hint--bottom" aria-label="{{i18n this.label}}" >{{i18n this.short}}</p>
                 <p class="w3-border w3-round-large w3-hover-black em_charact_text em_charact_btn">{{this.value}}</p>
-                <p class="w3-badge w3-black em_charact_text"> + {{this.temp}}</p>
+                <p class="w3-badge w3-black em_charact_text">{{this.temp}}</p>
             </div>
         {{/each}}
     </div>
@@ -29,6 +29,7 @@
         <input id="em_skill_searchbar" class="em_input em_searchbar" data-id="em_skill_search" data-search="startsWith">
         <i class="em_inputIcon fa-solid fa-search"></i>
     </div>
+    {{!-- skill tags | hard coded --}}
     <div class="w3-border em_tagContainer" for="em_skill_search">
         <button class="w3-round-large w3-hover-black em_noShadow em_searchbarTag em_toggleBtn" tag="move" active="false">move</button>
         <button class="w3-round-large w3-hover-black em_noShadow em_searchbarTag em_toggleBtn" tag="detective" active="false">detective</button>
@@ -39,12 +40,15 @@
         <button class="w3-round-large w3-hover-black em_noShadow em_searchbarTag em_toggleBtn" tag="craft" active="false">craft</button>
     </div>
     <div class="em_skill_container w3-border" style="padding-top:8px;" for="em_skill_search">
-        <ul>
         {{#each actor.system.skills}}
-            <li>
-                {{this.name}}
-            </li>
+            <div class="em_charact w3-border w3-round-large w3-center w3-badge w3-white" data-search="{{i18n this.label}}">
+                <p class="em_charact_text hint--bottom-right hint--medium" aria-label="{{i18n this.name}}" >{{i18n this.name}}</p>
+                <p class="w3-border w3-round-large w3-hover-black em_charact_text em_charact_btn"
+                aria-label="{{this.value}}/{{this.max}} + {{this.temp}}/{{this.maxTemp}}">
+                    {{sum this.value this.temp}}
+                </p>
+                <p class="w3-badge w3-black em_charact_text">{{this.min}}</p>
+            </div>
         {{/each}}
-        </ul>
     </div>
 </div>

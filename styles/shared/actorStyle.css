@@ -79,6 +79,7 @@
         
         max-width: 100%;
         width: 100%;
+        min-height: 90px;
         max-height: 180px;
         overflow-x: hidden;
         overflow-y: scroll;

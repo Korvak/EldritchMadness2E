@@ -83,6 +83,19 @@ Hooks.once("init", function() {
     });
 
     //#endregion
+    //#region operation helpers
+
+    Handlebars.registerHelper('sum' , function(a , b) {
+      try {
+        return a + b;
+      }
+      catch(error) {
+        console.error(error.message);
+        return NaN;
+      }
+    });
+
+    //#region
 
     Handlebars.registerHelper('norm' , function(value, min, max) {
       return normalize(value,min,max);

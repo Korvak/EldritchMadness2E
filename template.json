@@ -347,6 +347,17 @@
                         "minTemp" : 0,
                         "temp" : 0,
                         "maxTemp" : 50
+                    },
+                    "operate_machinery" : {
+                        "name" : "em.skills.operate_machinery.name",
+                        "desc" : "em.skills.operate_machinery.desc",
+                        "tags" : ["move"],
+                        "min": 0,
+                        "value" : 0,
+                        "max" : 100,
+                        "minTemp" : 0,
+                        "temp" : 0,
+                        "maxTemp" : 50
                     }
                 }
                 
@@ -526,6 +537,17 @@
                     "spot" : {
                         "name" : "em.skills.spot.name",
                         "desc" : "em.skills.spot.desc",
+                        "tags" : ["detective"],
+                        "min": 0,
+                        "value" : 0,
+                        "max" : 100,
+                        "minTemp" : 0,
+                        "temp" : 0,
+                        "maxTemp" : 50
+                    },
+                    "track" : {
+                        "name" : "em.skills.track.name",
+                        "desc" : "em.skills.track.desc",
                         "tags" : ["detective"],
                         "min": 0,
                         "value" : 0,
