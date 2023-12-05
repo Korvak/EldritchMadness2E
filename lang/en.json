@@ -33,39 +33,48 @@
         "characteristics" : {
             "str" : {
                 "short" : "str",
-                "name" : "strength"
+                "name" : "strength",
+                "desc" : ""
             },
             "dex": {
                 "short" : "dex",
-                "name" : "dexterity"
+                "name" : "dexterity",
+                "desc" : ""
             },
             "con": {
                 "short" : "con",
-                "name" : "constitution"
+                "name" : "constitution",
+                "desc" : ""
             },
             "int": {
                 "short" : "int",
-                "name" : "intelligence"
+                "name" : "intelligence",
+                "desc" : ""
             },
             "pow": {
                 "short" : "pow",
-                "name" : "power"
+                "name" : "power",
+                "desc" : ""
             },
             "siz": {
                 "short" : "siz",
-                "name" : "size"
+                "name" : "size",
+                "desc" : ""
             },
             "app": {
                 "short" : "app",
-                "name" : "appearance"
+                "name" : "appearance",
+                "desc" : ""
             },
             "edu": {
                 "short" : "edu",
-                "name" : "education"
+                "name" : "education",
+                "desc" : ""
             },
             "mov": {
                 "short" : "mov",
-                "name" : "movement"
+                "name" : "movement",
+                "desc" : ""
             }
         },
         "skills" : {
