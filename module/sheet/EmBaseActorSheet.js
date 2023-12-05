@@ -18,8 +18,8 @@ export default class EmBaseActorSheet extends ActorSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, 
             {
-                width: 530,
-                height : 450,
+                width: 582,
+                height : 476,
                 classes : ["em_actorSheet"]
         });
     }
@@ -129,13 +129,13 @@ export default class EmBaseActorSheet extends ActorSheet {
                     //onchange finds the linked searchbar and triggers it
                     //onchange is called when the toggleBtnState is activated.
                     $(this).get(0).onchange = function(event) {
-                        let parent = $(this).parents(".em_tagContainer[for]");
+                        let parent = $(this).parents(".em_tagContainer[tagsFor]");
                         if (parent.length > 0) {
                             //if the parent is bound that they must be in the same container
                             //so it gets the parent of the tag container and searches for the searchbar
                             //then it triggers its' keyup event.
                             let container = parent.parent();
-                            let searchbar = container.find(`.em_searchbar[data-id=${parent.attr("for")}]`);
+                            let searchbar = container.find(`.em_searchbar[data-id=${parent.attr("tagsFor")}]`);
                             searchbar.keyup();
                         }
                     };

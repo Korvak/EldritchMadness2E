@@ -59,7 +59,7 @@
         //if doesn't exists then we get the default
         searchChar = searchChar == undefined ? SEARCH_MODE["default"] : searchChar;
         //first we show all the elements in the container
-        container.children().show();
+        container.find(">.em_searchable").show();
         if (element.val().length > 0) {
             //then we hide all the elements that don't follow our search rule
             container.find(`>.em_searchable:not([data-search${searchChar}${element.val()}])`).hide();
@@ -70,12 +70,16 @@
         //then we apply the tags on the visible ones
         if (tagsContainer.length > 0 && tagElements.length > 0 ) {
             //then we get all the tags enabled and apply then to the elements
-            let tagsEnabled = tagElements.map(function() {return $(this).attr("tag");});
+            let tagsEnabled = [];
+            tagElements.each(function() {
+                tagsEnabled.push($(this).attr("tag") );
+            })
+            console.log(tagsEnabled, typeof tagsEnabled);
             //once we have the tags then we hide all the elements that do not follow the tags
-            container.children.each(function() {
+            container.find(">.em_searchable").each(function() {
                 let tags = $(this).attr("tags").split(",");
                 //this is on a first match basis and checks if any of the tags in the element are in the second array
-                if (! tags.some(item => tagsEnabled.include(item) ) ) { //still O(n^2)
+                if (! tags.some(item => tagsEnabled.includes(item) ) ) { //still O(n^2)
                     $(this).hide(); //we hide all elements that don't have a tag enabled
                 }
             });

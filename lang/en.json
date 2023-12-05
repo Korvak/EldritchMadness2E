@@ -210,12 +210,12 @@
             },
             "mythos" : {
                 "name" : "eldritch mythos",
-                "short" : "eldritch mythos",
+                "short" : "mythos",
                 "desc" : "knowledge of eldritch mythos."
             },
             "natural_science" : {
                 "name" : "natural science",
-                "short" : "natural science",
+                "short" : "nat. science",
                 "desc" : "attunement with the natural world and knowledge of natural sciences."
             },
             "navigate" : {
