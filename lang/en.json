@@ -71,174 +71,217 @@
         "skills" : {
             "accounting" : {
                 "name" : "accounting",
+                "short" : "accounting",
                 "desc" : "proficiency in recording, classifying and understanding financial transactions."
             },
             "anthropology" : {
                 "name" : "anthropology",
+                "short" : "anthropology",
                 "desc" : "knowledge of human behaviours and the human world."
             },
             "appraise" : {
                 "name" : "appraise",
+                "short" : "appraise",
                 "desc" : "knowledge in items and ability to discern the value of items."
             },
             "archeology" : {
                 "name" : "archeology",
+                "short" : "archeology",
                 "desc" : "procificiency in unhearting artifacts and knowledge of human history."
             },
             "arts_and_crafts" : {
                 "name" : "arts & crafts",
+                "short" : "arts & crafts",
                 "desc" : "proficiency in most crafts."
             },
             "charm" : {
                 "name" : "charm",
+                "short" : "charm",
                 "desc" : "ability in gaining favourability with people."
             },
             "climb" : {
                 "name" : "climb",
+                "short" : "climb",
                 "desc" : "proficiency in climbing."
             },
             "deceive" : {
                 "name" : "deceive",
+                "short" : "deceive",
                 "desc" : "ability to make people believe lies."
             },
             "disguise" : {
                 "name" : "disguise",
+                "short" : "disguise",
                 "desc" : "proficiency in disguising objects and people."
             },
             "dodge" : {
                 "name" : "dodge",
+                "short" : "dodge",
                 "desc" : "how skilled you are at dodging."
             },
             "drive" : {
                 "name" : "drive",
+                "short" : "drive",
                 "desc" : "proficiency in driving ground vehicles."
             },
             "elec_repairs" : {
                 "name" : "electrical repairs",
+                "short" : "elec. repairs",
                 "desc" : "proficiency in repairing mechanical circuits."
             },
             "fighting" : {
                 "name" : "fighting",
+                "short" : "fighting",
                 "desc" : "proficiency in close combat."
             },
             "firearms" : {
                 "name" : "firearms",
+                "short" : "firearms",
                 "desc" : "proficiency in using small caliber firearms."
             },
             "first_aid" : {
                 "name" : "first aid",
+                "short" : "first aid",
                 "desc" : "in-fight healing proficiency."
             },
             "heavy_guns" : {
                 "name" : "heavy guns",
+                "short" : "heavy guns",
                 "desc" : "proficiency in using high caliber firearms."
             },
             "history" : {
                 "name" : "history",
+                "short" : "history",
                 "desc" : "knowledge of history."
             },
             "intimidate" : {
                 "name" : "intimidate",
+                "short" : "intimidate",
                 "desc" : "ability to instill fear in people."
             },
             "jump" : {
                 "name" : "jump",
+                "short" : "jump",
                 "desc" : "proficiency in jumping and doing air acrobacies."
             },
             "law" : {
                 "name" : "law",
+                "short" : "law",
                 "desc" : "knowledge of the laws."
             },
             "librarianship" : {
                 "name" : "librarianship",
+                "short" : "librarianship",
                 "desc" : "ability to search for books and reading proficiency."
             },
             "linguistics" : {
                 "name" : "linguistics",
+                "short" : "linguistics",
                 "desc" : "proficiency in undestanding languages."
             },
             "listen" : {
                 "name" : "listen",
+                "short" : "listen",
                 "desc" : "ability to search for things using your hearing."
             },
             "locksmith" : {
                 "name" : "locksmith",
+                "short" : "locksmith",
                 "desc" : "proficiency in unlocking locks."
             },
             "mech_repairs" : {
                 "name" : "mechanical repairs",
+                "short" : "mech. repairs",
                 "desc" : "proficiency in repairing mechanical objects."
             },
             "medicine" : {
                 "name" : "medicine",
+                "short" : "medicine",
                 "desc" : "knowledge of medicine and healing."
             },
             "mythos" : {
                 "name" : "eldritch mythos",
+                "short" : "eldritch mythos",
                 "desc" : "knowledge of eldritch mythos."
             },
             "natural_science" : {
                 "name" : "natural science",
+                "short" : "natural science",
                 "desc" : "attunement with the natural world and knowledge of natural sciences."
             },
             "navigate" : {
                 "name" : "navigate",
+                "short" : "navigate",
                 "desc" : "proficiency in sailing and swimming."
             },
             "occult" : {
                 "name" : "occult",
+                "short" : "occult",
                 "desc" : "knowledge of occult arts."
             },
             "operate_machinery" : {
                 "name" : "operate machinery",
+                "short" : "op. machinery",
                 "desc" : "proficiency in operating heavy machinery."
             },
             "persuade" : {
                 "name" : "persuade",
+                "short" : "persuade",
                 "desc" : "ability to convince people."
             },
             "pilot" : {
                 "name" : "pilot",
+                "short" : "pilot",
                 "desc" : "proficiency in piloting aircrafts."
             },
             "psychoanalysis" : {
                 "name" : "psychoanalysis",
+                "short" : "psychoanalysis",
                 "desc" : "proficiency in analyzing others' psyches."
             },
             "psychology" : {
                 "name" : "psychology",
+                "short" : "psychology",
                 "desc" : "knowledge and control of oneself."
             },
             "ride" : {
                 "name" : "ride",
+                "short" : "ride",
                 "desc" : "ability in riding animals and monsters."
             },
             "science" : {
                 "name" : "science",
+                "short" : "science",
                 "desc" : "proficiency in understanding modern science."
             },
             "sleight_of_hand" : {
                 "name" : "sleight of hand",
+                "short" : "sleight of hand",
                 "desc" : "proficiency in doing tricks using your hands."
             },
             "spot" : {
                 "name" : "spot",
+                "short" : "spot",
                 "desc" : "ability to search for things using your sight."
             },
             "stealth" : {
                 "name" : "stealth",
+                "short" : "stealth",
                 "desc" : "proficiency in hiding."
             },
             "survival" : {
                 "name" : "survival",
+                "short" : "survival",
                 "desc" : "proficiency in foraging and spotting environmental hazards."
             },
             "throw" : {
                 "name" : "throw",
+                "short" : "throw",
                 "desc" : "proficiency in throwing objects."
             },
             "track" : {
                 "name" : "track",
+                "short" : "track",
                 "desc" : "proficiency in spotting tracks and finding people."
             }
         },
