@@ -1,5 +1,5 @@
 <form class="em_actorFormContainer w3-container" autocomplete="off">
-    {{> "systems/EldritchMadness/templates/partials/actors/navbar-partial.hbs"}}
+    {{> "systems/EM2E/templates/partials/actors/navbar-partial.hbs"}}
     <div id="flipbook" class="w3-cell w3-rest w3-round">
         <div class="hard w3-brown w3-border" data-page="1">
             <div class="w3-container w3-section">
@@ -8,23 +8,23 @@
         </div>
         <div class="em_page w3-border-right w3-white w3-border-right" data-page="2">
             <div class="w3-section w3-container em_pageContent">
-                {{> "systems/EldritchMadness/templates/partials/actors/actorInfo-partial.hbs"}}
+                {{> "systems/EM2E/templates/partials/actors/actorInfo-partial.hbs"}}
             </div>
         </div>
         <div class="em_page w3-white" data-page="3">
             <div class="w3-section w3-container em_pageContent">
                 {{#if (contains actor.system.tags 'human')}}
                     {{!-- if human then it's a passport --}}
-                    {{> "systems/EldritchMadness/templates/partials/actors/dataPartials/passportData-partial.hbs"}}
+                    {{> "systems/EM2E/templates/partials/actors/dataPartials/passportData-partial.hbs"}}
                 {{else if (contains actor.system.tags 'beast')}}
                     {{!-- if a beast then it's a bestiary report --}}
-                    {{> "systems/EldritchMadness/templates/partials/actors/dataPartials/bestiaryData-partial.hbs"}}
+                    {{> "systems/EM2E/templates/partials/actors/dataPartials/bestiaryData-partial.hbs"}}
                 {{else if (contains actor.system.tags 'machine')}}
                     {{!-- if a machine then it's a detailed machine info report --}}
-                    {{> "systems/EldritchMadness/templates/partials/actors/dataPartials/reportData-partial.hbs"}}
+                    {{> "systems/EM2E/templates/partials/actors/dataPartials/reportData-partial.hbs"}}
                 {{else}}
                     {{!-- otherwise we use the default page with the minimum amount of data --}}
-                    {{> "systems/EldritchMadness/templates/partials/actors/dataPartials/actorData-partial.hbs"}}
+                    {{> "systems/EM2E/templates/partials/actors/dataPartials/actorData-partial.hbs"}}
                 {{/if}}  
             </div>
         </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="em_page w3-border-right w3-white w3-border-right" data-page="6" >
             <div class="w3-section w3-container em_pageContent">
-                {{> "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs"}}
+                {{> "systems/EM2E/templates/partials/actors/actorMedicalInfo-partial.hbs"}}
             </div>
         </div>
         <div class="em_page w3-white" data-page="7" >
@@ -60,7 +60,7 @@
         </div>
         <div class="em_page w3-border-right w3-white w3-border-right" data-page="10" >
             <div class="w3-section w3-container em_pageContent">
-                {{> "systems/EldritchMadness/templates/partials/actors/actorOptions-partial.hbs"}}
+                {{> "systems/EM2E/templates/partials/actors/actorOptions-partial.hbs"}}
             </div>
         </div>
         <div class="em_page w3-white" data-page="11" >

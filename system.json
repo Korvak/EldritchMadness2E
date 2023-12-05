@@ -1,8 +1,8 @@
 {
-    "name" : "EldritchMadness",
+    "name" : "EM2E",
     "title" : "Eldritch Madness - 2nd Edition",
     "description" : "A homebrew version of CoC7",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "authors": [
         {
         "name": "Korvak",
@@ -15,7 +15,7 @@
     },
     "esmodules" : [
         "resources/turnjs4/lib/turn.min.js",
-        "EldritchMadness.js"
+        "EM2E.js"
     ],
     "styles" : [
         "/resources/css/w3Css.css",

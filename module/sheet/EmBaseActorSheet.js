@@ -27,12 +27,12 @@ export default class EmBaseActorSheet extends ActorSheet {
     get template() {
         console.log("actor", this.getData() );
         console.log("actorItems", this.getData().items);
-        return `systems/EldritchMadness/templates/sheets/actors/baseActor-sheet.hbs`;
+        return `systems/EM2E/templates/sheets/actors/baseActor-sheet.hbs`;
     }
 
     getTemplates(templateName) {
         switch(templateName) {
-            case "bodypart" : {return "systems/EldritchMadness/templates/sheets/items/bodypart-sheet.hbs";}
+            case "bodypart" : {return "systems/EM2E/templates/sheets/items/bodypart-sheet.hbs";}
             default : {return "";}
         }
     }
@@ -98,6 +98,12 @@ export default class EmBaseActorSheet extends ActorSheet {
                 let page = this.dataset.page;
                 //const flipbook = element.parents("#flipbook");
                 if (page !== flipbook.turn('page') ) {
+                    //we disable the old one
+                    let oldSelected = element.parent().find('.em_tabBtn[current="true"]');
+                    oldSelected.attr("current", "false");
+                    //we set it as active
+                    element.attr("current", "true");
+                    //we turn the page
                     flipbook.prop("controlled", true);
                     flipbook.turn('page', page);
                 }
@@ -237,21 +243,28 @@ export default class EmBaseActorSheet extends ActorSheet {
                 catch(error) {console.error(error.message);}
             }
 
-            _setActiveFlipbbookPage(page) {
+            _setActiveFlipbbookPage(page, move = false) {
                 try {
                     page = parseInt(page);
+                    if (move) {
+                        let flipbook = this.element.find("form #flipbook");
+                        if (page !== flipbook.turn('page') ) {
+                            flipbook.prop("controlled", true);
+                            flipbook.turn('page', page);
+                        }
+                    }
                     //if odd then it goes to the next page since our tab btns are only even
                     page = page % 2 == 0 ? page : page - 1;
                     this.getActorData().flipbook.currentPage = page;
                     let navbar = this.element.find("form .em_navbar");
                     navbar.find('.em_tabBtn[current="true"]').attr("current", "false");
-                    navbar.find(`.em_tabBtn[data-page="${page}"]`).attr("current", "true");
+                    navbar.find(`.em_tabBtn[data-page="${page}"]`).attr("current", "true"); 
                     return true;
                 }
                 catch(error) {
                     console.error(error.message);
                     return false;
-                }
+                }              
             }
 
             _getPageContent(page) {

@@ -6,25 +6,25 @@ import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
 async function preloadHandlebarsTemplates() {
   const templatePaths = [
     //#region actor partials
-      "systems/EldritchMadness/templates/partials/actors/navbar-partial.hbs",
-      "systems/EldritchMadness/templates/partials/actors/actorInfo-partial.hbs",
+      "systems/EM2E/templates/partials/actors/navbar-partial.hbs",
+      "systems/EM2E/templates/partials/actors/actorInfo-partial.hbs",
       //#region actor data partials
-        "systems/EldritchMadness/templates/partials/actors/dataPartials/actorData-partial.hbs",
-        "systems/EldritchMadness/templates/partials/actors/dataPartials/passportData-partial.hbs",
-        "systems/EldritchMadness/templates/partials/actors/dataPartials/bestiaryData-partial.hbs",
-        "systems/EldritchMadness/templates/partials/actors/dataPartials/reportData-partial.hbs",
+        "systems/EM2E/templates/partials/actors/dataPartials/actorData-partial.hbs",
+        "systems/EM2E/templates/partials/actors/dataPartials/passportData-partial.hbs",
+        "systems/EM2E/templates/partials/actors/dataPartials/bestiaryData-partial.hbs",
+        "systems/EM2E/templates/partials/actors/dataPartials/reportData-partial.hbs",
       //#endregion
-      "systems/EldritchMadness/templates/partials/actors/actorMedicalInfo-partial.hbs",
-      "systems/EldritchMadness/templates/partials/actors/actorOptions-partial.hbs",
-      "systems/EldritchMadness/templates/partials/actors/actorAttributes-partial.hbs",
+      "systems/EM2E/templates/partials/actors/actorMedicalInfo-partial.hbs",
+      "systems/EM2E/templates/partials/actors/actorOptions-partial.hbs",
+      "systems/EM2E/templates/partials/actors/actorAttributes-partial.hbs",
     //#endregion
     //#region item partials
-      "systems/EldritchMadness/templates/partials/items/baseItem-partial.hbs",
-      "systems/EldritchMadness/templates/partials/items/destroyable-partial.hbs",
-      "systems/EldritchMadness/templates/partials/items/repairable-partial.hbs",
-      "systems/EldritchMadness/templates/partials/items/equippable-partial.hbs",
-      "systems/EldritchMadness/templates/partials/items/upgradable-partial.hbs",
-      "systems/EldritchMadness/templates/sheets/items/bodypart-sheet.hbs",
+      "systems/EM2E/templates/partials/items/baseItem-partial.hbs",
+      "systems/EM2E/templates/partials/items/destroyable-partial.hbs",
+      "systems/EM2E/templates/partials/items/repairable-partial.hbs",
+      "systems/EM2E/templates/partials/items/equippable-partial.hbs",
+      "systems/EM2E/templates/partials/items/upgradable-partial.hbs",
+      "systems/EM2E/templates/sheets/items/bodypart-sheet.hbs",
     //#endregion
   ];
 
@@ -55,13 +55,13 @@ Hooks.once("init", function() {
 
     //#region register item sheets
     Items.unregisterSheet("core", ItemSheet);
-    Items.registerSheet("EldritchMadness", EmBaseItemSheet, {makeDefault: true});
+    Items.registerSheet("EM2E", EmBaseItemSheet, {makeDefault: true});
     //#endregion
 
     //#region register actor sheets
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet(
-      "EldritchMadness", 
+      "EM2E", 
       EmBaseActorSheet, 
       //types : [your-actor-types],
       {makeDefault: true}

@@ -2,7 +2,7 @@ export default class EmBaseItemSheet extends ItemSheet {
 
     //#region base methods
     get template() {
-        return `systems/EldritchMadness/templates/sheets/items/${this.item.type}-sheet.hbs`;
+        return `systems/EM2E/templates/sheets/items/${this.item.type}-sheet.hbs`;
     }
 
 
