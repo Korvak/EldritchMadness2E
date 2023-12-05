@@ -74,7 +74,6 @@
             tagElements.each(function() {
                 tagsEnabled.push($(this).attr("tag") );
             })
-            console.log(tagsEnabled, typeof tagsEnabled);
             //once we have the tags then we hide all the elements that do not follow the tags
             container.find(">.em_searchable").each(function() {
                 let tags = $(this).attr("tags").split(",");
