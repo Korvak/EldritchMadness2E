@@ -158,8 +158,12 @@ export default class EmBaseActorSheet extends ActorSheet {
                 valueBars.change(renderBar);
                 valueBars.change();
                 // on modify fields save themselves
-                html.find(".em_field").change(this._saveOwnedItemFields.bind(this));
-                html.find(".em_inline-field").change(this._saveActorFields.bind(this));
+                html.find(".em_field").each(function() {
+                    $(this).get(0).onchange = self._saveOwnedItemFields.bind(self);
+                });
+                html.find(".em_inline-field").each(function() {
+                    $(this).get(0).onchange = self._saveActorFields.bind(self);
+                });
             //#endregion
             //#region info page events
                 
@@ -288,6 +292,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             */
             event.preventDefault();
             let element = $(event.currentTarget);
+            console.log("save actor field", element.attr("name") );
             await this._updateActorField(element.attr('name'), element.val() );
         }
 
