@@ -18,6 +18,70 @@
                 <p class="em_charact_text hint--bottom" aria-label="{{i18n this.label}}" >{{i18n this.short}}</p>
                 <p class="w3-border w3-round-large w3-hover-black em_charact_text em_charact_btn">{{this.value}}</p>
                 <p class="w3-badge w3-black em_charact_text">{{this.temp}}</p>
+                {{#if (hasRole "KEEPER")}}
+                <div class="dropdown-container">
+                    <button class="dropdown-btn em_noShadow" data-id="bar_char" >
+                        <i class="dropdown-icon fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content em_hidden w3-border w3-light-gray" for="bar_char">
+                        <div class="em_leftContainer">
+                            {{!-- value --}}
+                            <div class="em_halfSection">
+                                {{!-- labels --}}
+                                <div class="w3-cell-row ">
+                                    <div class="w3-cell" style="width:33%">
+                                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">min</p>
+                                    </div>
+                                    <div class="w3-cell" style="width:33%">
+                                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">value</p>
+                                    </div>
+                                    <div class="w3-cell" style="width:33%">
+                                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px);margin-left:0;">max</p>
+                                    </div>
+                                </div>
+                                {{!-- inputs --}}
+                                <div class="w3-cell-row">
+                                    <div class="w3-cell" style="width:33%">
+                                        <input id="em_actor_sanMin" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.san.min" value="{{this.min}}" style="width:calc(90% - 12px)">
+                                    </div>
+                                    <div class="w3-cell" style="width:33%">
+                                        <input id="em_actor_sanValue" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                        name="actor.system.attributes.san.value" value="{{this.value}}" style="width:calc(90% - 12px)">
+                                    </div>
+                                    <div class="w3-cell" style="width:33%">
+                                        <input id="em_actor_sanMax" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                            name="actor.system.attributes.san.max" value="{{this.max}}" style="width:calc(90% - 12px)">
+                                    </div>
+                                </div>
+                            </div>
+                            {{!-- temp values --}}
+                            <div class="em_halfSection">
+                                {{! -- labels --}}
+                                <div class="w3-cell-row ">
+                                    <div class="w3-cell" style="width:33%">
+                                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px)">temp</p>
+                                    </div>
+                                    <div class="w3-cell" style="width:33%">
+                                        <p class="w3-center em_input_cell em_halfContainer" style="width:calc(90% - 12px)">temp max</p>
+                                    </div>
+                                </div>
+                                {{!-- inputs --}}
+                                <div class="w3-cell-row">
+                                    <div class="w3-cell" style="width:33%">
+                                        <input id="em_actor_sanTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                            name="actor.system.attributes.san.temp" value="{{this.temp}}" style="width:calc(90% - 12px)">
+                                    </div>
+                                    <div class="w3-cell" style="width:33%">
+                                        <input id="em_actor_sanMaxTemp" class="w3-center em_input_cell em_halfContainer em_inline-field" type="number"
+                                            name="actor.system.attributes.san.maxTemp" value="{{this.maxTemp}}" style="width:calc(90% - 12px)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
             </div>
         {{/each}}
     </div>
