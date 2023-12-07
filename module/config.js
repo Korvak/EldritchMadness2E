@@ -46,10 +46,12 @@ export const EmConfig = {
 //#region countries
 
     EmConfig.COUNTRIES = {
-        bera : {
-            name : "em.countries.bera.name",
-            government : ""
-        }
+        bera   : "I7dEgQTUtMTARVGp",
+        berket : "Ed8Q4F2kOVIFILRI",
+        drukar : "6DAE8oJpr0chKsdc",
+        valan  : "rFBrd1GUMdG1kR9U",
+        vostol : "G6ZLCeVFJNAjHUJ3",
+        wreria : "2hK2ED1yz9nhfY2x"
     }
 
 

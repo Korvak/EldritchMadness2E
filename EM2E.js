@@ -166,19 +166,32 @@ import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
 
 
 
-Hooks.once("init", function() {
+Hooks.once("init", async function() {
     //starting messages
     console.log("loading EM 2E");
     //we insert our Config into the Global Config object
     CONFIG.EmConfig = EmConfig;
 
     registerSheets();
-
-    //#register
-
-
     registerHandlebars();
     preloadHandlebarsTemplates();
+    
+    //#region register Countries 
+
+      for(let key of EmConfig.COUNTRIES) {
+          let countryItem = undefined;
+          let countryID = EmConfig.COUNTRIES[key];
+          if (countryID !== undefined && countryID.length > 0 ) {
+              EmConfig.COUNTRIES[key] = await Item.get(countryID);
+          }
+      }
+    
+
+
+    //#endregion
+
+
+    
     
 });
 

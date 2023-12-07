@@ -943,9 +943,20 @@
             }
         },
         "types" : [
+            "country",
             "bodypart",
             "empty"
         ],
+        "country" : {
+            "desc" : "",
+            "government" : {
+                "name" : "",
+                "type" : ""
+            },
+            "economy" : {
+                
+            }
+        },
         "bodypart" : {
             "templates" : [
                 "baseItem",
