@@ -14,6 +14,8 @@
 
 ° Make the info page for the base actor
 
-° Make a searchbar with tags
+✓ Make a searchbar with tags
 
-° Expand the searchbar to allow tags that are removable and togglelable?
+X Expand the searchbar to allow tags that are removable and togglelable?
+
+° Make a country item and link it to the Config so that it generates the data by fetching the country item data.

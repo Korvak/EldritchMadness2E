@@ -317,6 +317,11 @@
             "bodypart" : {
                 "DEFAULT_DESC" : "test bodypart description"
             }
+        },
+        "countries" : {
+            "bera" : {
+                "name" : "Kingdom of Bera"
+            }
         }
     },
     "errors" : {

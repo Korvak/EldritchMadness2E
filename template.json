@@ -781,7 +781,11 @@
                 "anatomy" : {
                     "age" : 0,
                     "sex" : "",
-                    "origin" : "",
+                    "origin" : {
+                        "country": "",
+                        "city" : "",
+                        "birthDate" : ""
+                    },
                     "viewType" : "tree",
                     "tree" : {
                         "id" : null,

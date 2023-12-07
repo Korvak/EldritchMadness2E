@@ -218,6 +218,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             } , 850);
             //we set the default data if needs loading
             this._displayBodypart(this.getAnatomy().tree.id);
+
         }
 
 

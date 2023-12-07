@@ -1,0 +1,13 @@
+<div class="em_passport">
+    <div class="em_passport_header w3-round-medium" 
+        style="background-image: url({{CONFIG.EmConfig.PATHS.COUNTRY_IMG}}bera/passport/bg.png);">
+        {{!-- header and emblem icon --}}
+        <h3 class="em_passport_country_name" >KINGDOM OF BERA</h3>
+        <img src="{{CONFIG.EmConfig.PATHS.COUNTRY_IMG}}bera/emblems/National_Emblem.png" width="1024" height="1024"
+            class="em_passport_img" >
+    </div>
+    <div>
+        {{{retrieve "item" "NVA2Es2ElC4k0APW"}}}
+    </div>
+    <p>{{fetch (retrieve "item" "NVA2Es2ElC4k0APW") "name"}} alfa</p>
+</div>
