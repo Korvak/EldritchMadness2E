@@ -172,6 +172,10 @@
                 display: block;
                 border: none;
             }
+
+            .em_passport_portrait {
+                float: left;
+            }
         
 
         /*#endregion*/

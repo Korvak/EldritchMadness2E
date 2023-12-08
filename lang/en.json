@@ -319,12 +319,45 @@
             }
         },
         "countries" : {
+            "governments" : {
+                "kingdom" : {
+                    "name" : "kingdom",
+                    "preposition" : "of"  
+                },
+                "monarchy" : {
+                    "name" : "monarchy",
+                    "preposition" : "of"  
+                },
+                "coalition" : {
+                    "name" : "coalition",
+                    "preposition" : "of"  
+                },
+                "republic" : {
+                    "name" : "republic",
+                    "preposition" : "of"  
+                },
+                "democracy" : {
+                    "name" : "democracy",
+                    "preposition" : "of"  
+                },
+                "oligarchy" : {
+                    "name" : "oligarchy",
+                    "preposition" : "of"  
+                },
+                "empire" : {
+                    "name" : "empire",
+                    "preposition" : "of"  
+                }
+            },
             "bera" : {
-                "name" : "Kingdom of Bera"
+                "name" : "Bera",
+                "pop_name" : "berian",
+                "desc" : "The country of Bera is formed mostly by mountains and rivers. The rich soil and rare minerals in the earth allow the population of Bera to thrive while living in the mountains."
             }
         }
     },
     "errors" : {
+        "missingViewAuthorization" : "you do not have the authorization to view this page.",
         "missingAnatomyType" : "error no anatomy view type was found. Cannot render the actor's anatomy."
     }
 }

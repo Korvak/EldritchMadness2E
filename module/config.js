@@ -54,7 +54,15 @@ export const EmConfig = {
         wreria : "2hK2ED1yz9nhfY2x"
     }
 
-
+    EmConfig.GOVERNMENTS = {
+        kingdom   : "I7dEgQTUtMTARVGp",
+        monarchy : "Ed8Q4F2kOVIFILRI",
+        coalition : "6DAE8oJpr0chKsdc",
+        republic  : "rFBrd1GUMdG1kR9U",
+        democracy : "G6ZLCeVFJNAjHUJ3",
+        oligarchy : "G6ZLCeVFJNAjHUJ3",
+        empire : "2hK2ED1yz9nhfY2x"
+    }
 
 
 //#endregion

@@ -1,4 +1,5 @@
 <div class="em_passport">
+    <!--
     <div class="em_passport_header w3-round-medium" 
         style="background-image: url({{CONFIG.EmConfig.PATHS.COUNTRY_IMG}}bera/passport/bg.png);">
         {{!-- header and emblem icon --}}
@@ -6,6 +7,21 @@
         <img src="{{CONFIG.EmConfig.PATHS.COUNTRY_IMG}}bera/emblems/National_Emblem.png" width="1024" height="1024"
             class="em_passport_img" >
     </div>
-    <div>
+    -->
+    <div class="em_passport_header w3-round-medium" >
+        <h3 class="em_passport_country_name" >KINGDOM OF BERA</h3>
+        <div class="em_passport_data">
+            <img class="em_passport_portrait w3-black w3-round-large" src="{{actor.img}}" name="actor.img" data-edit="img" title="{{actor.name}}" width="64" height="64">
+            <div class="em_passport_fieldsContainer"> {{!-- this fields should be stacked one below the other --}}
+                {{!-- name --}}
+                <label class="em_passport_field em_passport_label" for="name">{{i18n em.passport.field.name}}</label>
+                <input class="em_passport_field em_passport_input" name="name" value="{{actor.name}}" {{#unless (hasRole "GM")}}readonly="true"{{/unless}}>
+                {{!-- --}}
+                <label class="em_passport_field em_passport_label" for="name">{{i18n em.passport.field.name}}</label>
+                <input class="em_passport_field em_passport_input" name="name" value="{{actor.name}}" {{#unless (hasRole "GM")}}readonly="true"{{/unless}}> 
+            </div>
+            
+        
+        </div>
     </div>
 </div>

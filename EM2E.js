@@ -138,6 +138,9 @@ import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
             }
         });
 
+        Handlebars.registerHelper('concat',function(a, b) {
+          return `${a}${b}`;
+        });
 
       //#endregion
   }
