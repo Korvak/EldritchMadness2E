@@ -657,6 +657,7 @@
             "baseActor" : {
                 "tags" : ["actor", "human"],
                 "description" : "a base actor with no implementation.",
+                "credit_value" : 0,
                 "attributes" : {
                     "hp" : {
                         "label" : "em.attributes.hp.name",
@@ -781,6 +782,7 @@
                 "anatomy" : {
                     "age" : 0,
                     "sex" : "",
+                    "nationality" : "",
                     "origin" : {
                         "country": "",
                         "city" : "",
@@ -959,7 +961,8 @@
                 "type" : ""
             },
             "economy" : {
-                
+                "coin_name" : "",
+                "credit_value_convertion" : 1
             }
         },
         "bodypart" : {

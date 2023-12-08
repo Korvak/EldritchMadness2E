@@ -352,6 +352,7 @@
             "bera" : {
                 "name" : "Bera",
                 "pop_name" : "berian",
+                "coin_name" : "gold berket",
                 "desc" : "The country of Bera is formed mostly by mountains and rivers. The rich soil and rare minerals in the earth allow the population of Bera to thrive while living in the mountains."
             }
         }

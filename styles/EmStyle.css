@@ -177,6 +177,11 @@
             width: 100%;
         }
 
+        .em_table td select {
+            width: 100%;
+            height: 100%;
+        }
+
     /*#endregion*/
 
 /*#endregion*/

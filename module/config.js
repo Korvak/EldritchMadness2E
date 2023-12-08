@@ -55,13 +55,34 @@ export const EmConfig = {
     }
 
     EmConfig.GOVERNMENTS = {
-        kingdom   : "I7dEgQTUtMTARVGp",
-        monarchy : "Ed8Q4F2kOVIFILRI",
-        coalition : "6DAE8oJpr0chKsdc",
-        republic  : "rFBrd1GUMdG1kR9U",
-        democracy : "G6ZLCeVFJNAjHUJ3",
-        oligarchy : "G6ZLCeVFJNAjHUJ3",
-        empire : "2hK2ED1yz9nhfY2x"
+        kingdom   : {
+            name : "em.countries.governments.kingdom.name",
+            preposition : "em.countries.governments.kingdom.preposition"
+        },
+        monarchy   : {
+            name : "em.countries.governments.monarchy.name",
+            preposition : "em.countries.governments.monarchy.preposition"
+        },
+        coalition   : {
+            name : "em.countries.governments.coalition.name",
+            preposition : "em.countries.governments.coalition.preposition"
+        },
+        republic   : {
+            name : "em.countries.governments.republic.name",
+            preposition : "em.countries.governments.republic.preposition"
+        },
+        democracy   : {
+            name : "em.countries.governments.democracy.name",
+            preposition : "em.countries.governments.democracy.preposition"
+        },
+        oligarchy   : {
+            name : "em.countries.governments.oligarchy.name",
+            preposition : "em.countries.governments.oligarchy.preposition"
+        },
+        empire   : {
+            name : "em.countries.governments.empire.name",
+            preposition : "em.countries.governments.empire.preposition"
+        }
     }
 
 

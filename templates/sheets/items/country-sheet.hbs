@@ -2,7 +2,10 @@
     {{#if (hasRole "GM")}}
         <h1>
             <img class="em_halfBottomMargin w3-border-0" src="{{item.img}}" title="{{item.name}}" width="64px" height="64px">
-            {{i18n (concat item.system.government.name ".name")}} {{i18n (concat item.system.government.name ".preposition")}} {{i18n item.system.name}} 
+            {{#with (fetch CONFIG.EmConfig.GOVERNMENTS item.system.government.type) as |government| }}
+                {{i18n government.name}} {{i18n government.preposition}}
+            {{/with}}
+            {{i18n item.system.name}}
         </h1>
         <table class="em_table w3-table w3-bordered">
             <thead>
@@ -52,27 +55,43 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="w3-left">government name</td>
-                    <td class="w3-center w3-light-gray">
-                        <input class="em_inline-field w3-border-0 w3-light-gray" name="item.system.government.name" value="{{item.system.government.name}}">
-                    </td>
-                    <td class="w3-center">{{i18n item.system.government.name}}</td>
-                </tr>
-                <tr>
+                    {{!-- the type and display data is fetched from the Config --}}
                     <td class="w3-left">government</td>
                     <td class="w3-center w3-light-gray">
-                        <select class="em_inline-field w3-border-0 w3-light-gray" name="item.system.government.type">
-                            {{#each CONFIG.EmConfig.GOVERNMENTS as |this key| }}
-                                {{!--#if (eq key item.system.government.type)}}selected="true"{{/if--}}
-                                <option selected="{{eq key item.system.government.type}}">{{key}}</option>
+                        <select class="em_inline-field em_noShadow w3-border-0 w3-light-gray" name="item.system.government.type">
+                            {{#each CONFIG.EmConfig.GOVERNMENTS as |this key|}}
+                                <option class="w3-white" {{#if (eq key ../item.system.government.type)}}selected="true"{{/if}}>
+                                    {{key}}
+                                </option> 
                             {{/each}}
                         </select>
                     </td>
-                    <td class="w3-center">{{ item.system.government.type}}</td>
+                    <td class="w3-center">{{item.system.government.type}}</td>
+                </tr>
+                <tr>
+                    {{#with (fetch CONFIG.EmConfig.GOVERNMENTS item.system.government.type) as |government| }}
+                        <td class="w3-left">government name</td>
+                        <td class="w3-light-gray">{{government.name}}</td>
+                        <td class="w3-center">{{i18n government.name}}</td>
+                    {{/with}}
+                </tr>
+                {{!-- economy data --}}
+                <tr>
+                    <td colspan="3" style="padding: 0;margin:0;">
+                        <h2 class="em_title w3-center w3-border w3-black" style="padding: 0;margin:0;">Economy</h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="w3-left">coin name</td>
+                    <td class="w3-center w3-light-gray">
+                        <input class="em_inline-field w3-border-0 w3-light-gray" name="item.system.economy.coin_name" value="{{item.system.economy.coin_name}}">
+                    </td>
+                    <td class="w3-center">{{i18n item.system.economy.coin_name}}</td>
                 </tr>
             </tbody>
         </table>
-
+        {{!-- unfinished --}}
+        <h1> TO BE CONTINUED LATER</h1>
 
 
 
