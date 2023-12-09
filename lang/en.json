@@ -311,6 +311,20 @@
                     "organ" : "organ",
                     "vestigial" : "vestigial"
                 }
+            },
+            "passport" : {
+                "fields" : {
+                    "name" : "name",
+                    "nationality" : "nationality",
+                    "residency" : "residency",
+                    "age" : "age",
+                    "sex" : "sex",
+                    "born" : "born in",
+                    "birthDate" : "date of birth",
+                    "work" : "occupation",
+                    "arcana" : "arcana",
+                    "sequence" : "sequence"
+                }
             }
         },
         "items" : {

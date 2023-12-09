@@ -1,4 +1,4 @@
-import {translate, treeBreadthSearch, fieldToObject, overwiteObjectFields, setInputsFromData, getValueFromFields} from "../utils.js"
+import {translate, treeBreadthSearch, fieldToObject, overwriteObjectFields, setInputsFromData, getValueFromFields} from "../utils.js"
 import {toggleDropdown, toggleReadonly, renderBar, setBarValue, searchByTags , toggleBtnState } from "../htmlUtils.js"
 
 export default class EmBaseActorSheet extends ActorSheet {
@@ -229,7 +229,6 @@ export default class EmBaseActorSheet extends ActorSheet {
                 attachedTo : undefined, 
                 partType : CONFIG.EmConfig.anatomy.ROOT_PART_TYPE
             });
-
         }
 
 
@@ -272,6 +271,19 @@ export default class EmBaseActorSheet extends ActorSheet {
                 }              
             }
 
+            async _bookmarkCurrentPage() {
+                /** saves the page in case it's different from the last saved page
+                 * 
+                 */
+                let flipbook = this.getActorData().flipbook;
+                if (flipbook.currentPage != flipbook.lastSavedPage) {
+                    flipbook.lastSavedPage = flipbook.currentPage;
+                    this.actor.update({
+                        flipbook : flipbook
+                    });
+                }
+            }
+
             _getPageContent(page) {
                 return this.element.find(`form #flipbook .em_page[data-page=${page}]`);
             }
@@ -305,6 +317,36 @@ export default class EmBaseActorSheet extends ActorSheet {
             return this.getData().actor.system;
         }
 
+        _getActorAdditionalSaveData() {
+            /** returns a json object with all the data to add when saving the actor data
+             * @returns {object} : returns a json to merge, it includes the must have data to save everytime the actor is saved
+             */
+            return {
+                system : {
+                    flipbook : this.getActorData().flipbook
+                }
+            }
+        }
+
+        async _saveActorData(data) {
+            /** saves the actor data and adds the must save data too
+             * @param {object} data : the actor data to save in the form of a json object
+             * 
+             * @returns {boolean} : wether the save has succeeded or not
+             */
+            try {
+                //adds the must save data to the save data non destructively
+                overwriteObjectFields(data, this._getActorAdditionalSaveData() );
+                await this.actor.update(data);
+                return true;
+            }
+            catch(error) {
+                console.error(error.message);
+                return false;
+            }
+            
+        }
+
         async _updateActorField(field,value) {
             /** fetches and updates an owned item field with the given value
              * @param {string} itemId : the Foundry ID of the item to fetch
@@ -314,9 +356,11 @@ export default class EmBaseActorSheet extends ActorSheet {
             try {
                 //we transform the field into an object of objects for saving
                 let toSave = fieldToObject(field, value);
+                //we add the flipbook to save the current page
+                toSave[flipbook] = this.getActorData().flipbook; 
                 //we remove the header since it's useless
                 if (toSave["actor"] != undefined) {toSave = toSave["actor"];}
-                await this.actor.update(toSave);
+                await this._saveActorData(toSave);
                 return true;
             }
             catch(error) {
@@ -516,12 +560,11 @@ export default class EmBaseActorSheet extends ActorSheet {
                 //we set the node name
                 node.name = element.val();
                 //then we save the data
-                await this.actor.update({
-                    data : {
-                        anatomy : {
+                await this._saveActorData({
+                    system : {
+                       anatomy : {
                             tree : this.getAnatomy().tree
-                        },
-                        flipbook : this.getActorData().flipbook
+                        } 
                     }
                 });
             }
@@ -588,10 +631,9 @@ export default class EmBaseActorSheet extends ActorSheet {
                 anatomy.tree["children"] = [];
             }
             //we trigger a re-render
-            await this.actor.update({
-                data : { //data is the same as calling system
-                    anatomy : anatomy,
-                    flipbook : this.getActorData().flipbook
+            await this._saveActorData({
+                system : {
+                    anatomy : anatomy
                 }
             });
             //if we don't call the update, it won't change the values
@@ -648,14 +690,11 @@ export default class EmBaseActorSheet extends ActorSheet {
                 //after we removed the bodyparts from the part collection, we update the anatomy tree
 
                 //then we save everything
-                await this.actor.update({
-                    data : {
-                        anatomy : anatomy,
-                        //since saving triggers a reopening of the book, we save this
-                        flipbook : this.getActorData().flipbook 
+                await this._saveActorData({
+                    system : {
+                        anatomy : anatomy
                     }
-                });
-                
+                });  
             }
             catch(error) {console.error(error.message);}
         }

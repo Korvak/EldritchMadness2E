@@ -178,26 +178,20 @@ Hooks.once("init", async function() {
     registerSheets();
     registerHandlebars();
     preloadHandlebarsTemplates();
-    
-    //#region register Countries 
-
-      for(let key of EmConfig.COUNTRIES) {
-          let countryItem = undefined;
-          let countryID = EmConfig.COUNTRIES[key];
-          if (countryID !== undefined && countryID.length > 0 ) {
-              EmConfig.COUNTRIES[key] = await Item.get(countryID);
-          }
-      }
-    
 
 
-    //#endregion
 
-
-    
     
 });
 
-Hooks.once("ready", function() {
+Hooks.once("ready", async function() {
 
+    //register the countries
+    for(let key of Object.keys(EmConfig.COUNTRIES) ) {
+      let countryID = EmConfig.COUNTRIES[key];
+      if (countryID !== undefined && countryID.length > 0 ) {
+          EmConfig.COUNTRIES[key] = await Item.get(countryID);
+      }
+    }
+    console.log("finished loading countries", EmConfig.COUNTRIES);
 });

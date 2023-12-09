@@ -782,12 +782,6 @@
                 "anatomy" : {
                     "age" : 0,
                     "sex" : "",
-                    "nationality" : "",
-                    "origin" : {
-                        "country": "",
-                        "city" : "",
-                        "birthDate" : ""
-                    },
                     "viewType" : "tree",
                     "tree" : {
                         "id" : null,
@@ -806,11 +800,20 @@
                         }
                     ]
                 },
+                "info" : {
+                    "nationality" : "",
+                    "origin" : {
+                        "country": "",
+                        "city" : "",
+                        "birthDate" : ""
+                    }
+                },
                 "options" : {
                     "peel" : true,
                     "turning" : true
                 },
                 "flipbook" : {
+                    "lastSavedPage" : 2,
                     "currentPage" : 2
                 }
             },

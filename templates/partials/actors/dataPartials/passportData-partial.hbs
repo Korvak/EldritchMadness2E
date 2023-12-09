@@ -9,16 +9,43 @@
     </div>
     -->
     <div class="em_passport_header w3-round-medium" >
-        <h3 class="em_passport_country_name" >KINGDOM OF BERA</h3>
+        {{!-- since the config has a reference of the Country, we just have to fetch it from there by using the anatomy nationality -- }}
+        {{#with (fetch CONFIG.EmConfig.COUNTRIES actor.system.anatomy.nationality) as |Country|}}
+            {{!-- we also need to fetch the object to translate -- }}
+            <h3 class="em_passport_country_name" >KINGDOM OF {{Country}}</h3>
+        {{/with --}}
         <div class="em_passport_data">
-            <img class="em_passport_portrait w3-black w3-round-large" src="{{actor.img}}" name="actor.img" data-edit="img" title="{{actor.name}}" width="64" height="64">
-            <div class="em_passport_fieldsContainer"> {{!-- this fields should be stacked one below the other --}}
-                {{!-- name --}}
-                <label class="em_passport_field em_passport_label" for="name">{{i18n em.passport.field.name}}</label>
-                <input class="em_passport_field em_passport_input" name="name" value="{{actor.name}}" {{#unless (hasRole "GM")}}readonly="true"{{/unless}}>
+            <div>
+                <img class="em_passport_portrait w3-black w3-round-large" src="{{actor.img}}" name="actor.img" data-edit="img" title="{{actor.name}}" width="64" height="64">
+                <div class="w3-rest">
+                    {{!-- name --}}
+                    <label class="em_passport_field em_passport_label em_halfTopMargin" for="name">{{i18n "em.actors.passport.fields.name"}}</label>
+                    <input class="em_passport_field em_passport_input em_halfSection" name="name" value="{{actor.name}}" {{#unless (hasRole "GM")}}readonly="true"{{/unless}}>
+                </div>
+            </div>
+            <div class="em_passport_fieldsContainer w3-section"> {{!-- this fields should be stacked one below the other --}}
+                <!--#region nationality -->
+                {{!-- GM settable nationality --}}
+                {{#if (hasRole "GM")}}
+                    <label class="em_passport_field em_passport_label" for="name">{{i18n "em.actors.passport.fields.nationality"}}</label>
+                    <select class="em_passport_field em_passport_input em_inline-field em_noShadow" name="actor.system.info.nationality">
+                        {{#each CONFIG.EmConfig.COUNTRIES as |country key|}}
+                            <option {{#if (eq key ../actor.system.info.nationality) }}selected="true"{{/if}}>{{key}}</option>
+                        {{/each}}
+                    </select>
+                {{/if}}
+                <!--#endregion -->
+                {{!-- population name --}}
+                {{#with (fetch CONFIG.EmConfig.COUNTRIES actor.system.info.nationality) as |country|}}
+                    <label class="em_passport_field em_passport_label" for="pop_name">{{i18n "em.actors.passport.fields.nationality"}}</label>
+                    <input class="em_passport_field em_passport_input" name="pop_name" value="{{i18n country.system.population.name}}" readonly="true">
+                {{/with}}
                 {{!-- --}}
-                <label class="em_passport_field em_passport_label" for="name">{{i18n em.passport.field.name}}</label>
-                <input class="em_passport_field em_passport_input" name="name" value="{{actor.name}}" {{#unless (hasRole "GM")}}readonly="true"{{/unless}}> 
+                <div>
+                    
+                </div>
+                <label class="em_passport_field em_passport_label" for="name">{{i18n "em.actors.passport.fields.name"}}</label>
+                <input class="em_passport_field em_passport_input" name="" value="{{actor.name}}" {{#unless (hasRole "GM")}}readonly="true"{{/unless}}> 
             </div>
             
         

@@ -104,7 +104,7 @@ export function fieldToObject(field,value, start = {}, separator = ".") {
     return start;
 }
 
-export function overwiteObjectFields(base, data) {
+export function overwriteObjectFields(base, data) {
     /** recieves an object and the data to overwrite and overwrites recursively all the keys  present in the data with the data's values 
      * 
      * @param {Object} base : the object that will be overwritten
@@ -116,7 +116,7 @@ export function overwiteObjectFields(base, data) {
     for (let key of Object.keys(data) ) {
         value = data[key];
         if (typeof value === "object" && base[key] !== undefined) {
-            return overwriteAllFields(base[key], value );
+            return overwriteObjectFields(base[key], value );
         }
         else {base[key] = value;}
     }

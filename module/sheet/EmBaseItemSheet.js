@@ -1,4 +1,4 @@
-import {translate, treeBreadthSearch, fieldToObject, overwiteObjectFields, setInputsFromData, getValueFromFields} from "../utils.js"
+import {translate, treeBreadthSearch, fieldToObject, overwriteObjectFields, setInputsFromData, getValueFromFields} from "../utils.js"
 import {toggleDropdown, toggleReadonly, renderBar, setBarValue, searchByTags , toggleBtnState } from "../htmlUtils.js"
 
 export default class EmBaseItemSheet extends ItemSheet {

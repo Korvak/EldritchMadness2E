@@ -176,7 +176,32 @@
             .em_passport_portrait {
                 float: left;
             }
+
+            .em_passport_field {
+                margin-bottom: 6px;
+            }
+
+            .em_passport_label {
+                display: block;
+                width: 100%;
+                max-width: 100%;
+                font-weight: 700;
+                text-align: center;
+                font-size: 1.1em;
+            }
+
+            .em_passport_input {
+                display: block;
+                text-align: center;
+                border: none;
+                width: 100%;
+                max-width: 100%;
+                font-size: 1em;
+            }
         
+            .em_passport_input:not(:read-only) {
+                background-color: #e7e7e7;
+            }
 
         /*#endregion*/
 
