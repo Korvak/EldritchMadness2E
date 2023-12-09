@@ -2,10 +2,8 @@
     <div class="w3-container">
         {{!-- name --}}
         <div class="w3-border em_inputContainer" style="margin-top:5px;">
-            <input id="em_bodypart_name" class="em_input w3-center em_field" name="item.name" value="{{item.name}}" readonly="true" disabled="true">
-            {{#if (hasRole "KEEPER")}}
-                <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
-            {{/if}}
+            <input id="em_bodypart_name" class="em_form_input w3-center em_field" name="item.name" 
+                value="{{item.name}}" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}>
         </div>
     </div>
     <div class="w3-container">
@@ -20,8 +18,8 @@
         <div class="em_form_inputContainer">
             <label for="bodypart_type" class="em_form_inputElement">body type</label>
             <div class="w3-border em_form_inputElement em_inputContainer">
-                <select id="em_bodypart_attached" class="w3-white em_noShadow em_input em_field" 
-                    name="item.system.partType" readonly="true" disabled="true">
+                <select id="em_bodypart_attached" class="w3-white em_noShadow em_form_input em_field" 
+                    name="item.system.partType" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
                     {{#each CONFIG.EmConfig.anatomy.PART_TYPES}}
                         <option class="w3-white" {{#if (eq this.name item.system.partType)}}selected="true"{{/if}}>
                             {{!-- 
@@ -32,31 +30,27 @@
                         </option>
                     {{/each}}
                 </select>
-                {{#if (hasRole "KEEPER")}}
-                    <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
-                {{/if}}
             </div>
         </div>
         {{!-- attached to --}}
         <div class="em_form_inputContainer">
             <label for="bodypart_attached" class="em_form_inputElement">attached to</label>
             <div class="w3-border em_inputContainer em_form_inputElement">
-                <input id="em_bodypart_attached" class="em_input em_field"  readonly="true" disabled="true" data-attachedId="{{item.system.attachedTo}}"
-                name="item.system.attachedTo" value="{{item.system.attachedTo}}"  >
-                {{#if (hasRole "KEEPER")}}
-                    <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
+                {{#if actor}}
+                    <p>hello</p>
+                {{else}}
+                    <input id="em_bodypart_attached" class="em_form_input em_field" data-attachedId="{{item.system.attachedTo}}"
+                        name="item.system.attachedTo" value="{{item.system.attachedTo}}" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
                 {{/if}}
+                
             </div>
         </div>
         {{!-- target difficulty --}}
         <div class="em_form_inputContainer">
             <label for="bodypart_targetMult" class="em_form_inputElement">hit modifier</label>
             <div class="w3-border em_inputContainer em_form_inputElement">
-                <input id="em_bodypart_hitModifier" class="em_input em_field" readonly="true" disabled="true"
+                <input id="em_bodypart_hitModifier" class="em_form_input em_field w3-center" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}
                  min="0.1" max="2.0" step="0.1" name="item.system.hitModifier" value="{{item.system.hitModifier}}" >
-                {{#if (hasRole "KEEPER")}}
-                    <i class="em_inputIcon em_readonlyIcon fa-solid fa-pen"></i>
-                {{/if}}
             </div>
         </div>
     </div>

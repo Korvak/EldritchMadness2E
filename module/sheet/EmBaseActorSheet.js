@@ -572,19 +572,27 @@ export default class EmBaseActorSheet extends ActorSheet {
         //#endregion
 
         getAnatomy() {
+            /** returns the actor anatomy object. */
             return this.getActorData().anatomy;
         }
-
-        bodypartsCount() {return Object.keys(this.getBodyparts() ).length;}
+   
+        bodypartsCount() {
+            /** returs the number of bodyparts belonging to the actor*/
+            return Object.keys(this.getBodyparts() ).length;
+        }
 
         getBodyparts() {
+            /** returns a collection of all the bodypart items belonging to the actor*/
             return this.getOwnedItems({tags : ["bodypart"]});
         }
 
-        getbodyRoot() {
+        getRoot() {
+            /** returns the root of the anatomy based on the viewType selected.
+             * @returns {string} : returns the id of the bodypart that is the root of the view type
+            */
             let anatomy = this.getAnatomy();
             switch(anatomy.viewType) {
-                case "tree" : {
+                case "tree" : { //we return the id of the tree root node
                     return this.getOwnedItem(anatomy.tree.id);
                 }
                 case "chart" : {return undefined;}
@@ -593,7 +601,7 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
 
         async addAnatomy({name ,attachedTo, partType, extraData = {} }) {
-            /**
+            /** creates a bodypart item and adds it to the actor items and creates it's corresponding node in the anatomy tree
              * @param {string} name : the name of the new bodypart
              * @param {ID} attachedTo : the string ID of the bodypart item it will be attached to
              * @param {partType} partType : the type of the part of the new bodypart
@@ -648,7 +656,10 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
 
         async _deleteAnatomyNode(node) {
-            //deletes an anatomy tree node references in the parts collection along with all its children
+            /** a recursive function that deletes an anatomy tree node references in the parts collection along with all its children
+             * @param {AnatomyNode} node : an anatomy node with an Id and a children collection of Node objects.
+             */
+            //
             await this.getOwnedItem(node.id).delete(); //we delete the item in the items collection
             let nodeElement = this.element.find(`#${node.id}`);
             nodeElement.remove();
@@ -658,24 +669,31 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
 
         async deleteAnatomy(id) {
+            /** deletes an anatomy part by removing it and its children from the anatomy tree and by removing them from the actor.items
+             * @param {string} id : a string representing the id of the anatomy node object.
+             * 
+             * @returns {boolean} : wether the operation succeeded or not
+             */
             try {
+                //first we check if we are allowed to do operations on it
+                if (id === this.getRoot()) {
+                    console.error("cannot delete the anatomy root.");
+                    return false;
+                }
+                //then we fetch the bodypart and check if it exists
                 let bodypart = this.getOwnedItem(id);
                 if (bodypart === undefined) {return false;}
                 let bodypartData = bodypart.system;
                 let anatomy = this.getAnatomy();
-                if (id === anatomy.tree.id) {
-                    console.error("cannot delete the anatomy root.");
-                    return;
-                }
+                
                 let element = undefined;
-                //we check if it's attached to a parent or is the root
+                //we check if it's attached to a parent or it's parentless
                 if (bodypartData.attachedTo === undefined || bodypartData.attachedTo === null) {
                     element = treeBreadthSearch(anatomy.tree, "id" , bodypart._id);
                 }
                 else {
                     //first we remove it in the tree by removing it from the parent
                     let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
-                    console.log(parent, id);
                     //we remove the element from the parent's children
                     for (let i = 0;i < parent.children.length;i++) {
                         if (parent.children[i].id == bodypart._id) {
@@ -694,9 +712,76 @@ export default class EmBaseActorSheet extends ActorSheet {
                     system : {
                         anatomy : anatomy
                     }
-                });  
+                }); 
+                return true;
             }
-            catch(error) {console.error(error.message);}
+            catch(error) {
+                console.error(error.message);
+                return false;
+            }
+        }
+
+        async reparentAnatomyNode(id, to) {
+            /** reparents an existing node to another node in the anatomy tree
+             * @param {string} id : the bodypart id to reparent
+             * @param {string} to : the bodypart id of the new parent
+             */
+            try {
+                //first we check if we are allowed to do operations on it
+                if (id === this.getRoot() ) { //getRoot returns a string ID
+                    console.error("cannot reparent the anatomy root.");
+                    return false;
+                }
+                //first we fetch the bodypart from it's id
+                let bodypart = this.getOwnedItem(id);
+                if (bodypart === undefined) {return false;}
+                //in case it's already attached to the parentTo then we are done
+                if (bodypart.system.attachedTo == to) {return true;}
+                //then check if the new parent exists
+                let parentTo = this.getOwnedItem(to); //this is an item
+                if (parentTo === undefined) {return false;}
+                //then we get data we require
+                let bodypartData = bodypart.system;
+                let anatomy = this.getAnatomy();
+                //now we must get the parent node and the parentToNode
+                let parentNode = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
+                let parentToNode = treeBreadthSearch(anatomy.tree, "id", parentTo._id);
+                let element = undefined; //we need this since it's the node we want to add to the parentTo
+                //now we must remove the bodypart from the parentNode children and add it to the parentToNode children
+                for (let i = 0;i < parent.children.length;i++) {
+                    if (parent.children[i].id == bodypart._id) {
+                        element = parent.children[i];
+                        parent.children.splice(i,1);
+                        break;
+                    }
+                }
+                //and we add it to the new parent
+                if (element == undefined) {
+                    //in case it didnt' find it, then it fails miserably
+                    console.error(`cannot remove ${id} from the ${parentNode.id} node since it doesn't exist as it's child.`);
+                    return false;
+                } 
+                //we reparent it
+                parentToNode.children.push(element);
+                //then we save the bodypart attached to
+                bodypartData.attachedTo = to;
+                bodypart.update({
+                    data : {
+                        attachedTo : to
+                    }
+                });
+                //finally we save the actor data
+                this._saveActorData({
+                    system : {
+                        anatomy : anatomy
+                    }
+                });
+                return true;
+            }
+            catch(error) {
+                console.error(error.message);
+                return false;
+            }
         }
 
         _displayBodypart(id) {

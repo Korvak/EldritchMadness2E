@@ -23,7 +23,7 @@ export default class EmBaseItemSheet extends ItemSheet {
             const self = this;
             //#region html events
 
-                html.find(".em_inline-field").each(function() {
+                html.find(".em_field").each(function() {
                     $(this).get(0).onchange = self._saveItemFields.bind(self);
                 });
 
