@@ -11,6 +11,8 @@ export default class EmBaseActorSheet extends ActorSheet {
         console.log("constructor args",args);
         console.log("actor", this.getData() );
         console.log("actorItems", this.getData().items);
+        //makes sure that the flipbook animation is always performed on open, even when starting the application
+        this.getActorData().flipbook.anim = true;
         //allows calling async function and almost everything works out
         if(this.bodypartsCount() < 1) {this._createDefaultAnatomy();}
     }
@@ -43,7 +45,6 @@ export default class EmBaseActorSheet extends ActorSheet {
         data.CONFIG = CONFIG;
         return data;
     }
-
 
     activateListeners(html) {
         /** super important !!! where we bind all the events that are not in the flipbook
@@ -184,6 +185,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             //#endregion
         //#endregion
         html.ready(this._onStart.bind(this) );
+        this.element.find("a.header-button.control.close").click( this._onClose.bind(this) );
 
         super.activateListeners(html);
     }
@@ -192,6 +194,7 @@ export default class EmBaseActorSheet extends ActorSheet {
     //#region start method
 
         _onStart() {
+            console.warn("on start", this.getActorData().flipbook.anim);
             let html = this.element.find("form");
             //first we start turn.js
             let flipbook = html.find("#flipbook");
@@ -201,26 +204,34 @@ export default class EmBaseActorSheet extends ActorSheet {
                 height: html.height() - CONFIG.EmConfig.flipbook.hMargin,
                 autoCenter: true,
                 display : "double",
-                peel : false
+                peel : false,
+                page : this.getActorData().flipbook.anim ? 1 : this.getActorData().flipbook.currentPage
             });
-            //we hide the navbar because it's floating
-            let navbar = html.find(".em_navbar");
-            let bgElement = this.element.find(".window-content");
-            let oldBg = bgElement.css("background-image");
-            navbar.css("visibility","hidden");
-            bgElement.css("background-image", "none");
-            //we turn the first page
-            setTimeout(() => { this._onStopDrag(); }, 50);
-            let page = this.getActorData().flipbook.currentPage;
-            
-            setTimeout(() => { flipbook.turn('page', page); },500);
-            setTimeout(() => {
-                navbar.css("visibility","visible");
-                bgElement.css("background-image", oldBg);
-            } , 850);
+            //#region flipbook start animation
+                if ( this.getActorData().flipbook.anim ) {
+                    //we hide the navbar because it's floating
+                    let navbar = html.find(".em_navbar");
+                    let bgElement = this.element.find(".window-content");
+                    let oldBg = bgElement.css("background-image");
+                    navbar.css("visibility","hidden");
+                    bgElement.css("background-image", "none");
+                    //we turn the first page
+                    setTimeout(() => { this._onStopDrag(); }, 50);
+                    let page = this.getActorData().flipbook.currentPage;
+                    
+                    setTimeout(() => { flipbook.turn('page', page); },500);
+                    setTimeout(() => {
+                        navbar.css("visibility","visible");
+                        bgElement.css("background-image", oldBg);
+                    } , 850);
+                    //is set to false after performing the animation once, so that in case of re-render it doesn't do it again
+                    this.getActorData().flipbook.anim = false;
+                }
+            //#endregion
+
+
             //we set the default data if needs loading
             this._displayBodypart(this.getAnatomy().tree.id);
-
         }
 
 
@@ -288,6 +299,11 @@ export default class EmBaseActorSheet extends ActorSheet {
 
             _getPageContent(page) {
                 return this.element.find(`form #flipbook .em_page[data-page=${page}]`);
+            }
+
+            _onClose(event) {
+                //makes it so that the flipbook performs the opening animation whenever closed and reopened
+                this.getActorData().flipbook.anim = true;
             }
 
         //#endregion
@@ -391,19 +407,26 @@ export default class EmBaseActorSheet extends ActorSheet {
 
         async renderOwnedItem(id) {
             /** creates a new item sheet then opens it and when closed will destroy it
-             * 
+             * @param {string} id : the id of the owned item to fetch and display
              */
             let item = this.getOwnedItem(id);
             if (item == undefined) {return false;}
+            //we create the rendered item
             let renderedItem = await Item.create({
                 "name" : item.name,
                 "type" : item.type
             });
+            //we pass the data to the owned item
+            await renderedItem.update({
+                system : item.system
+            });
+            //we render the created itemsheet
             await renderedItem.sheet.render(true);
             //we have to wait for a bit for the itemSheet to be created
             setTimeout(function() {
                 let element = $(`div[id$=${renderedItem.id}]`);
-                let closeBtn = element.find(".header-button.control.close");
+                //on close it deletes the itemSheet created
+                let closeBtn = element.find("a.header-button.control.close");
                 closeBtn.click( async function() {
                     await renderedItem.delete();
                 });

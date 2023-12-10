@@ -1,74 +1,76 @@
-<div id="em_bodypart_dataContainer">
-    <div class="w3-container">
-        {{!-- name --}}
-        <div class="w3-border em_inputContainer" style="margin-top:5px;">
-            <input id="em_bodypart_name" class="em_form_input w3-center em_field" name="item.name" 
-                value="{{item.name}}" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}>
-        </div>
-    </div>
-    <div class="w3-container">
-        {{!-- contains the durability bar --}}
-        {{> "systems/EM2E/templates/partials/items/destroyable-partial.hbs"}}
-        {{> "systems/EM2E/templates/partials/items/repairable-partial.hbs"}}
-        {{> "systems/EM2E/templates/partials/items/upgradable-partial.hbs"}} 
-    </div>
-    {{!-- item components and values --}}
-    <div class="w3-container">
-        {{!-- part type --}}
-        <div class="em_form_inputContainer">
-            <label for="bodypart_type" class="em_form_inputElement">body type</label>
-            <div class="w3-border em_form_inputElement em_inputContainer">
-                <select id="em_bodypart_partType" class="w3-white em_noShadow em_form_input em_field" 
-                    name="item.system.partType" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
-                    {{#each CONFIG.EmConfig.anatomy.PART_TYPES}}
-                        <option class="w3-white" data-tosave="{{this.name}}" {{#if (eq this.name item.system.partType)}}selected="true"{{/if}}>
-                            {{!-- 
-                                for now we leave it like this... maybe in the future we will find a solution 
-                                that also translates and sets the data using a single function
-                            --}}
-                            {{i18n this.label}}
-                        </option>
-                    {{/each}}
-                </select>
+<form autocomplete="off">
+    <div id="em_bodypart_dataContainer">
+        <div class="w3-container">
+            {{!-- name --}}
+            <div class="w3-border em_inputContainer" style="margin-top:5px;">
+                <input id="em_bodypart_name" class="em_form_input w3-center em_field" name="item.name" 
+                    value="{{item.name}}" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}>
             </div>
         </div>
-        {{!-- attached to --}}
-        <div class="em_form_inputContainer">
-            <label for="bodypart_attached" class="em_form_inputElement">attached to</label>
-            <div class="w3-border em_inputContainer em_form_inputElement">
-                {{#if actor}}
-                    {{!-- in the actor we actually do a select where you can easily reparent the bodypart --}}
-                    <select id="em_bodypart_attached" class="w3-white em_noShadow em_form_input em_field" 
-                        name="item.system.attachedTo" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
-                        {{!-- here we fetch the entire anatomy tree --}}
-                        {{#TreeExplorer "" "" actor.system.anatomy.tree}}
-                            <option class="w3-white" id="attach_{{this.id}}" data-tosave="{{this.id}}">
-                                {{this.name}}
+        <div class="w3-container">
+            {{!-- contains the durability bar --}}
+            {{> "systems/EM2E/templates/partials/items/destroyable-partial.hbs"}}
+            {{> "systems/EM2E/templates/partials/items/repairable-partial.hbs"}}
+            {{> "systems/EM2E/templates/partials/items/upgradable-partial.hbs"}} 
+        </div>
+        {{!-- item components and values --}}
+        <div class="w3-container">
+            {{!-- part type --}}
+            <div class="em_form_inputContainer">
+                <label for="bodypart_type" class="em_form_inputElement">body type</label>
+                <div class="w3-border em_form_inputElement em_inputContainer">
+                    <select id="em_bodypart_partType" class="w3-white em_noShadow em_form_input em_field" 
+                        name="item.system.partType" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
+                        {{#each CONFIG.EmConfig.anatomy.PART_TYPES}}
+                            <option class="w3-white" data-tosave="{{this.name}}" {{#if (eq this.name item.system.partType)}}selected="true"{{/if}}>
+                                {{!-- 
+                                    for now we leave it like this... maybe in the future we will find a solution 
+                                    that also translates and sets the data using a single function
+                                --}}
+                                {{i18n this.label}}
                             </option>
-                        {{/TreeExplorer}}
+                        {{/each}}
                     </select>
-                {{else}}
-                    <input id="em_bodypart_attached" class="em_form_input em_field" data-attachedId="{{item.system.attachedTo}}"
-                        name="item.system.attachedTo" value="{{item.system.attachedTo}}" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
-                {{/if}}
-                
+                </div>
+            </div>
+            {{!-- attached to --}}
+            <div class="em_form_inputContainer">
+                <label for="bodypart_attached" class="em_form_inputElement">attached to</label>
+                <div class="w3-border em_inputContainer em_form_inputElement">
+                    {{#if actor}}
+                        {{!-- in the actor we actually do a select where you can easily reparent the bodypart --}}
+                        <select id="em_bodypart_attached" class="w3-white em_noShadow em_form_input em_field" 
+                            name="item.system.attachedTo" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
+                            {{!-- here we fetch the entire anatomy tree --}}
+                            {{#TreeExplorer "" "" actor.system.anatomy.tree}}
+                                <option class="w3-white" id="attach_{{this.id}}" data-tosave="{{this.id}}">
+                                    {{this.name}}
+                                </option>
+                            {{/TreeExplorer}}
+                        </select>
+                    {{else}}
+                        <input id="em_bodypart_attached" class="em_form_input em_field" data-attachedId="{{item.system.attachedTo}}"
+                            name="item.system.attachedTo" value="{{item.system.attachedTo}}" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
+                    {{/if}}
+                    
+                </div>
+            </div>
+            {{!-- target difficulty --}}
+            <div class="em_form_inputContainer">
+                <label for="bodypart_targetMult" class="em_form_inputElement">hit modifier</label>
+                <div class="w3-border em_inputContainer em_form_inputElement">
+                    <input id="em_bodypart_hitModifier" class="em_form_input em_field w3-center" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}
+                    min="0.1" max="2.0" step="0.1" name="item.system.hitModifier" value="{{item.system.hitModifier}}" >
+                </div>
             </div>
         </div>
-        {{!-- target difficulty --}}
-        <div class="em_form_inputContainer">
-            <label for="bodypart_targetMult" class="em_form_inputElement">hit modifier</label>
-            <div class="w3-border em_inputContainer em_form_inputElement">
-                <input id="em_bodypart_hitModifier" class="em_form_input em_field w3-center" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}
-                 min="0.1" max="2.0" step="0.1" name="item.system.hitModifier" value="{{item.system.hitModifier}}" >
-            </div>
+        {{!-- allowed equippables --}}
+        <div>
+
+        </div>
+        {{!-- body sync --}}
+        <div>
+
         </div>
     </div>
-    {{!-- allowed equippables --}}
-    <div>
-
-    </div>
-    {{!-- body sync --}}
-    <div>
-
-    </div>
-</div>
+</form>
