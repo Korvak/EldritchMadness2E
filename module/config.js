@@ -168,6 +168,9 @@ export const EmConfig = {
         hMargin : 37
     };
 
+    EmConfig.TEMPLATES = {
+
+    };
 
 //#endregion
 

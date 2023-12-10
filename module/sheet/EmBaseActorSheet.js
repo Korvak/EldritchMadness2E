@@ -32,13 +32,6 @@ export default class EmBaseActorSheet extends ActorSheet {
         return `systems/EM2E/templates/sheets/actors/baseActor-sheet.hbs`;
     }
 
-    getTemplates(templateName) {
-        switch(templateName) {
-            case "bodypart" : {return "systems/EM2E/templates/sheets/items/bodypart-sheet.hbs";}
-            default : {return "";}
-        }
-    }
-
     getData() {
         let data = super.getData();
         //system holds all the data
@@ -289,10 +282,13 @@ export default class EmBaseActorSheet extends ActorSheet {
                  * 
                  */
                 let flipbook = this.getActorData().flipbook;
+                console.warn("bookmarking");
                 if (flipbook.currentPage != flipbook.lastSavedPage) {
                     flipbook.lastSavedPage = flipbook.currentPage;
-                    this.actor.update({
-                        flipbook : flipbook
+                    await this.actor.update({
+                        system : {
+                            flipbook : flipbook  
+                        } 
                     });
                 }
             }
@@ -301,14 +297,16 @@ export default class EmBaseActorSheet extends ActorSheet {
                 return this.element.find(`form #flipbook .em_page[data-page=${page}]`);
             }
 
-            _onClose(event) {
-                //makes it so that the flipbook performs the opening animation whenever closed and reopened
-                this.getActorData().flipbook.anim = true;
-            }
-
         //#endregion
     //#endregion
     //#region event methods 
+
+        async _onClose(event) {
+            //makes it so that the flipbook performs the opening animation whenever closed and reopened
+            this.getActorData().flipbook.anim = true;
+            //since bookmark can save the data, we call bookmark after even though we don't need to save flipbook.anim
+            await this._bookmarkCurrentPage();
+        }
 
         async _saveOwnedItemFields(event) {
             /** fetches the data from the called element and calls this.updateOwnedItem to update the actor's item data */
@@ -337,8 +335,7 @@ export default class EmBaseActorSheet extends ActorSheet {
 
 
 
-    //#endregion
-    
+    //#endregion   
     //#region helper methods
 
         getActorData() {

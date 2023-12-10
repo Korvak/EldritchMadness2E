@@ -21,7 +21,7 @@
                     {{> "systems/EM2E/templates/partials/actors/dataPartials/bestiaryData-partial.hbs"}}
                 {{else if (contains actor.system.tags 'machine')}}
                     {{!-- if a machine then it's a detailed machine info report --}}
-                    {{> "systems/EM2E/templates/partials/actors/dataPartials/reportData-partial.hbs"}}
+                    {{> "systems/EM2E/templates/partials/actors/dataPartials/blueprintData-partial.hbs"}}
                 {{else}}
                     {{!-- otherwise we use the default page with the minimum amount of data --}}
                     {{> "systems/EM2E/templates/partials/actors/dataPartials/actorData-partial.hbs"}}
