@@ -18,4 +18,8 @@
 
 X Expand the searchbar to allow tags that are removable and togglelable?
 
-° Make a country item and link it to the Config so that it generates the data by fetching the country item data.
+✓ Make a country item and link it to the Config so that it generates the data by fetching the country item data.
+
+✓ change the save function to allow for the select with the em_field class
+
+✓ Finish the bodypart partial attachedTo logic of the actorMedicalInfo partial

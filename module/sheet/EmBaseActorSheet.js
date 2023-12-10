@@ -1,4 +1,4 @@
-import {translate, treeBreadthSearch, fieldToObject, overwriteObjectFields, setInputsFromData, getValueFromFields} from "../utils.js"
+import {translate, treeBreadthSearch, fieldToObject, overwriteObjectFields, setInputsFromData, selectOptionsFromData, getValueFromFields} from "../utils.js"
 import {toggleDropdown, toggleReadonly, renderBar, setBarValue, searchByTags , toggleBtnState } from "../htmlUtils.js"
 
 export default class EmBaseActorSheet extends ActorSheet {
@@ -179,6 +179,8 @@ export default class EmBaseActorSheet extends ActorSheet {
                 html.find("#em_bodypart_createBtn").click(createNewBodypart.bind(this) );
                 //we set it so that if we change the name of the bodypart, it also changes the name of the tree
                 html.find("#em_bodypart_name").change(this._changeBodypartName.bind(this) );
+                //we call the reparent function when the attachedTo changes
+                html.find("#em_bodypart_attached").get(0).onchange =  this._reparentBodypart.bind(this);
             //#endregion
         //#endregion
         html.ready(this._onStart.bind(this) );
@@ -293,21 +295,31 @@ export default class EmBaseActorSheet extends ActorSheet {
     //#region event methods 
 
         async _saveOwnedItemFields(event) {
+            /** fetches the data from the called element and calls this.updateOwnedItem to update the actor's item data */
             event.preventDefault();
             let element = $(event.currentTarget);
             let container = element.parents(".em_itemContainer");
             let id = container.find(".em_itemIdContainer").get(0).dataset.id;
-            await this.updateOwnedItem(id, element.attr('name'), element.val() );
+            console.log(element.prop("tagName"));
+            //if it's a select we instead get the selected's element data-save attribute
+            let val = element.prop("tagName") == "SELECT" ? 
+                element.find(":selected").get(0).dataset.tosave
+                : element.val();
+            await this.updateOwnedItem(id, element.attr('name'), val );
         }
 
         async _saveActorFields(event) {
-            /** fetches the data from the called element and calls this._updateActorField to update the actor
-            */
+            /** fetches the data from the called element and calls this._updateActorField to update the actor */
             event.preventDefault();
             let element = $(event.currentTarget);
-            console.log("save actor field", element.attr("name") );
-            await this._updateActorField(element.attr('name'), element.val() );
+            //if it's a select we instead get the selected's element data-save attribute
+            let val = element.prop("tagName") == "select" ? 
+                element.find(":selected").get(0).dataset.save
+                : element.val();
+            await this._updateActorField(element.attr('name'), val );
         }
+
+
 
     //#endregion
     
@@ -472,6 +484,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                  * @param {string} field : the name of the field to modify
                  * @param {wildcard} value : the value to use to update the field
                  */
+                console.log("updating owned item ",itemId, field, value);
                 let item = this.getOwnedItem(itemId);
                 if (item !== undefined) {
                     try {
@@ -490,7 +503,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             }
 
             async updateOwnedItemFields(itemId, fields) {
-                /**
+                /** fetches and updates an owned item fields with the given values | may be a destructive operation
                  * @param {string} itemId : the Foundry ID of the owned item to fetch
                  * @param {Dictionary(string : wildcard)} fields : A dictionary of field names : values to set
                  */
@@ -549,7 +562,6 @@ export default class EmBaseActorSheet extends ActorSheet {
             }
 
             async _changeBodypartName(event) {
-                console.log("start change tree node name");
                 //first we get the input
                 let element = this.element.find("#em_bodypart_name");
                 //then we need the id of the bodypart
@@ -568,6 +580,16 @@ export default class EmBaseActorSheet extends ActorSheet {
                     }
                 });
             }
+
+            async _reparentBodypart(event) {
+                event.preventDefault();
+                let element = $(event.currentTarget);
+                let container = element.parents(".em_itemContainer");
+                let id = container.find(".em_itemIdContainer").get(0).dataset.id;
+                let to = element.find(":selected").get(0).dataset.tosave;
+                await this.reparentAnatomyNode(id, to);
+            }
+
 
         //#endregion
 
@@ -732,6 +754,10 @@ export default class EmBaseActorSheet extends ActorSheet {
                     console.error("cannot reparent the anatomy root.");
                     return false;
                 }
+                else if (id === to) {
+                    console.error("cannot reparent a node to itself");
+                    return false;
+                }
                 //first we fetch the bodypart from it's id
                 let bodypart = this.getOwnedItem(id);
                 if (bodypart === undefined) {return false;}
@@ -746,21 +772,21 @@ export default class EmBaseActorSheet extends ActorSheet {
                 //now we must get the parent node and the parentToNode
                 let parentNode = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
                 let parentToNode = treeBreadthSearch(anatomy.tree, "id", parentTo._id);
-                let element = undefined; //we need this since it's the node we want to add to the parentTo
-                //now we must remove the bodypart from the parentNode children and add it to the parentToNode children
-                for (let i = 0;i < parent.children.length;i++) {
-                    if (parent.children[i].id == bodypart._id) {
-                        element = parent.children[i];
-                        parent.children.splice(i,1);
-                        break;
-                    }
-                }
-                //and we add it to the new parent
-                if (element == undefined) {
+                //we get the element and it's index
+                let index = parentNode.children.findIndex(node => node.id == bodypart._id);
+                if (index < 0 || index >= parentNode.children.length) {
                     //in case it didnt' find it, then it fails miserably
                     console.error(`cannot remove ${id} from the ${parentNode.id} node since it doesn't exist as it's child.`);
                     return false;
-                } 
+                }
+                let element = parentNode.children[index]; //we need this since it's the node we want to add to the parentTo
+                //now we check if we can reparent it since we cannot reparent a node to one of it's children
+                if (treeBreadthSearch(element, "id", parentToNode.id) !== undefined ) {
+                    console.error("cannot reparent a node to one of its children.");
+                    return false;
+                }
+                //otherwise we remove the element from the parent
+                parentNode.children.splice(index,1);
                 //we reparent it
                 parentToNode.children.push(element);
                 //then we save the bodypart attached to
@@ -811,15 +837,16 @@ export default class EmBaseActorSheet extends ActorSheet {
                 //#endregion
                 //set the values
                 element = html.find(".em_field");
-                setInputsFromData(data, element );
-                //we set the attachedTo to the node name instead, if it's not the root
-                if (typeof bodypart.system.attachedTo == "string" 
-                        && game.user.role < 3 //4 is GM, 3 is Assistant GM
-                ) 
-                {
-                    let item = this.getOwnedItem(bodypart.system.attachedTo);
-                    html.find("#em_bodypart_attached").val(item.name);
-                }
+                setInputsFromData(data, html.find("input.em_field") );
+                selectOptionsFromData(data, html.find("select.em_field") );
+                //we select the attachedTo part 
+                let attachedSelect = html.find("#em_bodypart_attached");
+                //we have to show all options or else it will end up hiding all options while scrolling
+                attachedSelect.find("option").show(); 
+                //we hide the bodypart's option
+                attachedSelect.find(`#attach_${bodypart._id}`).hide();
+                //attachedSelect.find(":selected").prop("selected", false); //we unselect the last selected if there is any
+                //attachedSelect.find(`#attach_${bodypart.system.attachedTo}`).prop("selected", true);
                 //set health | durability
                 element = html.find("#em_item_durabilityBar");
                 setBarValue( element,

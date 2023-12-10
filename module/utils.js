@@ -139,4 +139,22 @@ export function setInputsFromData(data, inputs) {
     });
 }
 
+export function selectOptionsFromData(data, selects) {
+    /** fetches the data by using the input's name and then sets the data of the inputs
+     * 
+     * @param {Object} data : an object of objects that contains the desired data. 
+     *                          Usually corresponds to the actor/item or the system objects
+     * @param {Jquery} selects : the jquery collection of inputs to set 
+     */
+    selects.each(function() {
+        let element = $(this);
+        let name = element.attr('name');
+        let value = getValueFromFields(data, name );
+        //deselects old choice
+        element.find(":selected").prop("selected", false);
+        //selects new choice
+        element.find(`option[data-tosave="${value}"]`).prop("selected", true);
+    });
+}
+
 export function test() {console.log("this is a test");}

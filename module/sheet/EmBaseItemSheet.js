@@ -39,8 +39,11 @@ export default class EmBaseItemSheet extends ItemSheet {
             */
             event.preventDefault();
             let element = $(event.currentTarget);
-            console.log("save actor field", element.attr("name") );
-            await this._updateItemField(element.attr('name'), element.val() );
+            //if it's a select we instead get the selected's element data-save attribute
+            let val = element.prop("tagName") == "select" ? 
+                element.find(":selected").get(0).dataset.tosave
+                : element.val();
+            await this._updateItemField(element.attr('name'), val );
         }
 
     //#endregion

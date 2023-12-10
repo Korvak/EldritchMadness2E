@@ -18,15 +18,15 @@
         <div class="em_form_inputContainer">
             <label for="bodypart_type" class="em_form_inputElement">body type</label>
             <div class="w3-border em_form_inputElement em_inputContainer">
-                <select id="em_bodypart_attached" class="w3-white em_noShadow em_form_input em_field" 
+                <select id="em_bodypart_partType" class="w3-white em_noShadow em_form_input em_field" 
                     name="item.system.partType" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
                     {{#each CONFIG.EmConfig.anatomy.PART_TYPES}}
-                        <option class="w3-white" {{#if (eq this.name item.system.partType)}}selected="true"{{/if}}>
+                        <option class="w3-white" data-tosave="{{this.name}}" {{#if (eq this.name item.system.partType)}}selected="true"{{/if}}>
                             {{!-- 
                                 for now we leave it like this... maybe in the future we will find a solution 
                                 that also translates and sets the data using a single function
                             --}}
-                            {{this.name}}
+                            {{i18n this.label}}
                         </option>
                     {{/each}}
                 </select>
@@ -37,7 +37,16 @@
             <label for="bodypart_attached" class="em_form_inputElement">attached to</label>
             <div class="w3-border em_inputContainer em_form_inputElement">
                 {{#if actor}}
-                    <p>hello</p>
+                    {{!-- in the actor we actually do a select where you can easily reparent the bodypart --}}
+                    <select id="em_bodypart_attached" class="w3-white em_noShadow em_form_input em_field" 
+                        name="item.system.attachedTo" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
+                        {{!-- here we fetch the entire anatomy tree --}}
+                        {{#TreeExplorer "" "" actor.system.anatomy.tree}}
+                            <option class="w3-white" id="attach_{{this.id}}" data-tosave="{{this.id}}">
+                                {{this.name}}
+                            </option>
+                        {{/TreeExplorer}}
+                    </select>
                 {{else}}
                     <input id="em_bodypart_attached" class="em_form_input em_field" data-attachedId="{{item.system.attachedTo}}"
                         name="item.system.attachedTo" value="{{item.system.attachedTo}}" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
