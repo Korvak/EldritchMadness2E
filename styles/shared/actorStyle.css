@@ -201,16 +201,25 @@
 
             .em_passport_input {
                 display: block;
-                text-align: center;
+                background-color: #e7e7e7 !important;
                 border: none;
                 width: 100%;
                 max-width: 100%;
+
+                text-align: center;
                 font-size: 1em;
+                line-height: 1.2em;
             }
-        
-            .em_passport_input:not(:read-only) {
-                background-color: #e7e7e7;
+
+            select.em_passport_input {
+                height: 1.4em;
             }
+
+            .em_passport_input:disabled,.em_passport_input:disabled {
+                color: black !important;
+                background-color: rgba(0,0,0,0) !important;
+            }
+ 
 
         /*#endregion*/
 

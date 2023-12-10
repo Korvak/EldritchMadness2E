@@ -327,8 +327,8 @@ export default class EmBaseActorSheet extends ActorSheet {
             event.preventDefault();
             let element = $(event.currentTarget);
             //if it's a select we instead get the selected's element data-save attribute
-            let val = element.prop("tagName") == "select" ? 
-                element.find(":selected").get(0).dataset.save
+            let val = element.prop("tagName") == "SELECT" ? 
+                element.find(":selected").get(0).dataset.tosave
                 : element.val();
             await this._updateActorField(element.attr('name'), val );
         }

@@ -133,6 +133,21 @@ export const EmConfig = {
 
 //#region actorSheet
 
+    EmConfig.SEX = {
+        M : {
+            short : "em.actors.sex.M.short",
+            label : "em.actors.sex.M.label"
+        },
+        F : {
+            short : "em.actors.sex.F.short",
+            label : "em.actors.sex.F.label"
+        },
+        N : {
+            short : "em.actors.sex.N.short",
+            label : "em.actors.sex.N.label"
+        }
+    }
+
     EmConfig.anatomy = {
         DEFAULT_NAME : "em.actors.anatomy.default_anatomy_name",
         DEFAULT_PART_TYPE : "vestigial",

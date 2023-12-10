@@ -295,6 +295,20 @@
             }
         },
         "actors" : {
+            "sex" : {
+                "M" : {
+                    "short" : "M",
+                    "label" : "male"
+                },
+                "F" : {
+                    "short" : "F",
+                    "label" : "female"
+                },
+                "N" : {
+                    "short" : "N",
+                    "label" : "neutral"
+                }
+            },
             "conditions" : {
                 "buff" : "buff",
                 "debuff" : "debuff",
@@ -316,7 +330,6 @@
                 "fields" : {
                     "name" : "name",
                     "nationality" : "nationality",
-                    "residency" : "residency",
                     "age" : "age",
                     "sex" : "sex",
                     "born" : "born in",

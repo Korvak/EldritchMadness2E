@@ -40,7 +40,7 @@ export default class EmBaseItemSheet extends ItemSheet {
             event.preventDefault();
             let element = $(event.currentTarget);
             //if it's a select we instead get the selected's element data-save attribute
-            let val = element.prop("tagName") == "select" ? 
+            let val = element.prop("tagName") == "SELECT" ? 
                 element.find(":selected").get(0).dataset.tosave
                 : element.val();
             await this._updateItemField(element.attr('name'), val );
