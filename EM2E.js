@@ -32,7 +32,7 @@ import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
             "systems/EM2E/templates/partials/actors/dataPartials/actorData-partial.hbs",
             "systems/EM2E/templates/partials/actors/dataPartials/passportData-partial.hbs",
             "systems/EM2E/templates/partials/actors/dataPartials/bestiaryData-partial.hbs",
-            "systems/EM2E/templates/partials/actors/dataPartials/reportData-partial.hbs",
+            "systems/EM2E/templates/partials/actors/dataPartials/blueprintData-partial.hbs",
           //#endregion
           "systems/EM2E/templates/partials/actors/actorMedicalInfo-partial.hbs",
           "systems/EM2E/templates/partials/actors/actorOptions-partial.hbs",

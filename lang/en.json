@@ -360,6 +360,10 @@
                     "name" : "coalition",
                     "preposition" : "of"  
                 },
+                "federation" : {
+                    "name" : "federation",
+                    "preposition" : "of"  
+                },
                 "republic" : {
                     "name" : "republic",
                     "preposition" : "of"  

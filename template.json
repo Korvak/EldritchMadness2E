@@ -790,15 +790,17 @@
                     },
                     "chart" : {},
                     "currentGrowthStage" : "default",
-                    "growthCycle" : [
-                        {
+                    "growthCycle" : {
+                        "default" : {
                             "id" : "default",
                             "name" : "default",
                             "desc" : "em.actor.anatomy.DEFAULT_GROWTH_STAGE_DESC",
                             "startsAtAge" : -1,
-                            "background": null
+                            "order" : 0,
+                            "background": "none"
                         }
-                    ]
+                    }
+                        
                 },
                 "info" : {
                     "nationality" : "",

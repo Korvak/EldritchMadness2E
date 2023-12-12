@@ -66,6 +66,10 @@ export const EmConfig = {
             name : "em.countries.governments.coalition.name",
             preposition : "em.countries.governments.coalition.preposition"
         },
+        federation : {
+            name : "em.countries.governments.federation.name",
+            preposition : "em.countries.governments.federation.preposition"
+        },
         republic   : {
             name : "em.countries.governments.republic.name",
             preposition : "em.countries.governments.republic.preposition"
@@ -200,6 +204,14 @@ export const EmConfig = {
             "woodwork"
         ]
     };
+
+    EmConfig.BACKGROUNDS = {
+        none : {
+            name : "None",
+            desc : "",
+            stats : []
+        }
+    }
 
 //#endregion
 
