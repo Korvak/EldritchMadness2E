@@ -200,6 +200,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                 peel : false,
                 page : this.getActorData().flipbook.anim ? 1 : this.getActorData().flipbook.currentPage
             });
+            console.warn("current page",this.getActorData().flipbook.currentPage);
             //#region flipbook start animation
                 if ( this.getActorData().flipbook.anim ) {
                     //we hide the navbar because it's floating

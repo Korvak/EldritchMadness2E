@@ -328,6 +328,7 @@
             },
             "passport" : {
                 "fields" : {
+                    "passport" : "PASSPORT",
                     "name" : "name",
                     "nationality" : "nationality",
                     "age" : "age",

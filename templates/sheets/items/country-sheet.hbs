@@ -1,5 +1,5 @@
 <form autocomplete="off">
-    {{#if (hasRole "GM")}}
+    {{#if (hasRole "KEEPER")}}
         <h1>
             <img class="em_halfBottomMargin w3-border-0" src="{{item.img}}" title="{{item.name}}" width="64px" height="64px">
             {{#with (fetch CONFIG.EmConfig.GOVERNMENTS item.system.government.type) as |government| }}
@@ -23,7 +23,18 @@
                     <td class="w3-center w3-light-gray">
                         <input class="em_field w3-border-0 w3-light-gray" name="item.img" value="{{item.img}}">
                     </td>
-                    <td class="w3-center"></td>
+                    <td class="w3-center" style="margin:0;padding:0;">
+                        <img class="w3-border-0" src="{{item.img}}" width="32px" height="32px" style="margin:0;padding:0;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="w3-left">emblem</td>
+                    <td class="w3-center w3-light-gray">
+                        <input class="em_field w3-border-0 w3-light-gray" name="item.system.icon" value="{{item.system.icon}}">
+                    </td>
+                    <td class="w3-center" style="margin:0;padding:0;">
+                        <img class="w3-border-0" src="{{item.system.icon}}" width="32px" height="32px" style="margin:0;padding:0;">
+                    </td>
                 </tr>
                 <tr>
                     <td class="w3-left">name</td>
@@ -52,7 +63,7 @@
                 <tr>
                     <td colspan="3" style="padding: 0;margin:0;">
                         <h2 class="em_title w3-center w3-border w3-black" style="padding: 0;margin:0;">Government</h2>
-                    </td>
+                </td>
                 </tr>
                 <tr>
                     {{!-- the type and display data is fetched from the Config --}}
@@ -80,6 +91,22 @@
                     <td colspan="3" style="padding: 0;margin:0;">
                         <h2 class="em_title w3-center w3-border w3-black" style="padding: 0;margin:0;">Economy</h2>
                     </td>
+                </tr>
+                <tr>
+                    <td class="w3-left">coin icon</td>
+                    <td class="w3-center w3-light-gray">
+                        <input class="em_field w3-border-0 w3-light-gray" name="item.system.economy.coin_icon" value="{{item.system.economy.coin_icon}}">
+                    </td>
+                    <td class="w3-center">
+                        <i>{{i18n item.system.economy.coin_icon}}</i>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="w3-left">coin image</td>
+                    <td class="w3-center w3-light-gray">
+                        <input class="em_field w3-border-0 w3-light-gray" name="item.system.economy.coin_img" value="{{item.system.economy.coin_img}}">
+                    </td>
+                    <td class="w3-center"></td>
                 </tr>
                 <tr>
                     <td class="w3-left">coin name</td>

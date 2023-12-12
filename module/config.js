@@ -8,7 +8,6 @@ export const EmConfig = {
         IMG : "/systems/EM2E/resources/images/"
     }
 
-
     EmConfig.ROLES = {
         "GM" : 4,
         "gm" : 4,
@@ -183,8 +182,23 @@ export const EmConfig = {
         hMargin : 37
     };
 
-    EmConfig.TEMPLATES = {
-
+    EmConfig.SKILLS = {
+        ARTS_AND_CRAFTS : [
+            "acting",
+            "barber",
+            "cobbler",
+            "cooking",
+            "dancer",
+            "fine art",
+            "forgery",
+            "singing",
+            "painting",
+            "photograghy",
+            "pottery",
+            "sculpting",
+            "writing",
+            "woodwork"
+        ]
     };
 
 //#endregion

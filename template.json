@@ -955,6 +955,7 @@
             "empty"
         ],
         "country" : {
+            "icon" : "",
             "name" : "",
             "desc" : "",
             "population" : {
