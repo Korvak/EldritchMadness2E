@@ -172,7 +172,6 @@
                 z-index: 1;
             }
 
-            
             .em_passport::before {
                 content: '';
                 position: absolute;
@@ -186,81 +185,140 @@
                 background-image: url("/systems/EM2E/resources/images/countries/bera/emblems/National_Emblem.png") !important;
                 background-size: 128px 128px;
                 background-repeat: no-repeat;
-                background-position: -50% 65%;
+                background-position: left center;
             }
             
+            /*#region header*/
+                .em_passport_header {
+                    background-size: contain;
+                }
 
-            .em_passport_header {
-                background-size: contain;
-            }
+                .em_passport_country_name {
+                    text-align: center;
+                    border-bottom: 2px solid goldenrod;
+                    text-shadow: 1px 1px 1px black;
+                    color: goldenrod;
+                }
 
-            .em_passport_country_name {
-                text-align: center;
-                border-bottom: 2px solid goldenrod;
-                text-shadow: 1px 1px 1px black;
-                color: goldenrod;
-            }
+                .em_passport_country_icon {
+                    display: inline-block;
+                    object-fit: contain;
+                    border: none;
+                }
+            /*#endregion*/
 
-            .em_passport_country_icon {
-                display: inline-block;
-                object-fit: contain;
-                border: none;
-            }
-
-            .em_passport_portraitContainer {
-                flex: 0.2;
+            .em_passport_dataContainer {
                 display: flex;
-                justify-content: center;
-            }
-
-            .em_passport_portraitContainer > .em_passport_portraitTitle {
+                flex-direction: row;
+                justify-content: space-around;
+                flex-wrap: nowrap;
                 max-width: 100%;
-                padding-left: 3px;
-                margin-bottom: 3px;
+                overflow: hidden;
             }
 
-            .em_passport_portrait {
-                display: block;
-                box-sizing: border-box;
-                object-fit: cover;
-                margin-left: 3px;
-            }
+            /*#region portrait*/
 
-            .em_passport_field {
-                margin-bottom: 6px !important;
-            }
+                .em_passport_portraitContainer {
+                    flex: 64px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    width: 64px;
+                    max-width: 64px;
+                }
 
-            .em_passport_label {
-                display: block;
-                width: 100%;
-                max-width: 100%;
-                font-weight: 700;
-                font-size: 1.1em;
-            }
+                .em_passport_portraitContainer > .em_passport_portraitTitle {
+                    max-width: 100%;
+                    padding-left: 3px;
+                    margin-bottom: 3px;
+                }
 
-            .em_passport_input {
-                display: block;
-                width: 100%;
-                max-width: 100%;
-                height: 1.8em;
-                font-size: 1em;
-                line-height: 1.2em;
-            }
+                .em_passport_portrait {
+                    display: block;
+                    box-sizing: border-box;
+                    object-fit: cover;
+                    margin-left: 3px;
+                }
 
-            .em_passport_field:disabled,.em_passport_field:read-only {
-                border: none !important;
-                background-color: transparent !important;
-            }
+                .em_passport_portraitFieldContainer {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: baseline;
+                    max-width: 100%;
+                }
 
-            .em_passport_input:disabled,.em_passport_input:read-only {
-                color : black !important;
-            }
-            
-            .em_passport_input:not(:disabled) {
-                background-color: #e7e7e7 !important;
-                border: 1px solid rgb(122, 121, 113) !important;
-            }
+                .em_passport_portraitField {
+                    display: inline-block !important;
+                    background-color: transparent !important;
+                    box-sizing: border-box;
+                    max-height: 100%;
+                    width: 100% !important;
+                    max-width: calc(100% - 1.2em) !important;
+                }
 
+                .em_passport_portraitFieldIcon {
+                    display: inline-block !important;
+                    background-color: transparent !important;
+                    padding-top: 4px;
+                    padding-left: 0.1em;
+                    max-height: 100%;
+                    max-width: 1em;
+                    font-size: 1em;
+                    line-height: 1.1em;
+
+                }
+            /*#endregion*/
+
+            /*#region fields*/
+
+                .em_passport_fieldsContainer {
+                    flex: 0.8;
+                    max-width: calc(100% - 64px);
+                    margin-top: 0 I !important;
+                }
+
+                .em_passport_field {
+                    margin-bottom: 6px !important;
+                }
+
+                .em_passport_label {
+                    display: block;
+                    width: 100%;
+                    max-width: 100%;
+                    font-weight: 700;
+                    font-size: 1.1em;
+                }
+
+                .em_passport_input {
+                    display: block;
+                    width: 100%;
+                    max-width: 100%;
+                    height: 1.8em;
+                    font-size: 1em;
+                    line-height: 1.2em;
+                }
+
+                
+                .em_passport_field:disabled,.em_passport_field:read-only {
+                    border: none !important;
+                    background-color: transparent !important;
+                }
+
+                .em_passport_input:disabled,.em_passport_input:read-only {
+                    text-align: center !important;
+                    border: none !important;
+                    background-color: transparent !important;
+                    color : black !important;
+                }
+                
+                .em_passport_input:not(:disabled) {
+                    background-color: #e7e7e7 !important;
+                    border: 1px solid rgb(122, 121, 113) !important;
+                }
+
+
+            /*#endregion*/
             
 
         /*#endregion*/

@@ -8,15 +8,15 @@
                     {{i18n government.name}} {{i18n government.preposition}}
                 {{/with }}
                     {{i18n country.system.name}}
-                <img class="em_passport_country_icon" src="{{country.system.icon}}"  "systems/EM2E/resources/images/countries/bera/emblems/National_Emblem.png" width="32" height="32">
+                <img class="em_passport_country_icon" src="{{country.system.icon}}" width="32" height="32">
             {{/with}}
         </h2>
-        <input class="em_passport_field em_passport_input em_inline-field em_halfSection" name="name" value="{{actor.name}}" style="max-width: calc(100% - 6px);" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}>
+        <input class="em_passport_field em_passport_input em_inline-field em_halfSection" name="name" value="{{actor.name}}" style="max-width: calc(100% - 6px);" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
     </div>
     {{!-- contains passport data and portrait --}}
-    <div class="em_form_inputContainer" style="max-width: 100%;">
+    <div class="em_passport_dataContainer">
         {{!-- the passport data fields --}}
-        <div class="em_passport_fieldsContainer w3-section em_form_inputElement" style="flex: 0.8;"> {{!-- this fields should be stacked one below the other --}}
+        <div class="em_passport_fieldsContainer w3-section"> {{!-- this fields should be stacked one below the other --}}
             {{!-- nationality --}}
             <div class="em_form_inputContainer">
                 <label class="em_form_inputElement em_passport_field em_passport_label">{{i18n "em.actors.passport.fields.nationality"}}</label>
@@ -25,13 +25,13 @@
                 {{#if (hasRole "KEEPER")}}
                     <select class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" name="actor.system.info.nationality">
                         {{#each CONFIG.EmConfig.COUNTRIES as |country key|}}
-                            <option class="w3-white" data-tosave="{{key}}" {{#if (eq key ../actor.system.info.nationality) }}selected="true"{{/if}}>{{key}}</option>
+                            <option class="w3-white w3-border-bottom" data-tosave="{{key}}" {{#if (eq key ../actor.system.info.nationality) }}selected="true"{{/if}}>{{key}}</option>
                         {{/each}}
                     </select>
                 {{else}}
                     {{!-- population name --}}
                     {{#with (fetch CONFIG.EmConfig.COUNTRIES actor.system.info.nationality) as |country|}}
-                        <input class="em_form_inputElement em_passport_field em_passport_input em_halfLeftMargin" name="pop_name" value="{{i18n country.system.population.name}}" readonly="true">
+                        <input class="em_form_inputElement em_passport_field em_passport_input em_halfLeftMargin" type="text" name="pop_name" value="{{i18n country.system.population.name}}" disabled="true" readonly="true">
                     {{/with}}
                 {{/if}}
                 <!--#endregion -->
@@ -39,9 +39,9 @@
             {{!-- sex --}}
             <div class="em_form_inputContainer">
                 <label class="em_form_inputElement em_passport_field em_passport_label">{{i18n "em.actors.passport.fields.sex"}}</label>
-                <select class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" name="actor.system.anatomy.sex" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}>
+                <select class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" name="actor.system.anatomy.sex" {{#unless (hasRole "KEEPER")}}disabled="true" disabled="true" readonly="true"{{/unless}}>
                     {{#each CONFIG.EmConfig.SEX as |this key|}}
-                        <option class="w3-white w3-center" data-tosave="{{key}}" {{#if (eq key ../actor.system.anatomy.sex)}}selected="true"{{/if}}>
+                        <option class="w3-white w3-center w3-border-bottom" data-tosave="{{key}}" {{#if (eq key ../actor.system.anatomy.sex)}}selected="true"{{/if}}>
                             {{i18n this.short}} ({{i18n this.label}})
                         </option>
                     {{/each}}
@@ -50,12 +50,12 @@
             {{!-- birth date --}}
             <div class="em_form_inputContainer">
                 <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.info.origin.birthDate">{{i18n "em.actors.passport.fields.birthDate"}}</label>
-                <input class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" type="date" name="actor.system.info.origin.birthDate" value="{{actor.system.info.origin.birthDate}}" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}>
+                <input class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow w3-center" type="date" name="actor.system.info.origin.birthDate" value="{{actor.system.info.origin.birthDate}}" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true" style="flex: 0.7;font-size : 0.9em;"{{/unless}}>
             </div>
             {{!-- born in --}}
             <div class="em_form_inputContainer">
                 <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.info.origin.address">{{i18n "em.actors.passport.fields.born"}}</label>
-                <input class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" type="text" name="actor.system.info.origin.address" value="{{actor.system.info.origin.address}}" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}>
+                <input class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" type="text" name="actor.system.info.origin.address" value="{{actor.system.info.origin.address}}" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
             </div>
             {{!-- work --}}
             <div class="em_form_inputContainer">
@@ -71,13 +71,14 @@
                                 changing a background cannot be done through an inline-field
                                 but requires its own function 
                             --}}
-                            <select class="em_form_inputElement em_passport_field em_passport_input em_noShadow">
+                            <select class="em_form_inputElement em_passport_field em_passport_input em_noShadow" {{#unless (hasRole "KEEPER")}}disabled="true" disabled="true" readonly="true"{{/unless}}>
                                 {{#each ../../CONFIG.EmConfig.BACKGROUNDS as |job key|}}
                                     <option data-tosave="{{key}}" {{#if (eq key ../../stage.background)}}selected="true"{{/if}}>{{job.name}}</option>
                                 {{/each}}
                             </select>
                         {{else}}
-                            <input class="em_form_inputElement em_passport_field em_passport_input" name="actor.system.growthCycle.{{../stage.id}}.background" value="{{background.name}}" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}}>
+                            {{!-- this is just a display field and mustn't have an inline-field attribute --}}
+                            <input class="em_form_inputElement em_passport_field em_passport_input" type="text" name="actor.system.growthCycle.{{../stage.id}}.background" value="{{background.name}}" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
                         {{/if}}
                     {{/with}}
                 {{/with}}
@@ -85,13 +86,49 @@
         {{!--end of passport data --}}
         </div>
         {{!-- portrait 64x64 --}}
-        <div class="em_passport_portraitContainer em_form_inputElement em_halfContainer w3-section" style="width: 64px;">
+        <div class="em_passport_portraitContainer em_form_inputElement em_halfContainer" style="width: 64px; flex-direction: column; justify-content: flex-start;">
             <img class="em_passport_portrait w3-black w3-round-large em_halfTopMargin" src="{{actor.img}}" name="actor.img" data-edit="img" title="{{actor.name}}" width="64" height="64">
+            {{!-- age --}}
+            <div class="em_passport_portraitFieldContainer em_halfTopMargin em_passport_field em_passport_input" {{#unless (hasRole "KEEPER")}}style="border: none !important;background-color: transparent !important;color : black !important;"{{/unless}}>
+                <i class="fa-solid fa-hourglass em_passport_portraitFieldIcon"></i>
+                <input type="number" class="em_passport_portraitField w3-border-0 em_inline-field em_noShadow" name="actor.system.anatomy.age" value="{{actor.system.anatomy.age}}"
+                    {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
+            </div>
         </div>
     </div>
-    
-
-
-
+    {{!-- contains the extra data if you are a beyonder --}}
+    {{#if (contains actor.system.tags "actor" "beyonder")}}
+        {{!-- work in progress, come back later when the classes are made --}}
+        <div class="em_marginContainer w3-section w3-border w3-card-4 w3-round-large" style='background-image: url("/ui/parchment.jpg")'>
+            <h3>
+                <img class="w3-border-0" src="systems/EM2E/resources/images/ui/3d_pin_topleft.png" width="32" height="32">
+                {{i18n "em.actors.passport.fields.beyonderBureau"}}
+            </h3>
+            <div class="w3-container">
+                {{!-- arcana --}}
+                <div class="em_form_inputContainer">
+                    <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.class.arcana">{{i18n "em.actors.passport.fields.arcana"}}</label>
+                    <input class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" type="text" name="actor.system.class.arcana" value="{{actor.system.class.arcana}}" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
+                </div>
+                {{!-- sequence --}}
+                <div class="em_form_inputContainer">
+                    <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.class.sequence">{{i18n "em.actors.passport.fields.sequence"}}</label>
+                    <input class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" type="text" name="actor.system.class.sequence" value="{{actor.system.class.sequence}}" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
+                </div> 
+            </div>
+            
+        </div>
+    {{/if}}
+    <div class="em_halfSection">
+        <h4 class="em_passport_country_name w3-border-0 w3-left">
+            {{!-- from the country we fetch the government name to translate --}}
+            {{#with (fetch CONFIG.EmConfig.COUNTRIES actor.system.info.nationality) as |country|}}
+                {{#with (fetch ../CONFIG.EmConfig.GOVERNMENTS country.system.government.type) as |government| }}
+                    {{i18n government.name}} {{i18n government.preposition}}
+                {{/with }}
+                    {{i18n country.system.name}}
+            {{/with}}
+        </h4>
+    </div>
 
 </div>

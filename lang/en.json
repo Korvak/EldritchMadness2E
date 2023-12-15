@@ -334,8 +334,9 @@
                     "age" : "age",
                     "sex" : "sex",
                     "born" : "born in",
-                    "birthDate" : "date of birth",
+                    "birthDate" : "birth",
                     "work" : "occupation",
+                    "beyonderBureau" : "Beyonder Bureau",
                     "arcana" : "arcana",
                     "sequence" : "sequence"
                 }

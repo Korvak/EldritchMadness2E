@@ -23,6 +23,10 @@
     margin-bottom: 6px;
 }
 
+.em_marginContainer {
+    margin : 0.01em 16px;
+}
+
 .em_halfContainer {
     margin-left: 6px;
     margin-right: 6px;
@@ -50,10 +54,16 @@
 /*#region general style rules */
 
 select:disabled {
-    text-indent: 1px;
-    text-overflow: '';
+    text-indent: 1px !important;
+    text-overflow: '' !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+}
+
+input:disabled[type="date"]::-webkit-inner-spin-button,
+input:disabled[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
     -webkit-appearance: none;
-    -moz-appearance: none;
 }
 
 /*#endregion*/
