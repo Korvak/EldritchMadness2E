@@ -1,5 +1,10 @@
-import {translate, treeBreadthSearch, fieldToObject, overwriteObjectFields, setInputsFromData, selectOptionsFromData, getValueFromFields} from "../utils.js"
-import {toggleDropdown, toggleReadonly, renderBar, setBarValue, searchByTags , toggleBtnState } from "../htmlUtils.js"
+import {treeBreadthSearch, fieldToObject, overwriteObjectFields, getValueFromFields} from "../utils.js"
+import {
+    toggleDropdown, setInputsFromData, selectOptionsFromData, toggleReadonly, 
+    renderBar, setBarValue, searchByTags , toggleBtnState 
+} from "../htmlUtils.js"
+import {translate} from "../emCore.js"
+
 
 export default class EmBaseActorSheet extends ActorSheet {
 
@@ -187,7 +192,6 @@ export default class EmBaseActorSheet extends ActorSheet {
     //#region start method
 
         _onStart() {
-            console.warn("on start", this.getActorData().flipbook.anim);
             let html = this.element.find("form");
             //first we start turn.js
             let flipbook = html.find("#flipbook");
@@ -334,7 +338,9 @@ export default class EmBaseActorSheet extends ActorSheet {
             await this._updateActorField(element.attr('name'), val );
         }
 
+        async _removeActorCollectionFieldElement(event) {
 
+        }
 
     //#endregion   
     //#region helper methods
@@ -388,6 +394,28 @@ export default class EmBaseActorSheet extends ActorSheet {
                 if (toSave["actor"] != undefined) {toSave = toSave["actor"];}
                 await this._saveActorData(toSave);
                 return true;
+            }
+            catch(error) {
+                console.error(error.message);
+                return false;
+            }
+        }
+
+        async _updateActorCollection(field, value, method = 'add') {
+            try {
+                //we fetch the field
+                let collection = getValueFromFields(thig.getActorData() , field);
+                if (!Array.isArray(collection) ) {return false;}
+                //then we check the method used
+                if (method.toLowerCase() === 'remove') {
+                    //we remove the element if it exists.
+                    Array.remove()
+                }
+                else if (method.toLowerCase() === 'add') {
+
+                }
+                //otherwise it does nothing and returns false
+                return false; 
             }
             catch(error) {
                 console.error(error.message);

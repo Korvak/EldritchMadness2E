@@ -1,5 +1,6 @@
 import {EmConfig} from "./module/config.js"
-import {normalize, translate} from "./module/utils.js";
+import {normalize} from "./module/utils.js";
+import {translate} from "./module/emCore.js"
 import EmBaseActorSheet from "./module/sheet/EmBaseActorSheet.js";
 import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
 

@@ -159,6 +159,22 @@
 
     /*#region actor data */
 
+        /*#region tags*/
+
+            .em_tag {
+                padding-left: 0.2em;
+            }
+
+            .em_tagIcon {
+                box-sizing: border-box;
+                font-size: 0.7em;
+                padding-left : 0.3em;
+                padding-right: 0;
+            }
+
+
+        /*#endregion*/
+
         /*#region passport */
 
             .em_passport {
@@ -310,6 +326,7 @@
                     border: none !important;
                     background-color: transparent !important;
                     color : black !important;
+                    margin-left: 3px;
                 }
                 
                 .em_passport_input:not(:disabled) {
@@ -319,6 +336,12 @@
 
 
             /*#endregion*/
+            
+
+        /*#endregion*/
+
+        /*#region bestiary */
+
             
 
         /*#endregion*/
