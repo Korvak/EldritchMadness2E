@@ -116,14 +116,7 @@ export default class EmBaseActorSheet extends ActorSheet {
         //#region html events
         
             //#region base events
-                //readonly input toggle
-                html.find(".em_readonlyIcon").each(function() {
-                    $(this).get(0).onclick = toggleReadonly;
-                });
-                //toggle btns setup
-                html.find(".em_toggleBtn").each(function() {
-                    $(this).get(0).onclick = toggleBtnState;
-                });
+                //search bar
                 html.find(".em_searchbarTag").each(function() {
                     //onchange finds the linked searchbar and triggers it
                     //onchange is called when the toggleBtnState is activated.
@@ -165,7 +158,10 @@ export default class EmBaseActorSheet extends ActorSheet {
                 });
             //#endregion
             //#region info page events
-                
+                html.find(".em_tagIcon").each(function() {
+                    $(this).get(0).onclick = self._htmlRemoveActorTag.bind(self);
+                });
+                html.find("#em_addTagIconBtn").get(0).onclick = this._htmlAddActorTag.bind(this);
             //#endregion
             //#region anatomy page events
                 html.find(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
@@ -242,6 +238,9 @@ export default class EmBaseActorSheet extends ActorSheet {
             });
         }
 
+        async _bindOrCreateCoins() {
+
+        }
 
         //#region event methods
 
@@ -402,20 +401,31 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
 
         async _updateActorCollection(field, value, method = 'add') {
+            /** fetches a collection from the action fields and depending on the method passed either adds or removes the value given
+             * @param {string} field : the path name of the field separated by '.'
+             * @param {wildcard} value : the value to either remove or add 
+             * @param {enum(string)} method : either 'add' or 'remove'.
+             * 
+             * @returns {boolean} : wether the element was successfuly added or removed 
+             */
             try {
                 //we fetch the field
-                let collection = getValueFromFields(thig.getActorData() , field);
+                let collection = getValueFromFields(this.getData() , field);
                 if (!Array.isArray(collection) ) {return false;}
-                //then we check the method used
-                if (method.toLowerCase() === 'remove') {
-                    //we remove the element if it exists.
-                    Array.remove()
+                //checks the method, in case nothing happened then it exists the function
+                switch(method.toLowerCase() ) {
+                    case 'add' : {
+                        collection.push(value); 
+                        break;
+                    }
+                    case 'remove' : {
+                        if( Array.remove(collection, (x) => {x === value;}) === undefined) {return false;}
+                        break; //otherwise everything is fine and we leave the switch
+                    }
+                    default : {return false;}
                 }
-                else if (method.toLowerCase() === 'add') {
-
-                }
-                //otherwise it does nothing and returns false
-                return false; 
+                //finally we call the update actor field
+                return await this._updateActorField(field, collection);
             }
             catch(error) {
                 console.error(error.message);
@@ -577,7 +587,28 @@ export default class EmBaseActorSheet extends ActorSheet {
 
     //#endregion
 
+    //#region info
+        //#region event methods
 
+            async _htmlRemoveActorTag(event) {
+                //gets the tag name from the dataset
+                let element = event.currentTarget;
+                await this._updateActorCollection( 
+                    $(element).attr("name"), element.dataset.name, 'remove'
+                );
+            }
+            
+            async _htmlAddActorTag(event) {
+                //tied to an add icon, it fetches the input in the same container and gets the data
+                let element = $(event.currentTarget);
+                let input = element.parent().find("#em_addTagBtn");
+                //now we add the value
+                await this._updateActorCollection(input.attr("name"), input.val(), 'add');
+            }
+
+        //#endregion
+
+    //#endregion
     //#region anatomy
 
         //#region event methods

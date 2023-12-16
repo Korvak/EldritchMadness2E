@@ -6,19 +6,19 @@
 </div>
 <div>
     {{!-- here you place important icons with tooltips: money, weight, class --}}
-    <div class="">
+    <div class="em_halfSection">
         put icons here : money , weight, 
     </div>
     {{!-- tags for keeper --}}
     {{#if (hasRole "KEEPER")}}
         <div class="w3-border em_inputContainer">
-            <input id="em_addTagBtn" class="em_input" placeholder="new tag name">
-            <i class="em_inputIcon fa-solid fa-plus"></i>
+            <input id="em_addTagBtn" class="em_input" name="actor.system.tags" placeholder="new tag name">
+            <i id="em_addTagIconBtn" class="em_inputIcon fa-solid fa-plus"></i>
         </div>
         <div class="em_flex w3-border w3-round-large" style="justify-content: flex-start;padding-bottom : 6px;">
             {{#each actor.system.tags as |tag|}}
                 <div class="em_inputContainer w3-light-gray w3-round-large w3-hover-white em_halfContainer em_halfTopMargin">
-                    <i class="em_tagIcon fa-solid fa-x em_inputIcon em_tagIcon" name="actor.system.tags" data-name="{{tag}}"></i>
+                    <i class="fa-solid fa-x em_inputIcon em_tagIcon" name="actor.system.tags" data-name="{{tag}}"></i>
                     <button class="em_input em_tag em_noShadow w3-transparent">{{tag}}</button>
                 </div>
             {{/each}}
