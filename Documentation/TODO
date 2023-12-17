@@ -12,7 +12,12 @@
 ✓ Make the anatomy tree nodes more clickable. 
     (the chevron and the badges when clicked will count as the <li> being clicked)
 
-° Make the info page for the base actor
+✓ Make the info page for the base actor
+
+° Make info pages for all the actor types : 
+        ✓ human 
+        - beast
+        - device
 
 ✓ Make a searchbar with tags
 
@@ -25,3 +30,7 @@ X Expand the searchbar to allow tags that are removable and togglelable?
 ✓ Finish the bodypart partial attachedTo logic of the actorMedicalInfo partial
 
 ° Whenever saving something, add it to a sort of action log actor for ctrl+Z, ctrl+Y purposes
+
+° Decide if the Country should be an actor or an item
+
+° Make a Compendium for the Countries and make a Country fetch method.
