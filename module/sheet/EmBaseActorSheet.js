@@ -534,14 +534,23 @@ export default class EmBaseActorSheet extends ActorSheet {
                 }
             }
 
-            async createOwnedItem(itemData) {
+            async createOwnedItem(name, type, itemData = {}) {
+                /** creates an item as an owned item
+                 *  @param {object} itemData : a data object that must contain name and type and may contain a data value
+                 * 
+                 *  @returns {Item} : returns the created item.
+                 */
                 try {
-                    await Item.create(itemData, {parent : this.actor});
-                    return this._getAllOwnedItems().length - 1;
+                    let item = await Item.create({
+                        'name' : name,
+                        'type' : type
+                    }, {parent : this.actor});
+                    if (itemData != {}) {await item.update(itemData);}
+                    return item;
                 }
                 catch(error) {
                     console.error(error.message);
-                    return -1;
+                    return undefined;
                 }
             }
 
@@ -723,23 +732,16 @@ export default class EmBaseActorSheet extends ActorSheet {
                 return undefined;
             }
             let anatomy = this.getAnatomy();
-            let bodypart = await Item.create({
-                "name" : name,
-                "type" : "bodypart",
-                },
-                {parent : this.actor} //this adds it to the actor items instead of the item global collection
-            );
-            //if we don't call the update, it won't change the values
-            await bodypart.update({
+            //We create the bodypart and data to it
+            let bodypart = await this.createOwnedItem(name, 'bodypart', 
+            {
                 'system' : {
                     'partType' : partType,
                     'attachedTo' : attachedTo
                 }
             });
+            //we get the data
             let bodypartData = bodypart.system;
-            //sets the data
-            bodypartData.partType = partType;
-            bodypartData.attachedTo = attachedTo;
             //then we add it to the view types
             if (typeof attachedTo === "string") {
                 let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
