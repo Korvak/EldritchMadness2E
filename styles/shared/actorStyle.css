@@ -161,6 +161,14 @@
 
         /*#region tags*/
 
+            #em_actorTagContainer {
+                box-sizing: border-box;
+                overflow-y: auto;
+                max-height: 5em;
+                padding-bottom: 6px;
+                justify-content: flex-start;
+            }
+
             .em_tag {
                 padding-left: 0.2em;
             }

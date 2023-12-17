@@ -116,6 +116,14 @@ export default class EmBaseActorSheet extends ActorSheet {
         //#region html events
         
             //#region base events
+                //readonly input toggle
+                html.find(".em_readonlyIcon").each(function() {
+                    $(this).get(0).onclick = toggleReadonly;
+                });
+                //toggle btns setup
+                html.find(".em_toggleBtn").each(function() {
+                    $(this).get(0).onclick = toggleBtnState;
+                });
                 //search bar
                 html.find(".em_searchbarTag").each(function() {
                     //onchange finds the linked searchbar and triggers it
@@ -136,7 +144,6 @@ export default class EmBaseActorSheet extends ActorSheet {
                 html.find(".em_searchbar").each(function() {
                     $(this).get(0).onkeyup = searchByTags;
                 });
-
                 //dropdown functionality
                 html.find(".dropdown-btn").each(function() {
                     $(this).find(".dropdown-icon").contextmenu(function(event) {

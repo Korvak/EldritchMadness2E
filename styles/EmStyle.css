@@ -1,4 +1,4 @@
-.em_noShadow, .em_noShadow:hover,.em_noShadow:active  {
+.em_noShadow, .em_noShadow:hover,.em_noShadow:active, .em_noShadow:focus {
     box-shadow: none !important;
 }
 
@@ -101,6 +101,12 @@ input:disabled[type="date"]::-webkit-calendar-picker-indicator {
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
+    }
+
+    .dropdown-content input:hover, 
+    .dropdown-content input:active, 
+    .dropdown-content input:focus {
+        box-shadow: none !important;
     }
 
     /*#region bar*/
