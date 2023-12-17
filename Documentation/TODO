@@ -23,3 +23,5 @@ X Expand the searchbar to allow tags that are removable and togglelable?
 ✓ change the save function to allow for the select with the em_field class
 
 ✓ Finish the bodypart partial attachedTo logic of the actorMedicalInfo partial
+
+° Whenever saving something, add it to a sort of action log actor for ctrl+Z, ctrl+Y purposes

@@ -141,7 +141,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                 html.find(".dropdown-btn").each(function() {
                     $(this).find(".dropdown-icon").contextmenu(function(event) {
                         event.preventDefault();
-                        $(this).parents(".dropdown-btn").contextmenu();
+                        $(this).parents(".dropdown-btn").contextmenu(event);
                     });
                     $(this).get(0).oncontextmenu = toggleDropdown;
                 });
@@ -161,7 +161,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                 html.find(".em_tagIcon").each(function() {
                     $(this).get(0).onclick = self._htmlRemoveActorTag.bind(self);
                 });
-                html.find("#em_addTagIconBtn").get(0).onclick = this._htmlAddActorTag.bind(this);
+                html.find("#em_addTagIconBtn").click( this._htmlAddActorTag.bind(this) );
             //#endregion
             //#region anatomy page events
                 html.find(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));

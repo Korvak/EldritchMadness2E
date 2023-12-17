@@ -11,7 +11,7 @@
                 <img class="em_passport_country_icon" src="{{country.system.icon}}" width="32" height="32">
             {{/with}}
         </h2>
-        <input class="em_passport_field em_passport_input em_inline-field em_halfSection" name="name" value="{{actor.name}}" style="max-width: calc(100% - 6px);" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
+        <input class="em_passport_field em_passport_input em_inline-field em_halfSection" name="name" value="{{actor.name}}" style="max-width: calc(100% - 6px);text-align : left !important;" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
     </div>
     {{!-- contains passport data and portrait --}}
     <div class="em_passport_dataContainer">

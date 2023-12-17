@@ -9,7 +9,7 @@
                         "desc" : "em.skills.dodge.desc",
                         "tags" : ["combat"],
                         "min": 1,
-                        "value" : "@dex / 2",
+                        "value" : 1,
                         "max" : 100,
                         "minTemp" : 0,
                         "temp" : 0,
@@ -782,6 +782,7 @@
                 "anatomy" : {
                     "age" : 0,
                     "sex" : "N",
+                    "build" : 0,
                     "viewType" : "tree",
                     "tree" : {
                         "id" : null,
