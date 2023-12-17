@@ -366,8 +366,10 @@ export default class EmBaseActorSheet extends ActorSheet {
              * @returns {boolean} : wether the save has succeeded or not
              */
             try {
+                console.warn("starting to save data", data);
                 //adds the must save data to the save data non destructively
                 overwriteObjectFields(data, this._getActorAdditionalSaveData() );
+                console.warn("saving data" , data);
                 await this.actor.update(data);
                 return true;
             }
@@ -515,15 +517,21 @@ export default class EmBaseActorSheet extends ActorSheet {
                 return ownedItems.length - 1;
             }
 
-            removeOwnedItem(itemId) {
-                let index = this.getIndexOfOwnedItem(itemId);
+            async removeOwnedItem(itemId) {
+                /** removes an item from the Items collection
+                 *  @param {string} itemId : the Foundry ID of the item
+                 * 
+                 *  @returns {boolean} : wether the element was removed or not.
+                 */
                 try {
-                    this._getAllOwnedItems().splice(index,1);
-                    //we should save here?
-                    console.warn("maybe you should save the items when removing an owned item?")
-                    return index;
+                    //we delete the item in the items collection
+                    await this.getOwnedItem(itemId).delete();
+                    return true;
                 }
-                catch(error) {console.error(error.message); return -1;}
+                catch(error) {
+                    console.error(error.message); 
+                    return false;
+                }
             }
 
             async createOwnedItem(itemData) {
@@ -721,6 +729,13 @@ export default class EmBaseActorSheet extends ActorSheet {
                 },
                 {parent : this.actor} //this adds it to the actor items instead of the item global collection
             );
+            //if we don't call the update, it won't change the values
+            await bodypart.update({
+                'system' : {
+                    'partType' : partType,
+                    'attachedTo' : attachedTo
+                }
+            });
             let bodypartData = bodypart.system;
             //sets the data
             bodypartData.partType = partType;
@@ -740,19 +755,13 @@ export default class EmBaseActorSheet extends ActorSheet {
                 anatomy.tree["name"] = name;
                 anatomy.tree["children"] = [];
             }
-            //we trigger a re-render
+            //we save the anatomy
             await this._saveActorData({
                 system : {
                     anatomy : anatomy
                 }
             });
-            //if we don't call the update, it won't change the values
-            await bodypart.update({
-                'system' : {
-                    'partType' : partType,
-                    'attachedTo' : attachedTo
-                }
-            });
+            
             //finally we return the element data
             return bodypart;
         }
@@ -761,8 +770,8 @@ export default class EmBaseActorSheet extends ActorSheet {
             /** a recursive function that deletes an anatomy tree node references in the parts collection along with all its children
              * @param {AnatomyNode} node : an anatomy node with an Id and a children collection of Node objects.
              */
-            //
-            await this.getOwnedItem(node.id).delete(); //we delete the item in the items collection
+            //we delete the item in the items collection
+            await this.removeOwnedItem(node.id);
             let nodeElement = this.element.find(`#${node.id}`);
             nodeElement.remove();
             for (let child of node.children) {
@@ -778,7 +787,7 @@ export default class EmBaseActorSheet extends ActorSheet {
              */
             try {
                 //first we check if we are allowed to do operations on it
-                if (id === this.getRoot()) {
+                if (id === this.getRoot()._id) {
                     console.error("cannot delete the anatomy root.");
                     return false;
                 }
