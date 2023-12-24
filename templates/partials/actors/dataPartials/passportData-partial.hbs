@@ -99,9 +99,9 @@
     {{!-- contains the extra data if you are a beyonder --}}
     {{#if (contains actor.system.tags "actor" "beyonder")}}
         {{!-- work in progress, come back later when the classes are made --}}
-        <div class="em_marginContainer w3-section w3-border w3-card-4 w3-round-large" style='background-image: url("/ui/parchment.jpg")'>
-            <h3>
-                <img class="w3-border-0" src="systems/EM2E/resources/images/ui/3d_pin_topleft.png" width="32" height="32">
+        <div id="em_passport_beyonderData" class="em_marginContainer w3-section w3-border w3-card-4 w3-round-large">
+            <h3 class="w3-display-container">
+                <img class="w3-border-0" src="systems/EM2E/resources/images/ui/3d_pin_topleft.png" width="32" height="32"/>
                 {{i18n "em.actors.passport.fields.beyonderBureau"}}
             </h3>
             <div class="w3-container">

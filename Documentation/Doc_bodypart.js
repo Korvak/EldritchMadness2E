@@ -21,12 +21,6 @@
 /** 
  * @param {number} targetDifficultyMult : a normalized percentage which defines how difficult it is to target that body part.
  * 
- * @param {Array(Tags)} allowedEquippables : a list of tags for allowed equipment to wear/equip on the bodypart. 
- *                                           Should never contain "bodypart".
- * 
- * @param {Dictionary(string : Equippable)} equipped : a dictionary/json object of bodypart slot : Equippable item ID. 
- *                                              Used to determine what is equipped and what can be equipped.
- * 
  * @param {Bodypart} attachedTo : the bodypart ID this bodypart is attached to. Can be null in case of root parts such as the torso.
  * 
  * @param {Dictionary(string : BodyLink)} bodySync : a dictionary of BodyLink objects. Used to determine what damage is applied to
@@ -55,4 +49,29 @@
  *                              To determine wether to keep removing points of the attribute or not. When the bodypart is repaired,
  *                              This stat is decreased accordingly.
  * }
+ */
+/** EquipLayer
+ * 
+ * @class @EquipLayer
+ * {
+ *  @param {number} maxEquippables : the maximum number of equippable objects that can be equipped to this bodypart at the same time.
+ * 
+ *  @param {Array(Tags)} allowedTags : a list of tags for allowed equipment to wear/equip on the bodypart. 
+ *                                           Should never contain "bodypart".
+ * 
+ *  @param {enum_EquippableType} allowedEquippables : The type of Equippable item that can be equipped on the bodypart.    
+ * 
+ *     @CLOTHES        : clothes that cover the body and offer close to no protection.
+ *     @ARMOR          : light or heavy armor that offers protection and may have additional effects when hit or dodging.
+ *     @ORNAMENTS      : ornaments like jewelry that don't cover the body but may offer various effects when worn.
+ *     @GEAR           : CLOTHES and ARMOR.
+ *     @APPAREL        : CLOTHES and ORNAMENTS.
+ *     @BATTLE_REGALIA : ARMOR and ORNAMENTS.
+ *     @ANY            : ARMOR, CLOTHES and ORNAMENTS.
+ * 
+ *  @param {Array(Equippable)} equipped : the list of Foundry IDs of the items equipped to this bodypart.
+ * 
+ * 
+ * }
+ * 
  */

@@ -292,6 +292,10 @@
                     line-height: 1.1em;
 
                 }
+
+
+
+
             /*#endregion*/
 
             /*#region fields*/
@@ -345,6 +349,29 @@
 
             /*#endregion*/
             
+            #em_passport_beyonderData {
+                display: block;
+                position: relative;
+                background-color: transparent;
+                background-image: url("/ui/parchment.jpg");
+                background-repeat : repeat;
+                z-index: 1;
+            }
+
+            #em_passport_beyonderData::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                opacity: 0.7;
+                z-index: -1;
+                background-image: url("/systems/EM2E/resources/images/stamps/beyonderBureau.png") !important;
+                background-size: 64px 64px;
+                background-repeat: no-repeat;
+                background-position: right top;
+            }
 
         /*#endregion*/
 
