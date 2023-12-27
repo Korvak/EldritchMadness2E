@@ -1,4 +1,10 @@
 import {EmBaseActorSheet} from "./EmBaseActorSheet.js"
+import {treeBreadthSearch, fieldToObject, overwriteObjectFields, getValueFromFields} from "../../../utils.js"
+import {
+    toggleDropdown, setInputsFromData, selectOptionsFromData, toggleReadonly, 
+    renderBar, setBarValue, searchByTags , toggleBtnState 
+} from "../../../htmlUtils.js"
+import {translate} from "../../../emCore.js"
 
 export default class EmBasePawnSheet extends EmBaseActorSheet {
     

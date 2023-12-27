@@ -1,9 +1,8 @@
-import {treeBreadthSearch, fieldToObject, overwriteObjectFields, getValueFromFields} from "../../../utils.js"
+import {fieldToObject, overwriteObjectFields, getValueFromFields} from "../../../utils.js"
 import {
-    toggleDropdown, setInputsFromData, selectOptionsFromData, toggleReadonly, 
-    renderBar, setBarValue, searchByTags , toggleBtnState 
+    toggleDropdown, toggleReadonly, 
+    renderBar, searchByTags , toggleBtnState 
 } from "../../../htmlUtils.js"
-import {translate} from "../../../emCore.js"
 
 
 export default class EmBaseActorSheet extends ActorSheet {
@@ -30,67 +29,60 @@ export default class EmBaseActorSheet extends ActorSheet {
             return data;
         }
 
-
-
-
         activateListeners(html) {
             /** super important !!! where we bind all the events that are not in the flipbook
              * 
              */
             const self = this;
-            //#region html events
-                //#region base events
-                    //readonly input toggle
-                    html.find(".em_readonlyIcon").each(function() {
-                        $(this).get(0).onclick = toggleReadonly;
+            //#region base events
+                //readonly input toggle
+                html.find(".em_readonlyIcon").each(function() {
+                    $(this).get(0).onclick = toggleReadonly;
+                });
+                //toggle btns setup
+                html.find(".em_toggleBtn").each(function() {
+                    $(this).get(0).onclick = toggleBtnState;
+                });
+                //search bar
+                html.find(".em_searchbarTag").each(function() {
+                    //onchange finds the linked searchbar and triggers it
+                    //onchange is called when the toggleBtnState is activated.
+                    $(this).get(0).onchange = function(event) {
+                        let parent = $(this).parents(".em_tagContainer[tagsFor]");
+                        if (parent.length > 0) {
+                            //if the parent is bound that they must be in the same container
+                            //so it gets the parent of the tag container and searches for the searchbar
+                            //then it triggers its' keyup event.
+                            let container = parent.parent();
+                            let searchbar = container.find(`.em_searchbar[data-id=${parent.attr("tagsFor")}]`);
+                            searchbar.keyup();
+                        }
+                    };
+                });
+                //searchbar setup
+                html.find(".em_searchbar").each(function() {
+                    $(this).get(0).onkeyup = searchByTags;
+                });
+                //dropdown functionality
+                html.find(".dropdown-btn").each(function() {
+                    $(this).find(".dropdown-icon").contextmenu(function(event) {
+                        event.preventDefault();
+                        $(this).parents(".dropdown-btn").contextmenu(event);
                     });
-                    //toggle btns setup
-                    html.find(".em_toggleBtn").each(function() {
-                        $(this).get(0).onclick = toggleBtnState;
-                    });
-                    //search bar
-                    html.find(".em_searchbarTag").each(function() {
-                        //onchange finds the linked searchbar and triggers it
-                        //onchange is called when the toggleBtnState is activated.
-                        $(this).get(0).onchange = function(event) {
-                            let parent = $(this).parents(".em_tagContainer[tagsFor]");
-                            if (parent.length > 0) {
-                                //if the parent is bound that they must be in the same container
-                                //so it gets the parent of the tag container and searches for the searchbar
-                                //then it triggers its' keyup event.
-                                let container = parent.parent();
-                                let searchbar = container.find(`.em_searchbar[data-id=${parent.attr("tagsFor")}]`);
-                                searchbar.keyup();
-                            }
-                        };
-                    });
-                    //searchbar setup
-                    html.find(".em_searchbar").each(function() {
-                        $(this).get(0).onkeyup = searchByTags;
-                    });
-                    //dropdown functionality
-                    html.find(".dropdown-btn").each(function() {
-                        $(this).find(".dropdown-icon").contextmenu(function(event) {
-                            event.preventDefault();
-                            $(this).parents(".dropdown-btn").contextmenu(event);
-                        });
-                        $(this).get(0).oncontextmenu = toggleDropdown;
-                    });
-                    //bars setup and inital set data
-                    let valueBars = html.find(".em_barContainer");
-                    valueBars.change(renderBar);
-                    valueBars.change();
-                    // on modify fields save themselves
-                    html.find(".em_field").each(function() {
-                        $(this).get(0).onchange = self._saveOwnedItemFields.bind(self);
-                    });
-                    html.find(".em_inline-field").each(function() {
-                        $(this).get(0).onchange = self._saveActorFields.bind(self);
-                    });
-                //#endregion
+                    $(this).get(0).oncontextmenu = toggleDropdown;
+                });
+                //bars setup and inital set data
+                let valueBars = html.find(".em_barContainer");
+                valueBars.change(renderBar);
+                valueBars.change();
+                // on modify fields save themselves
+                html.find(".em_field").each(function() {
+                    $(this).get(0).onchange = self._saveOwnedItemFields.bind(self);
+                });
+                html.find(".em_inline-field").each(function() {
+                    $(this).get(0).onchange = self._saveActorFields.bind(self);
+                });
             //#endregion
-
-
             //on ready functions
             html.ready(this._onStart.bind(this) );
             this.element.find("a.header-button.control.close").click( this._onClose.bind(this) );
@@ -261,7 +253,159 @@ export default class EmBaseActorSheet extends ActorSheet {
             }
         }
 
-
+            //#region inventory methods
+                    _getAllOwnedItems() {
+                        return this.actor.items;
+                    }
+        
+                    getInventoryItems(...params) {
+                        /** returns a collection of all the visible inventory items
+                         *  @param {Array} params : needs to be there to be used by the fetch function
+                         * 
+                         *  @returns {Array} : returns an array of all the visible inventory items
+                         */
+                        return this.getOwnedItems({tags : ["visible"]});
+                    }
+        
+                    getInventoryItemsTags(...params) {
+                        /** returns a collection of all the unique tags of the inventory items
+                         *  @param {Array} params : needs to be there to be used by the fetch function
+                         * 
+                         *  @returns {Set} : returns the set of all unique tags of the inventory items
+                         */
+                        let tags = new Set();
+                        //we only get the visible items
+                        let items = this.getInventoryItems();
+                        //we use a Set to only get the unique instances of the tags
+                        for (let item of items) {
+                            for (let tag of item.tags) { tags.add(tag); }
+                        }
+                        return tags;
+                    }
+        
+                    getOwnedItems({tags = [], Ids = []}) {
+                        let results = [];
+                        let itemData = undefined;
+                        if (tags.length + Ids.length == 0) {return results;}
+                        tags = new Set(tags);
+                        Ids = new Set(Ids);
+                        for (let item of this._getAllOwnedItems() ) {
+                            itemData = item.system;
+                            if ( itemData.tags.filter(x => tags.has(x) )
+                                || Ids.has(item._id)
+                                )
+                            {
+                                results.push(item);
+                            }
+                        }
+                        return results;
+                    }
+        
+                    getOwnedItem(itemId) {
+                        return this.actor.items.get(itemId);
+                    }
+        
+                    getIndexOfOwnedItem(itemId) {
+                        let item = undefined;
+                        let ownedItems = this._getAllOwnedItems();
+                        for (let i = 0;i < ownedItems.length;i++) {
+                            item = ownedItems[i];
+                            if (item._id == itemId) {return i;} 
+                        }
+                        return -1;
+                    }
+        
+                    addOwnedItem(item) {
+                        //should be deprecated since we use the Item.create method instead
+                        let ownedItems = this._getAllOwnedItems();
+                        ownedItems.push(item);
+                        return ownedItems.length - 1;
+                    }
+        
+                    async removeOwnedItem(itemId) {
+                        /** removes an item from the Items collection
+                         *  @param {string} itemId : the Foundry ID of the item
+                         * 
+                         *  @returns {boolean} : wether the element was removed or not.
+                         */
+                        try {
+                            //we delete the item in the items collection
+                            await this.getOwnedItem(itemId).delete();
+                            return true;
+                        }
+                        catch(error) {
+                            console.error(error.message); 
+                            return false;
+                        }
+                    }
+        
+                    async createOwnedItem(name, type, itemData = {}) {
+                        /** creates an item as an owned item
+                         *  @param {object} itemData : a data object that must contain name and type and may contain a data value
+                         * 
+                         *  @returns {Item} : returns the created item.
+                         */
+                        try {
+                            let item = await Item.create({
+                                'name' : name,
+                                'type' : type
+                            }, {parent : this.actor});
+                            if (itemData != {}) {await item.update(itemData);}
+                            return item;
+                        }
+                        catch(error) {
+                            console.error(error.message);
+                            return undefined;
+                        }
+                    }
+        
+                    async updateOwnedItem(itemId, field, value) {
+                        /** fetches and updates an owned item field with the given value
+                         * @param {string} itemId : the Foundry ID of the item to fetch
+                         * @param {string} field : the name of the field to modify
+                         * @param {wildcard} value : the value to use to update the field
+                         */
+                        console.log("updating owned item ",itemId, field, value);
+                        let item = this.getOwnedItem(itemId);
+                        if (item !== undefined) {
+                            try {
+                                //we transform the field into an object of objects for saving
+                                let toSave = fieldToObject(field, value);
+                                if (toSave["item"] != undefined) {toSave = toSave["item"];}
+                                await item.update(toSave);
+                                return true;
+                            }
+                            catch(error) {
+                                console.error(error.message);
+                                return false;
+                            }
+                        }
+                        return false; 
+                    }
+        
+                    async updateOwnedItemFields(itemId, fields) {
+                        /** fetches and updates an owned item fields with the given values | may be a destructive operation
+                         * @param {string} itemId : the Foundry ID of the owned item to fetch
+                         * @param {Dictionary(string : wildcard)} fields : A dictionary of field names : values to set
+                         */
+                        let item = this.getOwnedItem(itemId);
+                        if (item == undefined) {return false;}
+                        try {
+                            //we update / set all the values
+                            for (let key of Object.keys(fields) ) {item.system[key] = fields[key];}
+                            await item.update({
+                                'system' : fields //since it's already a dictionary key : value we just pass it
+                            });
+                        }
+                        catch(error) {
+                            console.error(error.message);
+                            return false;
+                        }
+                        
+                    }
+    
+            //#endregion
+    
     //#endregion
     //#region info
 
