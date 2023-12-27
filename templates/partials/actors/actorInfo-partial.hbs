@@ -29,10 +29,12 @@
 {{!-- characteristics container --}}
 <div class="em_charact_wrapper em_searchable_wrapper w3-section">
     <h3 class="em_charact_title">characteristics</h3>
+    {{!-- characteristics searchbar --}}
     <div class="w3-border em_inputContainer em_halfTopMargin">
         <input id="em_charact_searchbar" class="em_input em_searchbar" data-id="em_charact_search" data-search="startsWith">
         <i class="em_inputIcon fa-solid fa-search"></i>
     </div>
+    {{!-- characteristics container --}}
     <div class="em_charact_container em_searchable_container w3-border" style="padding-top:8px;" for="em_charact_search">
         {{#each actor.system.characteristics as |this key|}}
             <div class="em_charact em_searchable w3-border w3-round-large w3-center w3-badge w3-white" data-search="{{i18n this.label}}">
@@ -110,6 +112,7 @@
 {{!-- skills container --}}
 <div class="em_skill_wrapper em_searchable_wrapper">
     <h3 class="em_skill_title">skills</h3>
+    {{!-- searchbar --}}
     <div class="w3-border em_inputContainer em_halfTopMargin">
         <input id="em_skill_searchbar" class="em_input em_searchbar" data-id="em_skill_search" data-search="startsWith">
         <i class="em_inputIcon fa-solid fa-search"></i>

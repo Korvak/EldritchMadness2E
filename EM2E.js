@@ -36,6 +36,7 @@ import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
             "systems/EM2E/templates/partials/actors/dataPartials/blueprintData-partial.hbs",
           //#endregion
           "systems/EM2E/templates/partials/actors/actorMedicalInfo-partial.hbs",
+          "systems/EM2E/templates/partials/actors/actorInventory-partial.hbs",
           "systems/EM2E/templates/partials/actors/actorOptions-partial.hbs",
           "systems/EM2E/templates/partials/actors/actorAttributes-partial.hbs",
         //#endregion

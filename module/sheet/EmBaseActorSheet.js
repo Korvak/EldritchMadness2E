@@ -41,7 +41,12 @@ export default class EmBaseActorSheet extends ActorSheet {
         let data = super.getData();
         //system holds all the data
         data.CONFIG = CONFIG;
+        data.SHEET_FUNCS = this._getSheetFuncs();
         return data;
+    }
+
+    test(args) {
+        alert("alfa");
     }
 
     activateListeners(html) {
@@ -229,12 +234,19 @@ export default class EmBaseActorSheet extends ActorSheet {
                     this.getActorData().flipbook.anim = false;
                 }
             //#endregion
-
-
             //we set the default data if needs loading
             this._displayBodypart(this.getAnatomy().tree.id);
         }
 
+        _getSheetFuncs() {
+            /** called in getData returns an object with all the function callable from the ActorSheet by using the fetch handlebar
+             *  @returns {Object} : returns a dictionary key : function 
+             */
+            return {
+                inventory : this.getInventoryItems,
+                inventoryTags : this.getInventoryItemsTags
+            };
+        }
 
         async _createDefaultAnatomy() {
             //we do it like this in case we want to modify things etc...
@@ -443,6 +455,9 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
 
         async renderItem(id) {
+            /** renders an item that exists in a collection by calling it's sheet.render method
+             *  @param {string} id : the Foundry id of the item
+             */
             try {
                 let item = await Item.get(id);
                 item.sheet.render(true);
@@ -483,6 +498,31 @@ export default class EmBaseActorSheet extends ActorSheet {
         //#region inventory methods
             _getAllOwnedItems() {
                 return this.actor.items;
+            }
+
+            getInventoryItems(...params) {
+                /** returns a collection of all the visible inventory items
+                 *  @param {Array} params : needs to be there to be used by the fetch function
+                 * 
+                 *  @returns {Array} : returns an array of all the visible inventory items
+                 */
+                return this.getOwnedItems({tags : ["visible"]});
+            }
+
+            getInventoryItemsTags(...params) {
+                /** returns a collection of all the unique tags of the inventory items
+                 *  @param {Array} params : needs to be there to be used by the fetch function
+                 * 
+                 *  @returns {Set} : returns the set of all unique tags of the inventory items
+                 */
+                let tags = new Set();
+                //we only get the visible items
+                let items = this.getInventoryItems();
+                //we use a Set to only get the unique instances of the tags
+                for (let item of items) {
+                    for (let tag of item.tags) { tags.add(tag); }
+                }
+                return tags;
             }
 
             getOwnedItems({tags = [], Ids = []}) {

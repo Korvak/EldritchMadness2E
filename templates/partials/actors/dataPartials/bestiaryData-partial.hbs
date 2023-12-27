@@ -1,3 +1,11 @@
-<div class="em_bestiary ">
-    
+<div class="em_bestiary">
+    {{!-- portrait --}}
+    <div style="max-width : 64px;">
+        <img class="em_passport_portrait w3-black w3-round-large em_halfTopMargin" src="{{actor.img}}" name="actor.img" data-edit="img" title="{{actor.name}}" width="80" height="80">
+        <input class="em_passport_field em_passport_input em_inline-field em_halfSection" name="name" value="{{actor.name}}" style="max-width: 100%;text-align : left !important;" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
+    </div>
+    {{!-- data --}}
+    <div>
+
+    </div>
 </div>
