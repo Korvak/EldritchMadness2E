@@ -23,7 +23,8 @@
  *              - traps
  *              - vehicles
  * 
- * An actor is incapable of movement or combat therefore it is void of any anatomy. Actors are the most unique since they are 
+ * An actor is incapable of movement or combat therefore it is void of any anatomy.Actor are capable of owning items. 
+ * Actors are the most unique since they are 
  * tailored to their functions and each perform their unique task.
  * 
  *      * Examples of actors : 

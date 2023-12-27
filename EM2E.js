@@ -1,8 +1,8 @@
 import {EmConfig} from "./module/config.js"
 import {normalize} from "./module/utils.js";
 import {translate} from "./module/emCore.js"
-import EmBaseActorSheet from "./module/sheet/EmBaseActorSheet.js";
-import EmBaseItemSheet from "./module/sheet/EmBaseItemSheet.js";
+import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
+import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
 
 //#region handlebars functions
 
