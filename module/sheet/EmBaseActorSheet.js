@@ -45,9 +45,6 @@ export default class EmBaseActorSheet extends ActorSheet {
         return data;
     }
 
-    test(args) {
-        alert("alfa");
-    }
 
     activateListeners(html) {
         /** super important !!! where we bind all the events that are not in the flipbook

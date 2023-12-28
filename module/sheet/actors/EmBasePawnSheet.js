@@ -17,9 +17,7 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
         }
 
         get template() {
-            console.log("actor", this.getData() );
-            console.log("actorItems", this.getData().items);
-            return `systems/EM2E/templates/sheets/actors/baseActor-sheet.hbs`;
+            return `systems/EM2E/templates/sheets/pawns/${this.actor.type}-sheet.hbs`;
         }
 
         activateListeners(html) {
@@ -29,7 +27,24 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
 
 
     //#endregion
-    //#region start method
+    //#region event methods
+
+        async _onClose(event) {await super._onClose(event);}
+
+        async _onStopDrag(event) {await super._onStopDrag(event);}
+
+    //#endregion
+    //#region util methods
+
+        _getActorAdditionalSaveData() {
+            /** returns a json object with all the data to add when saving the actor data
+             * @returns {object} : returns a json to merge, it includes the must have data to save everytime the actor is saved
+             */
+            return super._getActorAdditionalSaveData();
+        }
+
+    //#endregion
+    //#region start methods
         
         async _createDefaultAnatomy() {
             // creates the default anatomy when missing
@@ -47,7 +62,14 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
             this._displayBodypart(this.getAnatomy().tree.id);
         }
 
-
+        _getSheetFuncs() {
+            /** called in getData returns an object with all the function callable from the ActorSheet by using the fetch handlebar
+             *  @returns {Object} : returns a dictionary key : function 
+             */
+            funcs = super._getSheetFuncs();
+            //we add the function we want here
+            return funcs;
+        }
 
     //#endregion
     //#region anatomy

@@ -18,7 +18,7 @@ export default class EmBaseActorSheet extends ActorSheet {
         }
 
         get template() {
-            return `systems/EM2E/templates/sheets/actors/baseActor-sheet.hbs`;
+            return `systems/EM2E/templates/sheets/actors/${this.actor.type}-sheet.hbs`;
         }
     
         getData() {
@@ -85,6 +85,9 @@ export default class EmBaseActorSheet extends ActorSheet {
             //#endregion
             //on ready functions
             html.ready(this._onStart.bind(this) );
+            this.element.find(".window-resizable-handle").on(
+                "click.stopDrag", this._onStopDrag.bind(this)
+            );
             this.element.find("a.header-button.control.close").click( this._onClose.bind(this) );
             //we call the parent function
             super.activateListeners(html);
@@ -115,10 +118,10 @@ export default class EmBaseActorSheet extends ActorSheet {
 
         async _onClose(event) {}
 
-
+        async _onStopDrag(event) {}
 
     //#endregion
-    //#region event methods
+    //#region util methods
 
         getActorData() {
             return this.getData().actor.system;
@@ -128,11 +131,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             /** returns a json object with all the data to add when saving the actor data
              * @returns {object} : returns a json to merge, it includes the must have data to save everytime the actor is saved
              */
-            return {
-                system : {
-                    flipbook : this.getActorData().flipbook
-                }
-            }
+            return {}
         }
 
         async renderItem(id) {

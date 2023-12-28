@@ -27,18 +27,18 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
   async function preloadHandlebarsTemplates() {
       const templatePaths = [
         //#region actor partials
-          "systems/EM2E/templates/partials/actors/navbar-partial.hbs",
-          "systems/EM2E/templates/partials/actors/actorInfo-partial.hbs",
+          "systems/EM2E/templates/partials/chars/navbar-partial.hbs",
+          "systems/EM2E/templates/partials/chars/actorInfo-partial.hbs",
           //#region actor data partials
-            "systems/EM2E/templates/partials/actors/dataPartials/actorData-partial.hbs",
-            "systems/EM2E/templates/partials/actors/dataPartials/passportData-partial.hbs",
-            "systems/EM2E/templates/partials/actors/dataPartials/bestiaryData-partial.hbs",
-            "systems/EM2E/templates/partials/actors/dataPartials/blueprintData-partial.hbs",
+            "systems/EM2E/templates/partials/chars/dataPartials/actorData-partial.hbs",
+            "systems/EM2E/templates/partials/chars/dataPartials/passportData-partial.hbs",
+            "systems/EM2E/templates/partials/chars/dataPartials/bestiaryData-partial.hbs",
+            "systems/EM2E/templates/partials/chars/dataPartials/blueprintData-partial.hbs",
           //#endregion
-          "systems/EM2E/templates/partials/actors/actorMedicalInfo-partial.hbs",
-          "systems/EM2E/templates/partials/actors/actorInventory-partial.hbs",
-          "systems/EM2E/templates/partials/actors/actorOptions-partial.hbs",
-          "systems/EM2E/templates/partials/actors/actorAttributes-partial.hbs",
+          "systems/EM2E/templates/partials/chars/actorMedicalInfo-partial.hbs",
+          "systems/EM2E/templates/partials/chars/actorInventory-partial.hbs",
+          "systems/EM2E/templates/partials/chars/actorOptions-partial.hbs",
+          "systems/EM2E/templates/partials/chars/actorAttributes-partial.hbs",
         //#endregion
         //#region item partials
           "systems/EM2E/templates/partials/items/baseItem-partial.hbs",
