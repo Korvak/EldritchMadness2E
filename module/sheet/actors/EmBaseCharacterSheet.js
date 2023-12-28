@@ -1,4 +1,5 @@
-import {EmBasePawnSheet} from "./EmBasePawnSheet.js"
+import EmBasePawnSheet from "./EmBasePawnSheet.js"
+
 
 export default class EmBaseCharacterSheet extends EmBasePawnSheet {
 
@@ -99,30 +100,14 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
     
         //#endregion
         //#region start methods 
-            
-            async _onClose(event) {
-                /** called every time the close sheet button is pressed. The method is bound in the activateListeners method.
-                 * 
+        
+            _getSheetFuncs() {
+                /** called in getData returns an object with all the function callable from the ActorSheet by using the fetch handlebar
+                 *  @returns {Object} : returns a dictionary key : function 
                  */
-                await super._onClose(event); //we call the parent event 
-                //makes it so that the flipbook performs the opening animation whenever closed and reopened
-                this.getActorData().flipbook.anim = true;
-                //since bookmark can save the data, we call bookmark after even though we don't need to save flipbook.anim
-                await this._bookmarkCurrentPage();
-            }
-
-            async _onStopDrag(event) {
-                await super._onStopDrag(event);
-                try {
-                    let html = this.element.find("form");
-                    let flipbook = html.find("#flipbook");
-                    flipbook.turn('size', 
-                        html.width() - CONFIG.EmConfig.flipbook.wMargin,
-                        html.height() - CONFIG.EmConfig.flipbook.hMargin
-                    );
-                    flipbook.turn("resize");
-                }
-                catch(error) {console.error(error.message);}
+                let funcs = super._getSheetFuncs();
+                //we add the function we want here
+                return funcs;
             }
 
             _onStart() {
@@ -169,6 +154,31 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
         //#endregion
         //#region event methods
 
+            async _onClose(event) {
+                /** called every time the close sheet button is pressed. The method is bound in the activateListeners method.
+                 * 
+                 */
+                await super._onClose(event); //we call the parent event 
+                //makes it so that the flipbook performs the opening animation whenever closed and reopened
+                this.getActorData().flipbook.anim = true;
+                //since bookmark can save the data, we call bookmark after even though we don't need to save flipbook.anim
+                await this._bookmarkCurrentPage();
+            }
+
+            async _onStopDrag(event) {
+                await super._onStopDrag(event);
+                try {
+                    let html = this.element.find("form");
+                    let flipbook = html.find("#flipbook");
+                    flipbook.turn('size', 
+                        html.width() - CONFIG.EmConfig.flipbook.wMargin,
+                        html.height() - CONFIG.EmConfig.flipbook.hMargin
+                    );
+                    flipbook.turn("resize");
+                }
+                catch(error) {console.error(error.message);}
+            }
+            
             //#region flipbook event methods
 
                 _setActiveFlipbbookPage(page, move = false) {

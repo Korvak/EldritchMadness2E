@@ -1,8 +1,8 @@
-import {fieldToObject, overwriteObjectFields, getValueFromFields} from "../../../utils.js"
+import {fieldToObject, overwriteObjectFields, getValueFromFields} from "../../utils.js"
 import {
     toggleDropdown, toggleReadonly, 
     renderBar, searchByTags , toggleBtnState 
-} from "../../../htmlUtils.js"
+} from "../../htmlUtils.js"
 
 
 export default class EmBaseActorSheet extends ActorSheet {
@@ -176,6 +176,40 @@ export default class EmBaseActorSheet extends ActorSheet {
     //#endregion
     //#region data and inventory methods
 
+        //#region events
+
+            async _saveOwnedItemFields(event) {
+                /** fetches the data from the called element and calls this.updateOwnedItem to update the actor's item data */
+                event.preventDefault();
+                let element = $(event.currentTarget);
+                let container = element.parents(".em_itemContainer");
+                let id = container.find(".em_itemIdContainer").get(0).dataset.id;
+                console.log(element.prop("tagName"));
+                //if it's a select we instead get the selected's element data-save attribute
+                let val = element.prop("tagName") == "SELECT" ? 
+                    element.find(":selected").get(0).dataset.tosave
+                    : element.val();
+                await this.updateOwnedItem(id, element.attr('name'), val );
+            }
+
+            async _saveActorFields(event) {
+                /** fetches the data from the called element and calls this._updateActorField to update the actor */
+                event.preventDefault();
+                let element = $(event.currentTarget);
+                //if it's a select we instead get the selected's element data-save attribute
+                let val = element.prop("tagName") == "SELECT" ? 
+                    element.find(":selected").get(0).dataset.tosave
+                    : element.val();
+                await this._updateActorField(element.attr('name'), val );
+            }
+
+            async _removeActorCollectionFieldElement(event) {
+
+            }
+
+        //#endregion
+
+
         async _saveActorData(data) {
             /** saves the actor data and adds the must save data too
              * @param {object} data : the actor data to save in the form of a json object
@@ -252,156 +286,164 @@ export default class EmBaseActorSheet extends ActorSheet {
             }
         }
 
-            //#region inventory methods
-                    _getAllOwnedItems() {
-                        return this.actor.items;
-                    }
-        
-                    getInventoryItems(...params) {
-                        /** returns a collection of all the visible inventory items
-                         *  @param {Array} params : needs to be there to be used by the fetch function
-                         * 
-                         *  @returns {Array} : returns an array of all the visible inventory items
-                         */
-                        return this.getOwnedItems({tags : ["visible"]});
-                    }
-        
-                    getInventoryItemsTags(...params) {
-                        /** returns a collection of all the unique tags of the inventory items
-                         *  @param {Array} params : needs to be there to be used by the fetch function
-                         * 
-                         *  @returns {Set} : returns the set of all unique tags of the inventory items
-                         */
-                        let tags = new Set();
-                        //we only get the visible items
-                        let items = this.getInventoryItems();
-                        //we use a Set to only get the unique instances of the tags
-                        for (let item of items) {
-                            for (let tag of item.tags) { tags.add(tag); }
+        //#region inventory methods
+
+            _getAllOwnedItems() {
+                return this.actor.items;
+            }
+
+            getInventoryItems(...params) {
+                /** returns a collection of all the visible inventory items
+                 *  @param {Array} params : needs to be there to be used by the fetch function
+                 * 
+                 *  @returns {Array} : returns an array of all the visible inventory items
+                 */
+                return this.getOwnedItems({tags : ["visible"]});
+            }
+
+            getInventoryItemsTags(...params) {
+                /** returns a collection of all the unique tags of the inventory items
+                 *  @param {Array} params : needs to be there to be used by the fetch function
+                 * 
+                 *  @returns {Set} : returns the set of all unique tags of the inventory items
+                 */
+                let tags = new Set();
+                //we only get the visible items
+                let items = this.getInventoryItems();
+                //we use a Set to only get the unique instances of the tags
+                for (let item of items) {
+                    for (let tag of item.tags) { tags.add(tag); }
+                }
+                return tags;
+            }
+
+            //#region get methods
+
+                getOwnedItems({tags = [], Ids = []}) {
+                    let results = [];
+                    let itemData = undefined;
+                    if (tags.length + Ids.length == 0) {return results;}
+                    tags = new Set(tags);
+                    Ids = new Set(Ids);
+                    for (let item of this._getAllOwnedItems() ) {
+                        itemData = item.system;
+                        if ( itemData.tags.filter(x => tags.has(x) )
+                            || Ids.has(item._id)
+                            )
+                        {
+                            results.push(item);
                         }
-                        return tags;
                     }
-        
-                    getOwnedItems({tags = [], Ids = []}) {
-                        let results = [];
-                        let itemData = undefined;
-                        if (tags.length + Ids.length == 0) {return results;}
-                        tags = new Set(tags);
-                        Ids = new Set(Ids);
-                        for (let item of this._getAllOwnedItems() ) {
-                            itemData = item.system;
-                            if ( itemData.tags.filter(x => tags.has(x) )
-                                || Ids.has(item._id)
-                                )
-                            {
-                                results.push(item);
-                            }
-                        }
-                        return results;
+                    return results;
+                }
+    
+                getOwnedItem(itemId) {
+                    return this.actor.items.get(itemId);
+                }
+    
+                getIndexOfOwnedItem(itemId) {
+                    let item = undefined;
+                    let ownedItems = this._getAllOwnedItems();
+                    for (let i = 0;i < ownedItems.length;i++) {
+                        item = ownedItems[i];
+                        if (item._id == itemId) {return i;} 
                     }
-        
-                    getOwnedItem(itemId) {
-                        return this.actor.items.get(itemId);
+                    return -1;
+                }
+
+            //#endregion
+            //#region add and update
+    
+                addOwnedItem(item) {
+                    //should be deprecated since we use the Item.create method instead
+                    let ownedItems = this._getAllOwnedItems();
+                    ownedItems.push(item);
+                    return ownedItems.length - 1;
+                }
+    
+                async createOwnedItem(name, type, itemData = {}) {
+                    /** creates an item as an owned item
+                     *  @param {object} itemData : a data object that must contain name and type and may contain a data value
+                     * 
+                     *  @returns {Item} : returns the created item.
+                     */
+                    try {
+                        let item = await Item.create({
+                            'name' : name,
+                            'type' : type
+                        }, {parent : this.actor});
+                        if (itemData != {}) {await item.update(itemData);}
+                        return item;
                     }
-        
-                    getIndexOfOwnedItem(itemId) {
-                        let item = undefined;
-                        let ownedItems = this._getAllOwnedItems();
-                        for (let i = 0;i < ownedItems.length;i++) {
-                            item = ownedItems[i];
-                            if (item._id == itemId) {return i;} 
-                        }
-                        return -1;
+                    catch(error) {
+                        console.error(error.message);
+                        return undefined;
                     }
-        
-                    addOwnedItem(item) {
-                        //should be deprecated since we use the Item.create method instead
-                        let ownedItems = this._getAllOwnedItems();
-                        ownedItems.push(item);
-                        return ownedItems.length - 1;
-                    }
-        
-                    async removeOwnedItem(itemId) {
-                        /** removes an item from the Items collection
-                         *  @param {string} itemId : the Foundry ID of the item
-                         * 
-                         *  @returns {boolean} : wether the element was removed or not.
-                         */
+                }
+    
+                async updateOwnedItem(itemId, field, value) {
+                    /** fetches and updates an owned item field with the given value
+                     * @param {string} itemId : the Foundry ID of the item to fetch
+                     * @param {string} field : the name of the field to modify
+                     * @param {wildcard} value : the value to use to update the field
+                     */
+                    console.log("updating owned item ",itemId, field, value);
+                    let item = this.getOwnedItem(itemId);
+                    if (item !== undefined) {
                         try {
-                            //we delete the item in the items collection
-                            await this.getOwnedItem(itemId).delete();
+                            //we transform the field into an object of objects for saving
+                            let toSave = fieldToObject(field, value);
+                            if (toSave["item"] != undefined) {toSave = toSave["item"];}
+                            await item.update(toSave);
                             return true;
                         }
                         catch(error) {
-                            console.error(error.message); 
-                            return false;
-                        }
-                    }
-        
-                    async createOwnedItem(name, type, itemData = {}) {
-                        /** creates an item as an owned item
-                         *  @param {object} itemData : a data object that must contain name and type and may contain a data value
-                         * 
-                         *  @returns {Item} : returns the created item.
-                         */
-                        try {
-                            let item = await Item.create({
-                                'name' : name,
-                                'type' : type
-                            }, {parent : this.actor});
-                            if (itemData != {}) {await item.update(itemData);}
-                            return item;
-                        }
-                        catch(error) {
-                            console.error(error.message);
-                            return undefined;
-                        }
-                    }
-        
-                    async updateOwnedItem(itemId, field, value) {
-                        /** fetches and updates an owned item field with the given value
-                         * @param {string} itemId : the Foundry ID of the item to fetch
-                         * @param {string} field : the name of the field to modify
-                         * @param {wildcard} value : the value to use to update the field
-                         */
-                        console.log("updating owned item ",itemId, field, value);
-                        let item = this.getOwnedItem(itemId);
-                        if (item !== undefined) {
-                            try {
-                                //we transform the field into an object of objects for saving
-                                let toSave = fieldToObject(field, value);
-                                if (toSave["item"] != undefined) {toSave = toSave["item"];}
-                                await item.update(toSave);
-                                return true;
-                            }
-                            catch(error) {
-                                console.error(error.message);
-                                return false;
-                            }
-                        }
-                        return false; 
-                    }
-        
-                    async updateOwnedItemFields(itemId, fields) {
-                        /** fetches and updates an owned item fields with the given values | may be a destructive operation
-                         * @param {string} itemId : the Foundry ID of the owned item to fetch
-                         * @param {Dictionary(string : wildcard)} fields : A dictionary of field names : values to set
-                         */
-                        let item = this.getOwnedItem(itemId);
-                        if (item == undefined) {return false;}
-                        try {
-                            //we update / set all the values
-                            for (let key of Object.keys(fields) ) {item.system[key] = fields[key];}
-                            await item.update({
-                                'system' : fields //since it's already a dictionary key : value we just pass it
-                            });
-                        }
-                        catch(error) {
                             console.error(error.message);
                             return false;
                         }
-                        
                     }
+                    return false; 
+                }
+    
+                async updateOwnedItemFields(itemId, fields) {
+                    /** fetches and updates an owned item fields with the given values | may be a destructive operation
+                     * @param {string} itemId : the Foundry ID of the owned item to fetch
+                     * @param {Dictionary(string : wildcard)} fields : A dictionary of field names : values to set
+                     */
+                    let item = this.getOwnedItem(itemId);
+                    if (item == undefined) {return false;}
+                    try {
+                        //we update / set all the values
+                        for (let key of Object.keys(fields) ) {item.system[key] = fields[key];}
+                        await item.update({
+                            'system' : fields //since it's already a dictionary key : value we just pass it
+                        });
+                    }
+                    catch(error) {
+                        console.error(error.message);
+                        return false;
+                    }
+                    
+                }
+
+            //#endregion
+
+            async removeOwnedItem(itemId) {
+                /** removes an item from the Items collection
+                 *  @param {string} itemId : the Foundry ID of the item
+                 * 
+                 *  @returns {boolean} : wether the element was removed or not.
+                 */
+                try {
+                    //we delete the item in the items collection
+                    await this.getOwnedItem(itemId).delete();
+                    return true;
+                }
+                catch(error) {
+                    console.error(error.message); 
+                    return false;
+                }
+            }
     
             //#endregion
     

@@ -656,8 +656,11 @@
             },
             "baseActor" : {
                 "tags" : ["actor", "human"],
-                "description" : "a base actor with no implementation.",
-                "credit_value" : 0,
+                "desc" : "a base actor with no implementation.",           
+                "info" : {
+                } 
+            },
+            "basePawn" : {
                 "attributes" : {
                     "hp" : {
                         "label" : "em.attributes.hp.name",
@@ -802,27 +805,10 @@
                         }
                     }
                         
-                },
-                "info" : {
-                    "nationality" : "",
-                    "origin" : {
-                        "address" : "",
-                        "country": "",
-                        "city" : "",
-                        "birthDate" : ""
-                    }
-                },
-                "options" : {
-                    "peel" : true,
-                    "turning" : true
-                },
-                "flipbook" : {
-                    "lastSavedPage" : 2,
-                    "currentPage" : 2,
-                    "anim" : true
                 }
             },
             "baseCharacter" : {
+                "credit_value" : 0,
                 "attributes" : {
                     "san" : {
                         "label" : "em.attributes.san.name",
@@ -845,7 +831,25 @@
                         "maxTemp" : 0
                     }
                 },
-                "mentalConditions" : []
+                "mentalConditions" : [],
+                "info" : {
+                    "nationality" : "",
+                    "origin" : {
+                        "address" : "",
+                        "country": "",
+                        "city" : "",
+                        "birthDate" : ""
+                    }
+                },
+                "options" : {
+                    "peel" : true,
+                    "turning" : true
+                },
+                "flipbook" : {
+                    "lastSavedPage" : 2,
+                    "currentPage" : 2,
+                    "anim" : true
+                }
             },
             "interactible" : {
 
@@ -859,8 +863,28 @@
             
         },
         "types" : [
+            "country",
             "testActor"
         ],
+        "country" : {
+            "templates" : [
+                "baseActor"
+            ],
+            "icon" : "",
+            "name" : "",
+            "population" : {
+                "name" : "",
+                "amount" : 0
+            },
+            "government" : {
+                "name" : "",
+                "type" : ""
+            },
+            "economy" : {
+                "coin_name" : "",
+                "credit_value_convertion" : 1
+            }
+        },
         "testActor" : {
             "templates" : [
                 "combatSkills",
@@ -869,7 +893,9 @@
                 "knowledgeSkills",
                 "socialSkills",
                 "detectiveSkills",
-                "baseActor"
+                "baseActor",
+                "basePawn",
+                "baseCharacter"
             ]
         }
     },
@@ -960,7 +986,6 @@
         "country" : {
             "icon" : "",
             "name" : "",
-            "desc" : "",
             "population" : {
                 "name" : "",
                 "amount" : 0

@@ -15,16 +15,16 @@
             <div class="w3-section w3-container em_pageContent">
                 {{#if (contains actor.system.tags 'human')}}
                     {{!-- if human then it's a passport --}}
-                    {{> "systems/EM2E/templates/partials/actors/dataPartials/passportData-partial.hbs"}}
+                    {{> "systems/EM2E/templates/partials/chars/dataPartials/passportData-partial.hbs"}}
                 {{else if (contains actor.system.tags 'beast')}}
                     {{!-- if a beast then it's a bestiary report --}}
-                    {{> "systems/EM2E/templates/partials/actors/dataPartials/bestiaryData-partial.hbs"}}
+                    {{> "systems/EM2E/templates/partials/chars/dataPartials/bestiaryData-partial.hbs"}}
                 {{else if (contains actor.system.tags 'machine')}}
                     {{!-- if a machine then it's a detailed machine info report --}}
-                    {{> "systems/EM2E/templates/partials/actors/dataPartials/blueprintData-partial.hbs"}}
+                    {{> "systems/EM2E/templates/partials/chars/dataPartials/blueprintData-partial.hbs"}}
                 {{else}}
                     {{!-- otherwise we use the default page with the minimum amount of data --}}
-                    {{> "systems/EM2E/templates/partials/actors/dataPartials/actorData-partial.hbs"}}
+                    {{> "systems/EM2E/templates/partials/chars/dataPartials/actorData-partial.hbs"}}
                 {{/if}}  
             </div>
         </div>

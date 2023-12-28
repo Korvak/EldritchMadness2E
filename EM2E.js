@@ -1,8 +1,14 @@
 import {EmConfig} from "./module/config.js"
 import {normalize} from "./module/utils.js";
 import {translate} from "./module/emCore.js"
+//#region actor class imports
 import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
+import EmBasePawnSheet from "./module/sheet/actors/EmBasePawnSheet.js";
+import EmBaseCharacterSheet from "./module/sheet/actors/EmBaseCharacterSheet.js";
+//#endregion
+//#region item class imports
 import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
+//#endregion
 
 //#region handlebars functions
 
@@ -26,10 +32,10 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
 
   async function preloadHandlebarsTemplates() {
       const templatePaths = [
-        //#region actor partials
+        //#region char partials
           "systems/EM2E/templates/partials/chars/navbar-partial.hbs",
           "systems/EM2E/templates/partials/chars/actorInfo-partial.hbs",
-          //#region actor data partials
+          //#region char data partials
             "systems/EM2E/templates/partials/chars/dataPartials/actorData-partial.hbs",
             "systems/EM2E/templates/partials/chars/dataPartials/passportData-partial.hbs",
             "systems/EM2E/templates/partials/chars/dataPartials/bestiaryData-partial.hbs",
@@ -160,9 +166,21 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
         Actors.unregisterSheet("core", ActorSheet);
         Actors.registerSheet(
           "EM2E", 
-          EmBaseActorSheet, 
-          //types : [your-actor-types],
-          {makeDefault: true}
+          EmBaseActorSheet,
+          {
+            //types : [your-actor-types],
+            makeDefault: true
+          }
+        );
+        Actors.registerSheet(
+          "EM2E", 
+          EmBaseCharacterSheet, 
+          {
+            types : [
+              "testActor"
+            ],
+            makeDefault : true
+          }
         );
       //#endregion
   }
