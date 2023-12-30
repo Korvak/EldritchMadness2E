@@ -1,6 +1,6 @@
 import EmBaseActorSheet from "./EmBaseActorSheet.js"
 import {treeBreadthSearch} from "../../utils.js"
-import {setInputsFromData, selectOptionsFromData} from "../../htmlUtils.js"
+import {setInputsFromData, selectOptionsFromData, setBarValue} from "../../htmlUtils.js"
 import {translate} from "../../emCore.js"
 
 export default class EmBasePawnSheet extends EmBaseActorSheet {
@@ -59,11 +59,11 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
             this._displayBodypart(this.getAnatomy().tree.id);
         }
 
-        _getSheetFuncs() {
+        _getSheetMethods() {
             /** called in getData returns an object with all the function callable from the ActorSheet by using the fetch handlebar
              *  @returns {Object} : returns a dictionary key : function 
              */
-            let funcs = super._getSheetFuncs();
+            let funcs = super._getSheetMethods();
             //we add the function we want here
             return funcs;
         }

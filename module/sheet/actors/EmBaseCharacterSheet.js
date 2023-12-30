@@ -101,11 +101,11 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
         //#endregion
         //#region start methods 
         
-            _getSheetFuncs() {
+            _getSheetMethods() {
                 /** called in getData returns an object with all the function callable from the ActorSheet by using the fetch handlebar
                  *  @returns {Object} : returns a dictionary key : function 
                  */
-                let funcs = super._getSheetFuncs();
+                let funcs = super._getSheetMethods();
                 //we add the function we want here
                 return funcs;
             }
@@ -227,6 +227,13 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
 
             //#endregion
 
+
+        //#endregion
+        //#region sheet methods
+
+            getInventoryItems(...params) {return super.getInventoryItems(...params);}
+
+            getInventoryItemsTags(...params) {return super.getInventoryItemsTags(...params);}
 
         //#endregion
 }

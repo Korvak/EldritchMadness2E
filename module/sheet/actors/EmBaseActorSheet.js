@@ -1,6 +1,6 @@
 import {fieldToObject, overwriteObjectFields, getValueFromFields} from "../../utils.js"
 import {
-    toggleDropdown, toggleReadonly, 
+    toggleDropdown, toggleReadonly,
     renderBar, searchByTags , toggleBtnState 
 } from "../../htmlUtils.js"
 
@@ -25,7 +25,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             let data = super.getData();
             //system holds all the data
             data.CONFIG = CONFIG;
-            data.SHEET_FUNCS = this._getSheetFuncs();
+            data.SHEET_FUNCS = this._getSheetMethods();
             return data;
         }
 
@@ -102,13 +102,13 @@ export default class EmBaseActorSheet extends ActorSheet {
              */
         }
 
-        _getSheetFuncs() {
+        _getSheetMethods() {
             /** called in getData returns an object with all the function callable from the ActorSheet by using the fetch handlebar
              *  @returns {Object} : returns a dictionary key : function 
              */
             return {
-                inventory : this.getInventoryItems,
-                inventoryTags : this.getInventoryItemsTags
+                inventory : this.getInventoryItems.bind(this),
+                inventoryTags : this.getInventoryItemsTags.bind(this)
             };
         }
 
@@ -288,16 +288,15 @@ export default class EmBaseActorSheet extends ActorSheet {
 
         //#region inventory methods
 
-            _getAllOwnedItems() {
-                return this.actor.items;
-            }
-
             getInventoryItems(...params) {
                 /** returns a collection of all the visible inventory items
                  *  @param {Array} params : needs to be there to be used by the fetch function
                  * 
                  *  @returns {Array} : returns an array of all the visible inventory items
                  */
+                console.warn("here getting al inventory items");
+                let items = this._getAllOwnedItems();
+                let filtered = this.getOwnedItems({tags : ['visible']});
                 return this.getOwnedItems({tags : ["visible"]});
             }
 
@@ -312,43 +311,85 @@ export default class EmBaseActorSheet extends ActorSheet {
                 let items = this.getInventoryItems();
                 //we use a Set to only get the unique instances of the tags
                 for (let item of items) {
-                    for (let tag of item.tags) { tags.add(tag); }
+                    for (let tag of item.system.tags) { tags.add(tag); }
                 }
                 return tags;
             }
 
             //#region get methods
 
-                getOwnedItems({tags = [], Ids = []}) {
+                _getAllOwnedItems() {
+                    /** returns all items in the actor.items collection
+                     *  @returns {Array} : returns an array of all the items values.
+                     */
+                    //actor.items is a dictionary ID => Item object so we just get the values.
+                    let items = [];
+                    for (let item of this.actor.items) {items.push(item);}
+                    return items;
+                }
+
+                getOwnedItems({tags = [], Ids = [], checkRule = "ANY"}) {
+                    /** cycles the array of all owned items and returns a filtered list of all the items with the given tags or ids
+                     *  @param {Array(string) | Optional} tags : a list of tags to check. Having any means it will pass
+                     *  @param {Array(string) | Optional} Ids : a list of ids to check. Having any means it will pass
+                     *  @param {Enum} checkRule : the type of checking to do. Applies only to the tags since an item can only have one id.
+                     *                      ANY : if it has any of the tags in the given list, it passes.
+                     *                      ALL : the item must have all given tags.
+                     */
                     let results = [];
-                    let itemData = undefined;
+                    //unlike getOWnedItemsByTags if the tags are empty it returns an empty result
                     if (tags.length + Ids.length == 0) {return results;}
-                    tags = new Set(tags);
-                    Ids = new Set(Ids);
-                    for (let item of this._getAllOwnedItems() ) {
-                        itemData = item.system;
-                        if ( itemData.tags.filter(x => tags.has(x) )
-                            || Ids.has(item._id)
-                            )
-                        {
-                            results.push(item);
+                    if (tags.length > 0) {
+                        results = this.getOWnedItemsByTags(tags, checkRule);
+                    }
+                    if (Ids.length > 0 ) {
+                        for (let id of Ids) {
+                            results.push(this.getOwnedItem(id) );
                         }
+                    }
+                    return results;
+                }
+
+
+                getOWnedItemsByTags(tags = [], checkRule = "ANY") {
+                    /** returns a list of all owned items with the given tags, according to the checkRule
+                     *  @param {Array(string) | Optional} tags : a list of tags to check. Having any means it will pass
+                     *  @param {Enum} checkRule : the type of checking to do. Applies only to the tags since an item can only have one id.
+                     *                      ANY : if it has any of the tags in the given list, it passes.
+                     *                      ALL : the item must have all given tags.
+                     * 
+                     * @returns {Array(Object)} : returns a list of all items that have the given tags
+                     */
+                    let results = [];
+                    //returns all items if empty
+                    if (tags.length < 1) {return this._getAllOwnedItems();}
+                    tags = new Set(tags); //we transform it into a set for faster checks
+                    let target = tags.size + 1; //defines how many matches are needed for the check to pass
+                    switch(checkRule.toUpperCase() ) {
+                        case "ANY" : {target = 1; break;}
+                        case "ALL" : {target = tags.size; break;}
+                        default : {return results;}
+                    }
+                    let items = this._getAllOwnedItems();
+                    console.warn(items);
+                    //for most cases |for now
+                    for (let item of this._getAllOwnedItems() ) {
+                        //we transform the  item tags into a set to do an intersection
+                        console.log(item);
+                        let itemTags = new Set(item.system.tags);
+                        //we check if the intersection size is equal to the target.
+                        if (tags.intersection(itemTags).size >= target ) {results.push(item);}
                     }
                     return results;
                 }
     
                 getOwnedItem(itemId) {
+                    /** returns an item if it's id exists in the actor.items collection
+                     *  @param {string} itemId : the Foundry Id of the item.
+                     * 
+                     *  @returns {Object} : returns a json object representing the Item 
+                     */
                     return this.actor.items.get(itemId);
-                }
-    
-                getIndexOfOwnedItem(itemId) {
-                    let item = undefined;
-                    let ownedItems = this._getAllOwnedItems();
-                    for (let i = 0;i < ownedItems.length;i++) {
-                        item = ownedItems[i];
-                        if (item._id == itemId) {return i;} 
-                    }
-                    return -1;
                 }
 
             //#endregion
