@@ -4,10 +4,10 @@
         {{!-- hp bar visuals --}}
         <div id="em_actor_hpBar"
         {{!-- hp bar visuals --}}
-        class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
+        class="w3-border w3-light-gray w3-round w3-display-container em_barContainer em_tooltipableBarContainer hint--top {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
             data-value="{{actor.system.attributes.hp.value}}" data-valueMax="{{actor.system.attributes.hp.max}}" 
             data-temp="{{actor.system.attributes.hp.temp}}" data-tempMax="{{actor.system.attributes.hp.maxTemp}}"
-            {{#if (hasRole "KEEPER")}}data-id="bar_hp"{{/if}}
+            {{#if (hasRole "KEEPER")}}data-id="bar_hp"{{/if}} aria-label="health"
         >
             {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
             <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.hp.value}} / {{actor.system.attributes.hp.max}} + {{actor.system.attributes.hp.temp}}</span>
@@ -86,20 +86,20 @@
     {{!-- if the element has a sanity that it displays it's attribute bar --}}
     {{#if actor.system.attributes.san }}
         <div class="em_sanBarContainer em_halfSection">
-            {{!-- hp bar visuals --}}
+            {{!-- sanity bar visuals --}}
             <div id="em_actor_sanBar"
-            {{!-- hp bar visuals --}}
-            class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
+            {{!-- sanity bar visuals --}}
+            class="w3-border w3-light-gray w3-round w3-display-container em_barContainer em_tooltipableBarContainer hint--top {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
                 data-value="{{actor.system.attributes.san.value}}" data-valueMax="{{actor.system.attributes.san.max}}" 
                 data-temp="{{actor.system.attributes.san.temp}}" data-tempMax="{{actor.system.attributes.san.maxTemp}}" 
-                {{#if (hasRole "KEEPER")}}data-id="bar_san"{{/if}}
+                {{#if (hasRole "KEEPER")}}data-id="bar_san"{{/if}} aria-label="sanity"
             >
                 {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
                 <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.san.value}} / {{actor.system.attributes.san.max}} + {{actor.system.attributes.san.temp}}</span>
                 <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.SAN.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.SAN.TEMP}}">
                 </div>
             </div>
-            {{!-- hp bar editor dropdown --}}
+            {{!-- sanity bar editor dropdown --}}
             {{#if (hasRole "KEEPER")}}
                 <div class="dropdown-content em_hidden w3-border w3-light-gray" for="bar_san">
                     <div class="em_leftContainer">
@@ -171,20 +171,20 @@
     {{!-- mp bar --}}
     {{#if actor.system.attributes.mp }}
         <div class="em_mpBarContainer em_halfSection">
-            {{!-- hp bar visuals --}}
+            {{!-- mp bar visuals --}}
             <div id="em_actor_mpBar"
-            {{!-- hp bar visuals --}}
-            class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
+            {{!-- mp bar visuals --}}
+            class="w3-border w3-light-gray w3-round w3-display-container em_barContainer em_tooltipableBarContainer hint--top {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
                 data-value="{{actor.system.attributes.mp.value}}" data-valueMax="{{actor.system.attributes.mp.max}}" 
                 data-temp="{{actor.system.attributes.mp.temp}}" data-tempMax="{{actor.system.attributes.mp.maxTemp}}" 
-                {{#if (hasRole "KEEPER")}}data-id="bar_mp"{{/if}}
+                {{#if (hasRole "KEEPER")}}data-id="bar_mp"{{/if}} aria-label="magic power"
             >
                 {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
                 <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.mp.value}} / {{actor.system.attributes.mp.max}} + {{actor.system.attributes.mp.temp}}</span>
                 <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.MP.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.MP.TEMP}}">
                 </div>
             </div>
-            {{!-- hp bar editor dropdown --}}
+            {{!-- mp bar editor dropdown --}}
             {{#if (hasRole "KEEPER")}}
                 <div class="dropdown-content em_hidden w3-border w3-light-gray" for="bar_mp">
                     <div class="em_leftContainer">
@@ -257,20 +257,20 @@
     {{!-- luck bar --}}
     {{#if actor.system.attributes.luck }}
         <div class="em_luckBarContainer em_halfSection">
-            {{!-- hp bar visuals --}}
+            {{!-- luck bar visuals --}}
             <div id="em_actor_luckBar"
-            {{!-- hp bar visuals --}}
-            class="w3-border w3-light-gray w3-round w3-display-container em_barContainer {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
+            {{!-- luck bar visuals --}}
+            class="w3-border w3-light-gray w3-round w3-display-container em_barContainer em_tooltipableBarContainer hint--top {{#if (hasRole "KEEPER")}}dropdown-btn em_barDropdown{{/if}}" 
                 data-value="{{actor.system.attributes.luck.value}}" data-valueMax="{{actor.system.attributes.luck.max}}" 
                 data-temp="{{actor.system.attributes.luck.temp}}" data-tempMax="{{actor.system.attributes.luck.maxTemp}}" 
-                {{#if (hasRole "KEEPER")}}data-id="bar_luck"{{/if}}
+                {{#if (hasRole "KEEPER")}}data-id="bar_luck"{{/if}} aria-label="luck"
             >
                 {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
                 <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.luck.value}} / {{actor.system.attributes.luck.max}} + {{actor.system.attributes.luck.temp}}</span>
                 <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.LUCK.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.LUCK.TEMP}}">
                 </div>
             </div>
-            {{!-- hp bar editor dropdown --}}
+            {{!-- luck bar editor dropdown --}}
             {{#if (hasRole "KEEPER")}}
                 <div class="dropdown-content em_hidden w3-border w3-light-gray" for="bar_luck">
                     <div class="em_leftContainer">

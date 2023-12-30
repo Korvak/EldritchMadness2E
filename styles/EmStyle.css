@@ -130,6 +130,12 @@ input:disabled[type="date"]::-webkit-calendar-picker-indicator {
             border: 1px solid grey;
         }
 
+        .em_tooltipableBarContainer {
+            position: relative;
+            width: 100%;
+            overflow: visible;
+        }
+
     /*#endregion*/
     /*#region input*/
 

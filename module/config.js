@@ -107,8 +107,16 @@ export const EmConfig = {
                 TEMP : "green"
             },
             MP : {
+                PRIMARY : "#68468C",
+                TEMP : "#886FAC"
+            },
+            SAN : {
                 PRIMARY : "#1E90FF",
                 TEMP : "#82CAFF"
+            },
+            LUCK : {
+                PRIMARY : "#FFB200",
+                TEMP : "#FFD966"
             }
         }
     }
