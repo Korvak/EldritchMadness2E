@@ -106,11 +106,11 @@ export const EmConfig = {
                 PRIMARY : "red",
                 TEMP : "green"
             },
-            MP : {
+            SAN : {
                 PRIMARY : "#68468C",
                 TEMP : "#886FAC"
             },
-            SAN : {
+            MP : {
                 PRIMARY : "#1E90FF",
                 TEMP : "#82CAFF"
             },

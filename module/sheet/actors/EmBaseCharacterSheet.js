@@ -8,6 +8,7 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
             constructor(...args) {
                 super(...args);
                 //makes sure that the flipbook animation is always performed on open, even when starting the application
+                console.warn("called constructor");
                 this.getActorData().flipbook.anim = true;
             }
         
@@ -95,6 +96,9 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
         
                 //#endregion
                 //by calling this we call the pawn and actor event listeners binding
+
+
+
                 super.activateListeners(html);
             }
     
@@ -149,6 +153,21 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
                 //#endregion
                 super._onStart();
                 //after logic
+            }
+
+        //#endregion
+        //#region util methods
+
+            _getActorAdditionalSaveData() {
+                /** returns a json object with all the data to add when saving the actor data
+                 * @returns {object} : returns a json to merge, it includes the must have data to save everytime the actor is saved
+                 */
+                console.warn(this.getActorData().flipbook.currentPage);
+                return {
+                    system : {
+                        flipbook : this.getActorData().flipbook
+                    }
+                }
             }
 
         //#endregion

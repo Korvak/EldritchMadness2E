@@ -18,6 +18,22 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
         }
 
         activateListeners(html) {
+            //#region anatomy page events
+                //this works for every pawn or child of the pawn class
+                html.find(".em_anatomyNode").click(this._displayBodypartHtml.bind(this));
+                html.find(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
+                //$(".em_anatomyDeleteIcon").click(this._deleteAnatomyHtml.bind(this));
+            //#endregion
+            //#region bodypart events
+                //this may be specific to the character sheet
+                html.find("#em_bodypart_id").click(this._renderBodypartHtml.bind(this));
+                let createNewBodypart = async function(event) {await this._addAndDisplayAnatomy(event);};
+                html.find("#em_bodypart_createBtn").click(createNewBodypart.bind(this) );
+                //we set it so that if we change the name of the bodypart, it also changes the name of the tree
+                html.find("#em_bodypart_name").change(this._changeBodypartName.bind(this) );
+                //we call the reparent function when the attachedTo changes
+                html.find("#em_bodypart_attached").get(0).onchange =  this._reparentBodypart.bind(this);
+            //#endregion
             //at the end of the function we call the parent's function
             super.activateListeners(html);
         }
@@ -344,6 +360,9 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
             }
         }
 
+        /** this display methods where made for the character sheet, should the need arise,
+         *  a new method will be made and the code of these methods will be used in the character sheet as an override method
+         */
         _displayBodypart(id) {
             /** visually loads the bodypart if the data exists
              * 

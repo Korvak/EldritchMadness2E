@@ -184,7 +184,6 @@ export default class EmBaseActorSheet extends ActorSheet {
                 let element = $(event.currentTarget);
                 let container = element.parents(".em_itemContainer");
                 let id = container.find(".em_itemIdContainer").get(0).dataset.id;
-                console.log(element.prop("tagName"));
                 //if it's a select we instead get the selected's element data-save attribute
                 let val = element.prop("tagName") == "SELECT" ? 
                     element.find(":selected").get(0).dataset.tosave
@@ -217,7 +216,6 @@ export default class EmBaseActorSheet extends ActorSheet {
              * @returns {boolean} : wether the save has succeeded or not
              */
             try {
-                console.warn("starting to save data", data);
                 //adds the must save data to the save data non destructively
                 overwriteObjectFields(data, this._getActorAdditionalSaveData() );
                 console.warn("saving data" , data);
@@ -294,7 +292,6 @@ export default class EmBaseActorSheet extends ActorSheet {
                  * 
                  *  @returns {Array} : returns an array of all the visible inventory items
                  */
-                console.warn("here getting al inventory items");
                 let items = this._getAllOwnedItems();
                 let filtered = this.getOwnedItems({tags : ['visible']});
                 return this.getOwnedItems({tags : ["visible"]});
@@ -370,12 +367,9 @@ export default class EmBaseActorSheet extends ActorSheet {
                         case "ALL" : {target = tags.size; break;}
                         default : {return results;}
                     }
-                    let items = this._getAllOwnedItems();
-                    console.warn(items);
                     //for most cases |for now
                     for (let item of this._getAllOwnedItems() ) {
                         //we transform the  item tags into a set to do an intersection
-                        console.log(item);
                         let itemTags = new Set(item.system.tags);
                         //we check if the intersection size is equal to the target.
                         if (tags.intersection(itemTags).size >= target ) {results.push(item);}
