@@ -864,6 +864,7 @@
         },
         "types" : [
             "country",
+            "lootBag",
             "testActor"
         ],
         "country" : {
@@ -884,6 +885,9 @@
                 "coin_name" : "",
                 "credit_value_convertion" : 1
             }
+        },
+        "lootBag" : {
+
         },
         "testActor" : {
             "templates" : [

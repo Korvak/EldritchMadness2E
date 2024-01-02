@@ -225,5 +225,6 @@ export const EmConfig = {
 
 //#region itemSheet
 
+    EmConfig.DEFAULT_LOOT_ACTOR = "lootBag";
 
 //#endregion

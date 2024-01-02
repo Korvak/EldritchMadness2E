@@ -1,6 +1,6 @@
 import {EmConfig} from "./module/config.js"
 import {normalize} from "./module/utils.js";
-import {translate} from "./module/emCore.js"
+import {translate, createLootActor} from "./module/emCore.js"
 //#region actor class imports
 import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
 import EmBasePawnSheet from "./module/sheet/actors/EmBasePawnSheet.js";
@@ -186,7 +186,20 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
   }
 
 
+Hooks.on("dropCanvasData", async function (canvas, data) {
+  switch(data.type) {
+    case "Item" : {
+        //we encase the element in a loot actor
+        let coords = {
+          x : data.x,
+          y : data.y
+        }
+        await createLootActor(canvas, coords, data.uuid, EmConfig.DEFAULT_LOOT_ACTOR );
+        break;
+    }
+  }
 
+});
 
 
 Hooks.once("init", async function() {
@@ -198,10 +211,6 @@ Hooks.once("init", async function() {
     registerSheets();
     registerHandlebars();
     preloadHandlebarsTemplates();
-
-
-
-    
 });
 
 Hooks.once("ready", async function() {
