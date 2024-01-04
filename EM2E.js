@@ -32,6 +32,10 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
 
   async function preloadHandlebarsTemplates() {
       const templatePaths = [
+        //#region actor partials
+          "systems/EM2E/templates/partials/actors/attributes-partial.hbs",
+          "systems/EM2E/templates/partials/actors/inventory-partial.hbs",
+        //#endregion
         //#region char partials
           "systems/EM2E/templates/partials/chars/navbar-partial.hbs",
           "systems/EM2E/templates/partials/chars/actorInfo-partial.hbs",
@@ -44,7 +48,6 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
           "systems/EM2E/templates/partials/chars/actorMedicalInfo-partial.hbs",
           "systems/EM2E/templates/partials/chars/actorInventory-partial.hbs",
           "systems/EM2E/templates/partials/chars/actorOptions-partial.hbs",
-          "systems/EM2E/templates/partials/chars/actorAttributes-partial.hbs",
         //#endregion
         //#region item partials
           "systems/EM2E/templates/partials/items/baseItem-partial.hbs",
@@ -186,56 +189,61 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
   }
 
 
-Hooks.on("dropCanvasData", async function (canvas, data) {
-  console.warn(data);
-  switch(data.type) {
-    case "Item" : {
-        //we encase the element in a loot actor
-        let actor = await encaseItem({
-            itemId : data.uuid,
-            actorName : "lootbag",
-            actorType : EmConfig.DEFAULT_LOOT_ACTOR
-          });
-        //here is how to create a token from an actor | thanks for Zhell for showing me how to 
-        let tokenDoc = await actor.getTokenDocument();
-        let tokendata = tokenDoc.toObject();
-        //we set the coordinates
-        tokendata.x = data.x;
-        tokendata.y = data.y;
-        //we create the token
-        let token = await TokenDocument.create(tokendata, {parent: canvas.scene});
-        //now we recall the event but using the actor
-        data.type = "Actor";
-        data.uuid = `Actor.${actor._id}`;
-        Hooks.call("dropCanvasData" , canvas, data);
-        break;
-    }
-  }
+//#region Hook events
 
-});
-
-
-
-
-Hooks.once("init", async function() {
-    //starting messages
-    console.log("loading EM 2E");
-    //we insert our Config into the Global Config object
-    CONFIG.EmConfig = EmConfig;
-
-    registerSheets();
-    registerHandlebars();
-    preloadHandlebarsTemplates();
-});
-
-Hooks.once("ready", async function() {
-
-    //register the countries
-    for(let key of Object.keys(EmConfig.COUNTRIES) ) {
-      let countryID = EmConfig.COUNTRIES[key];
-      if (countryID !== undefined && countryID.length > 0 ) {
-          EmConfig.COUNTRIES[key] = await Item.get(countryID);
+  Hooks.on("dropCanvasData", async function (canvas, data) {
+    console.warn(data);
+    switch(data.type) {
+      case "Item" : {
+          //we encase the element in a loot actor
+          let actor = await encaseItem({
+              itemId : data.uuid,
+              actorName : "lootbag",
+              actorType : EmConfig.DEFAULT_LOOT_ACTOR
+            });
+          //here is how to create a token from an actor | thanks for Zhell for showing me how to 
+          let tokenDoc = await actor.getTokenDocument();
+          let tokendata = tokenDoc.toObject();
+          //we set the coordinates
+          tokendata.x = data.x;
+          tokendata.y = data.y;
+          //we create the token
+          let token = await TokenDocument.create(tokendata, {parent: canvas.scene});
+          //now we recall the event but using the actor
+          data.type = "Actor";
+          data.uuid = `Actor.${actor._id}`;
+          Hooks.call("dropCanvasData" , canvas, data);
+          break;
       }
     }
-    console.log("finished loading countries", EmConfig.COUNTRIES);
-});
+
+  });
+
+//#endregion
+
+//#region start
+
+  Hooks.once("init", async function() {
+      //starting messages
+      console.log("loading EM 2E");
+      //we insert our Config into the Global Config object
+      CONFIG.EmConfig = EmConfig;
+
+      registerSheets();
+      registerHandlebars();
+      preloadHandlebarsTemplates();
+  });
+
+  Hooks.once("ready", async function() {
+
+      //register the countries
+      for(let key of Object.keys(EmConfig.COUNTRIES) ) {
+        let countryID = EmConfig.COUNTRIES[key];
+        if (countryID !== undefined && countryID.length > 0 ) {
+            EmConfig.COUNTRIES[key] = await Item.get(countryID);
+        }
+      }
+      console.log("finished loading countries", EmConfig.COUNTRIES);
+  });
+
+//#endregion 
