@@ -11,6 +11,18 @@ export function translate(key) {
     return game.i18n.localize(key);
 }
 
+export async function getFolderByName(name) {
+    /**
+     * 
+     */
+    let folders = game.folders;
+    for (let folder of folders) { //we cycle all folders and check if the name matches
+        if (folder.name === name) { return await Folder.get(folder._id); } //if it does we use the id to return the element
+    }
+    return undefined;
+}
+
+
 export async function encaseItem({itemId, actorId = "", actorName = "", actorType = ""}) {
     /** gets an items and add a copy of it as a child of the actor.items collection.
      *  

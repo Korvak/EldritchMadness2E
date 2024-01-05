@@ -31,6 +31,16 @@ export const EmConfig = {
         0 : 0,
     }
 
+    EmConfig.FOLDERS = [
+        {
+            name : "lootbags",
+            type : "Actor"
+        },
+        {
+            name : "test",
+            type : "Actor"
+        }
+    ];
 
     EmConfig.MEDICAL_CONDITION_TYPES = {
         "buff" : "em.actors.conditions.buff",

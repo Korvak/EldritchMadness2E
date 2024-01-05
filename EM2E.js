@@ -1,6 +1,6 @@
 import {EmConfig} from "./module/config.js"
 import {normalize} from "./module/utils.js";
-import {translate, encaseItem, createToken} from "./module/emCore.js"
+import {translate, getFolderByName, encaseItem, createToken} from "./module/emCore.js"
 //#region actor class imports
 import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
 import EmBasePawnSheet from "./module/sheet/actors/EmBasePawnSheet.js";
@@ -192,7 +192,21 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
       /** checks if the folders already exist in the adventure or if they have to be created
        * 
        */
-      //await Folders.search();
+      //we fetch the list of folders to check from the config
+      let folder = undefined;
+      console.error("here");
+      for (let configFolder of EmConfig.FOLDERS) {
+          folder = await getFolderByName(configFolder.name);
+          if (folder === undefined) { //if missing we create it
+              Folder.create({
+                  name : configFolder.name,
+                  type : configFolder.type
+              });
+          }
+      }
+
+
+
 
   }
 
@@ -248,6 +262,14 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
       }
       //checks and create the folders
       await createFolders();
+      let comp_name = "world.loot";
+      let compendium = await game.packs.get(comp_name);
+      console.warn(compendium);
+
+      let folderName = "lootbags";
+      let folder = await game.folders.filter( (folder) => {folder.name == folderName; console.log(folder);});
+      console.warn("folder", await getFolderByName("lootbags"));
+
 
 
       console.log("finished loading countries", EmConfig.COUNTRIES);
