@@ -59,43 +59,29 @@ export async function encaseItem({itemId, actorId = "", actorName = "", actorTyp
     }
 }
 
-export async function createLootActor(canvas, coords, itemId, lootActorType) {
-    /**
+export async function createToken(actor, coords, scene) {
+    /** creates a token from a given actor | thanks for Zhell for showing me how to 
+     *  @param {Actor} actor : the foundry actor from which we create the token
+     *  @param {Object(x,y)} coords : the x and y canvas coordinates where we place the actor token
+     *  @param {Scene} scene : the foundry canvas scene where we place the token
      * 
+     *  @returns {Token} : an instance of a Foundry token object
      */
+    if (!actor instanceof Actor || !scene instanceof Scene) {
+        console.error(`${actor} or ${scene} are not instances of Foundry the Actor or Scene class.`);
+        return undefined;
+    }
     try {
-        //first we fetch the item
-        itemId = itemId.replace("Item.", ""); //just in case it's a uuid which is made of the {type}.{id}
-        let item = await Item.get(itemId); //we get the item data
-        console.warn(item, item.sheet);
-        //then we create the actor
-        let loot = await Actor.create({
-            'name' : 'loot bag',
-            'type' : lootActorType
-        });
-        //now we add the item to the actor
-        let copy = await Item.create({//to do so, we create a copy of the item and add it to the actor
-            'name' : item.name,
-            'type' : item.type
-        }, {parent : loot});
-        //now we add the data of the item to the copy
-        await copy.update({
-            'system' : item.system
-        });
-        //finally we can position the loot actor
-        let scene = canvas.scene;
-        console.warn(scene);
-        await scene.createEmbeddedDocument("Token", {
-            'name' : loot.name,
-            'actorId' : loot._id,
-            'x' : coords.x,
-            'y' : coords.y
-        });
+        let tokenDoc = await actor.getTokenDocument();
+        let tokendata = tokenDoc.toObject();
+        //we set the coordinates
+        tokendata.x = coords.x;
+        tokendata.y = coords.y;
+        //we create the token
+        return await TokenDocument.create(tokendata, {parent: scene});
     }
     catch(error) {
         console.error(error.message);
+        return undefined;
     }
-    
-
-
 }

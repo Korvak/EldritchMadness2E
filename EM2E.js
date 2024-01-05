@@ -1,6 +1,6 @@
 import {EmConfig} from "./module/config.js"
 import {normalize} from "./module/utils.js";
-import {translate, encaseItem} from "./module/emCore.js"
+import {translate, encaseItem, createToken} from "./module/emCore.js"
 //#region actor class imports
 import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
 import EmBasePawnSheet from "./module/sheet/actors/EmBasePawnSheet.js";
@@ -188,6 +188,13 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
       //#endregion
   }
 
+  async function createFolders() {
+      /** checks if the folders already exist in the adventure or if they have to be created
+       * 
+       */
+      //await Folders.search();
+
+  }
 
 //#region Hook events
 
@@ -196,20 +203,16 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
     switch(data.type) {
       case "Item" : {
           //we encase the element in a loot actor
+          //let folder = await Folder.get(EmConfig.LOOT_FOLDER);
+          let folder = undefined;
           let actor = await encaseItem({
               itemId : data.uuid,
               actorName : "lootbag",
               actorType : EmConfig.DEFAULT_LOOT_ACTOR
-            });
-          //here is how to create a token from an actor | thanks for Zhell for showing me how to 
-          let tokenDoc = await actor.getTokenDocument();
-          let tokendata = tokenDoc.toObject();
-          //we set the coordinates
-          tokendata.x = data.x;
-          tokendata.y = data.y;
-          //we create the token
-          let token = await TokenDocument.create(tokendata, {parent: canvas.scene});
-          //now we recall the event but using the actor
+            }, {parent : folder});
+          //then we create the token
+          let token = await createToken(actor, {x: data.x , y : data.y}, canvas.scene);
+          //then we recall the event but using the actor
           data.type = "Actor";
           data.uuid = `Actor.${actor._id}`;
           Hooks.call("dropCanvasData" , canvas, data);
@@ -243,6 +246,10 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
             EmConfig.COUNTRIES[key] = await Item.get(countryID);
         }
       }
+      //checks and create the folders
+      await createFolders();
+
+
       console.log("finished loading countries", EmConfig.COUNTRIES);
   });
 

@@ -1,0 +1,39 @@
+<div class="em_actorInventoryContainer">
+    {{!-- contains the armor view graph and equippable items --}}
+    {{#if actor.anatomy}} {{!-- it only has an equippable tab if it's a pawn since actor should only have the inventory --}} 
+        <div class="em_actor_equippedContainer">
+            {{!-- armor visualization graph --}}
+            <div class="em_actor_equippedGraph">
+
+            </div>
+            {{!-- list of equippable items --}}
+            <div class="em_actor_equippableListContainer">
+
+            </div>
+        </div>
+    {{/if}}
+    {{!-- contains the inventory items and searchbars --}}
+    <div class="em_actorInventory">
+        {{!-- searchbar --}}
+        <div class="w3-border em_inputContainer em_halfTopMargin">
+            <input id="em_charact_searchbar" class="em_input em_searchbar" data-id="em_charact_search" data-search="startsWith">
+            <i class="em_inputIcon fa-solid fa-search"></i>
+        </div>
+        {{!-- item tags list --}}
+        <div class="w3-border em_tagContainer" tagsFor="em_skill_search">
+            {{#each (fetch SHEET_FUNCS.inventoryTags '')}}
+                <button>alfa</button>
+            {{/each}}
+        </div>
+        {{!-- item list --}}
+        <div class="em_actorInventoryItems">
+            {{#each (fetch SHEET_FUNCS.inventory '') }}
+                <div class="em_actorInventory_item">
+                    {{this.name}}
+                </div>
+            {{/each}}
+        </div>
+
+
+    </div>
+</div>

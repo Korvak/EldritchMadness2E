@@ -238,8 +238,6 @@ export default class EmBaseActorSheet extends ActorSheet {
             try {
                 //we transform the field into an object of objects for saving
                 let toSave = fieldToObject(field, value);
-                //we add the flipbook to save the current page
-                toSave[flipbook] = this.getActorData().flipbook; 
                 //we remove the header since it's useless
                 if (toSave["actor"] != undefined) {toSave = toSave["actor"];}
                 await this._saveActorData(toSave);

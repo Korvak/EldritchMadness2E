@@ -655,12 +655,13 @@
                 
             },
             "baseActor" : {
-                "tags" : ["actor", "human"],
+                "tags" : ["actor"],
                 "desc" : "a base actor with no implementation.",           
                 "info" : {
                 } 
             },
             "basePawn" : {
+                "tags" : ["pawn"],
                 "attributes" : {
                     "hp" : {
                         "label" : "em.attributes.hp.name",
@@ -808,6 +809,7 @@
                 }
             },
             "baseCharacter" : {
+                "tags" : ["char"],
                 "credit_value" : 0,
                 "attributes" : {
                     "san" : {
@@ -887,7 +889,13 @@
             }
         },
         "lootBag" : {
-
+            "templates" : ["baseActor"],
+            "tags" : ["actor", "lootbag"],
+            "destroyed" : false,
+            "locked" : false,
+            "keys" : [],
+            "can_lockpick" : true,
+            "lock_difficulty" : 1
         },
         "testActor" : {
             "templates" : [
@@ -988,6 +996,7 @@
             "empty"
         ],
         "country" : {
+            "tags" : ["visible"],
             "icon" : "",
             "name" : "",
             "population" : {

@@ -1,3 +1,34 @@
+{{#if actor.locked}} 
+    {{!-- will display the locked interface where you can try to unlock it with a key or lockpick--}}
+
+    {{#if actor.can_lockpick}}
+        {{!-- will show the lockpick button--}}
+
+    {{/if}}
+
+{{else if actor.destroyed}}
+    {{!-- will show the destroyed lock image and you cannot access it --}}
+
+{{else}}
+    {{!-- will show the normal inventory interface --}}
+    {{> "systems/EM2E/templates/partials/actors/inventory-partial.hbs"}}
+{{/if}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <form>
     <h1>{{actor.name}}</h1>
     <ul>
