@@ -1,0 +1,46 @@
+{
+  "_id" : "32312123124324",
+  "name": "Cebet",
+  "type": "country",
+  "img": "systems\\EM2E\\resources\\images\\countries\\bera\\emblems\\Coat_of_Arms.png",
+  "system": {
+    "tags": [
+      "visible"
+    ],
+    "icon": "systems\\EM2E\\resources\\images\\countries\\bera\\emblems\\National_Emblem.png",
+    "name": "em.countries.bera.name",
+    "population": {
+      "name": "em.countries.bera.pop_name",
+      "amount": 0
+    },
+    "government": {
+      "name": "em.countries.governments.kingdom",
+      "type": "kingdom"
+    },
+    "economy": {
+      "coin_name": "em.countries.bera.coin_name",
+      "credit_value_convertion": 1
+    },
+    "desc": "em.countries.bera.desc"
+  },
+  "effects": [],
+  "flags": {
+    "core": {
+      "sheetClass": "EM2E.EmBaseItemSheet"
+    },
+    "exportSource": {
+      "world": "test",
+      "system": "EM2E",
+      "coreVersion": "11.315",
+      "systemVersion": "0.0.3"
+    }
+  },
+  "_stats": {
+    "systemId": "EM2E",
+    "systemVersion": "0.0.3",
+    "coreVersion": "11.315",
+    "createdTime": 1701993361114,
+    "modifiedTime": 1702381501846,
+    "lastModifiedBy": "7eHsus4dB7Ncrr0d"
+  }
+}

@@ -11,7 +11,15 @@
 
 {{else}}
     {{!-- will show the normal inventory interface --}}
-    {{> "systems/EM2E/templates/partials/actors/inventory-partial.hbs"}}
+    <div class="w3-cell-row">
+        <div class="w3-half"> 
+            {{!-- basically this is an interaction window which allows the user to see their main character inventory--}}
+        </div>
+        <div class="w3-half">
+            {{> "systems/EM2E/templates/partials/actors/inventory-partial.hbs"}}
+        </div>
+    </div>
+    
 {{/if}}
 
 

@@ -4,8 +4,9 @@
  * 
  * we can also change an item folder by doing @param {item.data.update({folder : folderID});}
  * 
- * in case you want to get a compendium it's in the game.packs collection. You can search for it and
- * to retrieve it you can do game.packs.get(compendium_name)
+ * in case you want to get a compendium it's in the @param {game.packs collection.} 
+ * You can search for it and
+ * to retrieve it you can do @param{game.packs.get(compendium_name)}
  */
 /**
  *  in case we want to create a token from an actor given a canvas we do
@@ -17,5 +18,11 @@
         tokendata.y = data.y;
         //we create the token
         let token = await TokenDocument.create(tokendata, {parent: canvas.scene});
+ * 
+ */
+/** The required folder are : 
+ *     LOOTBAGS : where all the loot items are placed.
+ *     
+ * 
  * 
  */

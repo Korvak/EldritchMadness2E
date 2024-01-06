@@ -157,63 +157,88 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
   }
 
 //#endregion
+//#region helper functions
 
+    function registerSheets() {
+        //#region register item sheets
+          Items.unregisterSheet("core", ItemSheet);
+          Items.registerSheet("EM2E", EmBaseItemSheet, {makeDefault: true});
+          //#endregion
 
-  function registerSheets() {
-      //#region register item sheets
-        Items.unregisterSheet("core", ItemSheet);
-        Items.registerSheet("EM2E", EmBaseItemSheet, {makeDefault: true});
+          //#region register actor sheets
+          Actors.unregisterSheet("core", ActorSheet);
+          Actors.registerSheet(
+            "EM2E", 
+            EmBaseActorSheet,
+            {
+              //types : [your-actor-types],
+              makeDefault: true
+            }
+          );
+          Actors.registerSheet(
+            "EM2E", 
+            EmBaseCharacterSheet, 
+            {
+              types : [
+                "testActor"
+              ],
+              makeDefault : true
+            }
+          );
         //#endregion
+    }
 
-        //#region register actor sheets
-        Actors.unregisterSheet("core", ActorSheet);
-        Actors.registerSheet(
-          "EM2E", 
-          EmBaseActorSheet,
-          {
-            //types : [your-actor-types],
-            makeDefault: true
-          }
-        );
-        Actors.registerSheet(
-          "EM2E", 
-          EmBaseCharacterSheet, 
-          {
-            types : [
-              "testActor"
-            ],
-            makeDefault : true
-          }
-        );
-      //#endregion
-  }
 
-  function checkCompendiums() {
-      /**checks if the necessary compendiums are there.
-       *  @returns {boolean} : wether all the required compendiums are there or not.
-       */
-      let compendiums = game.packs;
-      let toCheck = EmConfig.REQUIRED_PACKS;
+    async function checkCountries() {
+        /** it checks if at least a country exists
+         * 
+         */
+        let folder = await Folder.get(EmConfig.FOLDERS["COUNTRIES"].id); //await getFolderByName(EmConfig.FOLDERS["LOOTBAGS"].name);
+        console.warn(folder, folder.content);
+    }
 
-  }
+    async function checkFolders() {
+        /** checks if the folders already exist in the adventure or if not it creates it
+         * 
+         */
+        //we fetch the list of folders to check from the config
+        let folder = undefined;
+        //cycles all folders in the config and checks if they exist
+        for (let configFolder of Object.values(EmConfig.FOLDERS) ) {
+            folder = await getFolderByName(configFolder.name);
+            if (folder === undefined) { //if missing we create it
+                folder = await Folder.create({
+                    name : configFolder.name,
+                    type : configFolder.type
+                });
+            }
+            //then we set the id
+            configFolder.id = folder._id;
+        }
+    }
 
-  async function checkFolders() {
-      /** checks if the folders already exist in the adventure or if not it creates it
-       * 
-       */
-      //we fetch the list of folders to check from the config
-      let folder = undefined;
-      //cycles all folders in the config and checks if they exist
-      for (let configFolder of EmConfig.FOLDERS) {
-          folder = await getFolderByName(configFolder.name);
-          if (folder === undefined) { //if missing we create it
-              await Folder.create({
-                  name : configFolder.name,
-                  type : configFolder.type
-              });
-          }
-      }
-  }
+    async function createLootbagOnDrop(canvas, data) {
+        //we encase the element in a loot actor
+        let folder = await Folder.get(EmConfig.FOLDERS["LOOTBAGS"].id); //await getFolderByName(EmConfig.FOLDERS["LOOTBAGS"].name);
+        console.warn(folder);
+        let actor = await encaseItem({
+            itemId : data.uuid,
+            actorName : "lootbag",
+            actorType : EmConfig.DEFAULT_LOOT_ACTOR,
+            folder : folder
+          });
+        //then we create the token
+        let token = await createToken(actor, {x: data.x , y : data.y}, canvas.scene);
+        //then we recall the event but using the actor
+        data.type = "Actor";
+        data.uuid = `Actor.${actor._id}`;
+        Hooks.call("dropCanvasData" , canvas, data);
+        return;
+    }
+
+//#endregion
+
+
 
 //#region Hook events
 
@@ -221,20 +246,7 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
     console.warn(data);
     switch(data.type) {
       case "Item" : {
-          //we encase the element in a loot actor
-          //let folder = await Folder.get(EmConfig.LOOT_FOLDER);
-          let folder = undefined;
-          let actor = await encaseItem({
-              itemId : data.uuid,
-              actorName : "lootbag",
-              actorType : EmConfig.DEFAULT_LOOT_ACTOR
-            }, {parent : folder});
-          //then we create the token
-          let token = await createToken(actor, {x: data.x , y : data.y}, canvas.scene);
-          //then we recall the event but using the actor
-          data.type = "Actor";
-          data.uuid = `Actor.${actor._id}`;
-          Hooks.call("dropCanvasData" , canvas, data);
+          await createLootbagOnDrop(canvas, data);
           break;
       }
     }
@@ -267,6 +279,10 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
       }
       //checks and create the folders
       await checkFolders();
+      //checks if any country exists and sets the main countries in the config
+      await checkCountries();
+
+
       let comp_name = "world.loot";
       let compendium = await game.packs.get(comp_name);
       console.warn(compendium);

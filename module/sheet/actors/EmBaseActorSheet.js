@@ -75,10 +75,11 @@ export default class EmBaseActorSheet extends ActorSheet {
                 let valueBars = html.find(".em_barContainer");
                 valueBars.change(renderBar);
                 valueBars.change();
-                // on modify fields save themselves
+                // on modify item fields we save them to the owning item
                 html.find(".em_field").each(function() {
                     $(this).get(0).onchange = self._saveOwnedItemFields.bind(self);
                 });
+                // on modify actor fields, we save them
                 html.find(".em_inline-field").each(function() {
                     $(this).get(0).onchange = self._saveActorFields.bind(self);
                 });

@@ -23,7 +23,7 @@ export async function getFolderByName(name) {
 }
 
 
-export async function encaseItem({itemId, actorId = "", actorName = "", actorType = ""}) {
+export async function encaseItem({itemId, actorId = "", actorName = "", actorType = "", folder = undefined, parent = undefined}) {
     /** gets an items and add a copy of it as a child of the actor.items collection.
      *  
      *  @param {string} itemId : the Foundry Id of the item to encase.
@@ -45,8 +45,9 @@ export async function encaseItem({itemId, actorId = "", actorName = "", actorTyp
         else if (actorType.length > 0 ) {
             actor = await Actor.create({
                 'name' : actorName,
-                'type' : actorType
-            }); 
+                'type' : actorType,
+                'folder' : folder
+            }, {'parent' : parent}); 
         }
         else {
             console.error(`cannot encase ${itemId}. ActorId reference doesn't exist.`);

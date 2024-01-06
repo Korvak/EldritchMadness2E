@@ -31,16 +31,18 @@ export const EmConfig = {
         0 : 0,
     }
 
-    EmConfig.FOLDERS = [
-        {
+    EmConfig.FOLDERS = {
+        "LOOTBAGS" : {
+            id : "",
             name : "lootbags",
             type : "Actor"
         },
-        {
-            name : "test",
+        "COUNTRIES" : {
+            id : "",
+            name : "countries",
             type : "Actor"
         }
-    ];
+    };
 
     EmConfig.MEDICAL_CONDITION_TYPES = {
         "buff" : "em.actors.conditions.buff",

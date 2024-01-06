@@ -71,7 +71,7 @@
                     <td class="w3-center w3-light-gray">
                         <select class="em_inline-field em_noShadow w3-border-0 w3-light-gray" name="actor.system.government.type">
                             {{#each CONFIG.EmConfig.GOVERNMENTS as |this key|}}
-                                <option class="w3-white" {{#if (eq key ../actor.system.government.type)}}selected="true"{{/if}}>
+                                <option class="w3-white" data-tosave="{{key}}" {{#if (eq key ../actor.system.government.type)}}selected="true"{{/if}}>
                                     {{key}}
                                 </option> 
                             {{/each}}
