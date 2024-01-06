@@ -24,6 +24,17 @@
         "/styles/EmStyle.css",
         "/styles/shared/actorStyle.css"
     ],
+    "packs" : [
+        {
+            "name": "Countries",
+            "label": "Arthadel Countries",
+            "system": "EM2E",
+            "path": "packs/countries.db",
+            "type": "Actor",
+            "private": false,
+            "flags": {}
+          }
+    ],
     "languages": [
         {
           "lang": "en",
