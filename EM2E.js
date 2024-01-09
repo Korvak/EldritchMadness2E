@@ -72,7 +72,7 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
 
         Handlebars.registerHelper('hasRole', function(role) {
             role = EmConfig.ROLES[role];
-            return game.user.role == role;
+            return game.user.role >= role;
         }); 
 
       //#endregion
@@ -194,7 +194,7 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
          * 
          */
         let folder = await Folder.get(EmConfig.FOLDERS["COUNTRIES"].id); //await getFolderByName(EmConfig.FOLDERS["LOOTBAGS"].name);
-        console.warn(folder, folder.content);
+        console.warn(folder, folder.contents);
     }
 
     async function checkFolders() {
@@ -221,12 +221,16 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
         //we encase the element in a loot actor
         let folder = await Folder.get(EmConfig.FOLDERS["LOOTBAGS"].id); //await getFolderByName(EmConfig.FOLDERS["LOOTBAGS"].name);
         console.warn(folder);
-        let actor = await encaseItem({
-            itemId : data.uuid,
-            actorName : "lootbag",
-            actorType : EmConfig.DEFAULT_LOOT_ACTOR,
-            folder : folder
-          });
+        let actor = await encaseItem(
+            data.uuid,
+            {
+              name : 'lootbag',
+              type : EmConfig.DEFAULT_LOOT_ACTOR,
+              data : {
+                folder : folder
+              }
+            }
+          );
         //then we create the token
         let token = await createToken(actor, {x: data.x , y : data.y}, canvas.scene);
         //then we recall the event but using the actor
@@ -282,10 +286,7 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
       //checks if any country exists and sets the main countries in the config
       await checkCountries();
 
-
-      let comp_name = "world.loot";
-      let compendium = await game.packs.get(comp_name);
-      console.warn(compendium);
+      console.warn(game.user);
 
       console.log("finished loading countries", EmConfig.COUNTRIES);
   });

@@ -22,14 +22,19 @@ export async function getFolderByName(name) {
     return undefined;
 }
 
-
-export async function encaseItem({itemId, actorId = "", actorName = "", actorType = "", folder = undefined, parent = undefined}) {
+export async function encaseItem(itemId, actorData = {id : "", name : "", type : "", data : {}, parent : undefined }) {
     /** gets an items and add a copy of it as a child of the actor.items collection.
      *  
      *  @param {string} itemId : the Foundry Id of the item to encase.
-     *  @param {Optional | string} actorId : the Foundry Id of the actor to add the item to.
-     *  @param {Optional | string} actorName : the name of the actor to create in case the actorId is empty.
-     *  @param {Optional | string} actorType : the type of actor to create in case the actorId is empty.
+     *  @param {Object} actorData   : an object containing the data required to create the actor in case the id is absent.
+     *      - in case we want to create a new actor we set the actorData properties to these
+     *      @param {string} name : the name of the actor to create.
+     *      @param {string} type : the type of the actor to create.
+     *      @param {Object} data : the extra data fields to add. Name and type will be overwritten.
+     *      @param {string} parent : the parent of the actor to create.
+     *      - in case we want to encase the item into an existing actor we provide the id
+     *      @param {string} id : the id of the actor to fetch.
+     * 
      * 
      *  @returns {Actor} : returns the Foundry actor with the item contained in their actor.items collection.
      */
@@ -39,15 +44,14 @@ export async function encaseItem({itemId, actorId = "", actorName = "", actorTyp
         itemId = itemId.replace("Item.", ""); //just in case it's a uuid which is made of the {type}.{id}
         let item = await Item.get(itemId); //we get the item data
         //we fetch or create the actor
-        if (actorId.length > 0) {
-            actor = await Actor.get(actorId);
+        if (actorData.id != undefined && actorData.id.length > 0) {
+            actor = await Actor.get(actorData.id);
         }
-        else if (actorType.length > 0 ) {
-            actor = await Actor.create({
-                'name' : actorName,
-                'type' : actorType,
-                'folder' : folder
-            }, {'parent' : parent}); 
+        else if (actorData.type != undefined && actorData.type.length > 0 ) {
+            let data = actorData.data;
+            data.name = actorData.name;
+            data.type = actorData.type;
+            actor = await Actor.create(data, {'parent' : actorData.parent}); 
         }
         else {
             console.error(`cannot encase ${itemId}. ActorId reference doesn't exist.`);

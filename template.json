@@ -991,27 +991,9 @@
             }
         },
         "types" : [
-            "country",
             "bodypart",
             "empty"
         ],
-        "country" : {
-            "tags" : ["visible"],
-            "icon" : "",
-            "name" : "",
-            "population" : {
-                "name" : "",
-                "amount" : 0
-            },
-            "government" : {
-                "name" : "",
-                "type" : ""
-            },
-            "economy" : {
-                "coin_name" : "",
-                "credit_value_convertion" : 1
-            }
-        },
         "bodypart" : {
             "templates" : [
                 "baseItem",

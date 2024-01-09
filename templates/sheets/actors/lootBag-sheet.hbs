@@ -1,47 +1,31 @@
-{{#if actor.locked}} 
-    {{!-- will display the locked interface where you can try to unlock it with a key or lockpick--}}
+<form autocomplete="off">
+    {{#if actor.locked}} 
+        {{!-- will display the locked interface where you can try to unlock it with a key or lockpick--}}
 
-    {{#if actor.can_lockpick}}
-        {{!-- will show the lockpick button--}}
+        {{#if actor.can_lockpick}}
+            {{!-- will show the lockpick button--}}
 
+        {{/if}}
+
+    {{else if actor.destroyed}}
+        {{!-- will show the destroyed lock image and you cannot access it --}}
+
+    {{else}}
+        {{!-- will show the normal inventory interface --}}
+        <div class="w3-cell-row">
+            <div class="w3-half"> 
+                {{!-- basically this is an interaction window which allows the user to see their main character inventory--}}
+                {{!-- #if game.user.character}}
+                    {{#with game.user.character}}
+                        {{> "systems/EM2E/templates/partials/actors/inventory-partial.hbs"}}
+                    {{/with}}
+                {{/if --}}
+                {{log 'user character' game.user}}
+            </div>
+            <div class="w3-half">
+                {{> "systems/EM2E/templates/partials/actors/inventory-partial.hbs"}}
+            </div>
+        </div>
+        
     {{/if}}
-
-{{else if actor.destroyed}}
-    {{!-- will show the destroyed lock image and you cannot access it --}}
-
-{{else}}
-    {{!-- will show the normal inventory interface --}}
-    <div class="w3-cell-row">
-        <div class="w3-half"> 
-            {{!-- basically this is an interaction window which allows the user to see their main character inventory--}}
-        </div>
-        <div class="w3-half">
-            {{> "systems/EM2E/templates/partials/actors/inventory-partial.hbs"}}
-        </div>
-    </div>
-    
-{{/if}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<form>
-    <h1>{{actor.name}}</h1>
-    <ul>
-        {{#each actor.items}}
-            <li>{{this.name}}</li>
-        {{/each}}
-    </ul>
 </form>

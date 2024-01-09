@@ -1,6 +1,6 @@
 
 {{!-- contains the inventory items and searchbars --}}
-<div class="em_actorInventory">
+<div class="w3-light-gray em_actorInventory">
     {{!-- searchbar --}}
     <div class="w3-border em_inputContainer em_halfTopMargin">
         <input id="em_charact_searchbar" class="em_input em_searchbar" data-id="em_charact_search" data-search="startsWith">
@@ -13,12 +13,36 @@
         {{/each}}
     </div>
     {{!-- item list --}}
-    <div class="em_actorInventoryItems">
-        {{#each (fetch SHEET_FUNCS.inventory '') }}
-            <div class="em_actorInventory_item">
-                {{this.name}}
-            </div>
-        {{/each}}
+    <div class="em_halfContainer em_inventoryItems">
+        {{#if (contains actor.system.tags "trade")}}
+            {{!-- in trade mode other data is displayed --}}
+            {{#each (fetch SHEET_FUNCS.inventory '') }}
+                <div class="em_inventory_item w3-cell-row">
+                    <img class="w3-cell" style="width:32px;" width="32" height="32" src="{{this.img}}">
+                    <p class="w3-cell w3-third">{{this.name}}</p>
+                </div>
+            {{/each}}
+        {{else}}
+            {{! -- in use mode data useful to every day investigation is displayed --}}
+            {{!--#each (fetch SHEET_FUNCS.inventory '') --}}
+            {{#each actor.items}}
+                {{!-- the item --}}
+                <div class="em_inventory_item w3-row w3-transparent">
+                    {{!-- icon --}}
+                    <div class="w3-display-container w3-col" style="width: 48px;height: 48px;">
+                        <img class="w3-display-middle" style="z-index:0;box-sizing:border-box;" width="48" height="48" src="{{this.img}}">
+                        <div class="w3-display-bottomleft em_inventory_iconData" style="margin-right:2px;margin-left:2px;max-width: 44px;">
+                            <p class="w3-text-center" style="margin:0;padding:0;">{{this.system.stack.value}}/{{this.system.stack.max}}</p>
+                        </div>
+                    </div>
+                    {{!-- name --}}
+                    <div class="w3-rest em_inventory_nameContainer">
+                        <p class="w3-cell-middle w3-white em_inventory_name">{{this.name}}</p>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
+        
     </div>
 
 </div>

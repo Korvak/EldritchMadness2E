@@ -1,0 +1,453 @@
+/*#region actor sheet */
+
+    .em_actorSheet {
+        min-height: 450px !important;
+        min-width: 530px !important;
+    }
+
+    .em_actorSheet .window-content {
+        overflow: hidden;
+        background-image: url("../../resources/images/flipbook/leatherDarkBrownBg.png");
+        background-repeat: repeat;
+        background-position: center;
+        background-size: 280px 224px;
+
+    }
+
+    .em_actorFormContainer {
+        box-sizing: border-box;
+        max-height: 100%;
+    }
+
+    .em_actor_cover {
+        color: white;
+        background-image: url("../../resources/images/flipbook/leatherDarkBrownBg.png");
+        background-repeat: repeat;
+        background-position: center;
+        background-size: 280px 224px;
+    }
+
+/*#endregion */
+
+/*#region navbar */
+
+    .em_navbar {
+        padding-top: 24px;
+    }
+
+    .em_navbar .em_tabBtn {
+        z-index: 100;
+        text-align: center;
+        padding: 6px 12px !important;
+    }
+
+    .em_navbar .em_tabBtn[current="true"] {
+        transform: scale(1.1);
+    }
+
+    .em_navbar .em_tabBtn:hover {
+        box-shadow: none !important; 
+    }
+
+/*#endregion */
+
+/*#region flipbook */
+
+    #flipbook {
+        margin-left: auto !important;
+        margin-right: auto;
+        top: 12px;
+
+        max-height: calc(100% - 22px);
+
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    #flipbook .page-wrapper {
+        max-height: 100%;
+    }
+
+    #flipbook .em_page {
+        box-sizing: border-box;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+/*#endregion*/
+
+/*#region info */
+
+    /*#region characteristics */
+
+        .em_charact_container {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: baseline;
+            
+            max-width: 100%;
+            width: 100%;
+            min-height: 90px;
+            max-height: 180px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .em_charact {
+            margin-bottom: 8px;
+            min-width: min(30%, 60px);
+        }
+
+        .em_charact_btn {
+            cursor: pointer;
+        }
+
+        .em_charact_text {
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+
+        .em_charact .dropdown-btn {
+            width: 100%;
+            line-height: 1em;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+    /*#endregion*/
+    
+    /*#region skills*/
+
+        .em_skill_container {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: baseline;
+            
+            max-width: 100%;
+            width: 100%;
+            min-height: 90px;
+            max-height: 180px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .em_skill {
+            display: block;
+            margin-bottom: 8px;
+            min-width: 7.5em;
+            font-size: 0.95em;
+            line-height: 1.1em;
+        }
+
+        .em_skill .dropdown-btn {
+            width: 100%;
+            line-height: 1em;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+
+    /*#endregion*/
+
+    /*#region actor data */
+
+        /*#region tags*/
+
+            #em_actorTagContainer {
+                box-sizing: border-box;
+                overflow-y: auto;
+                max-height: 5em;
+                padding-bottom: 6px;
+                justify-content: flex-start;
+            }
+
+            .em_tag {
+                padding-left: 0.2em;
+            }
+
+            .em_tagIcon {
+                box-sizing: border-box;
+                font-size: 0.7em;
+                padding-left : 0.3em;
+                padding-right: 0;
+            }
+
+
+        /*#endregion*/
+
+        /*#region passport */
+
+            .em_passport {
+                display: block;
+                margin-left: -6px;
+                padding : 6px 6px 10% 6px;
+                position: relative;
+                background-color: transparent;
+                background-image: url("/ui/parchment.jpg");
+                background-repeat : repeat;
+                z-index: 1;
+            }
+
+            .em_passport::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                opacity: 0.4;
+                z-index: -1;
+                filter: sepia(100%);
+                background-image: url("/systems/EM2E/resources/images/countries/bera/emblems/National_Emblem.png") !important;
+                background-size: 128px 128px;
+                background-repeat: no-repeat;
+                background-position: left center;
+            }
+            
+            /*#region header*/
+                .em_passport_header {
+                    background-size: contain;
+                }
+
+                .em_passport_country_name {
+                    text-align: center;
+                    border-bottom: 2px solid goldenrod;
+                    text-shadow: 1px 1px 1px black;
+                    color: goldenrod;
+                }
+
+                .em_passport_country_icon {
+                    display: inline-block;
+                    object-fit: contain;
+                    border: none;
+                }
+            /*#endregion*/
+
+            .em_passport_dataContainer {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                flex-wrap: nowrap;
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            /*#region portrait*/
+
+                .em_passport_portraitContainer {
+                    flex: 64px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    width: 64px;
+                    max-width: 64px;
+                }
+
+                .em_passport_portraitContainer > .em_passport_portraitTitle {
+                    max-width: 100%;
+                    padding-left: 3px;
+                    margin-bottom: 3px;
+                }
+
+                .em_passport_portrait {
+                    display: block;
+                    box-sizing: border-box;
+                    object-fit: cover;
+                    margin-left: 3px;
+                }
+
+                .em_passport_portraitFieldContainer {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: baseline;
+                    max-width: 100%;
+                }
+
+                .em_passport_portraitField {
+                    display: inline-block !important;
+                    background-color: transparent !important;
+                    box-sizing: border-box;
+                    max-height: 100%;
+                    width: 100% !important;
+                    max-width: calc(100% - 1.2em) !important;
+                }
+
+                .em_passport_portraitFieldIcon {
+                    display: inline-block !important;
+                    background-color: transparent !important;
+                    padding-top: 4px;
+                    padding-left: 0.1em;
+                    max-height: 100%;
+                    max-width: 1em;
+                    font-size: 1em;
+                    line-height: 1.1em;
+
+                }
+
+
+
+
+            /*#endregion*/
+
+            /*#region fields*/
+
+                .em_passport_fieldsContainer {
+                    flex: 0.8;
+                    max-width: calc(100% - 64px);
+                    margin-top: 0 I !important;
+                }
+
+                .em_passport_field {
+                    margin-bottom: 6px !important;
+                }
+
+                .em_passport_label {
+                    display: block;
+                    width: 100%;
+                    max-width: 100%;
+                    font-weight: 700;
+                    font-size: 1.1em;
+                }
+
+                .em_passport_input {
+                    display: block;
+                    width: 100%;
+                    max-width: 100%;
+                    height: 1.8em;
+                    font-size: 1em;
+                    line-height: 1.2em;
+                }
+
+                
+                .em_passport_field:disabled,.em_passport_field:read-only {
+                    border: none !important;
+                    background-color: transparent !important;
+                }
+
+                .em_passport_input:disabled,.em_passport_input:read-only {
+                    text-align: center !important;
+                    border: none !important;
+                    background-color: transparent !important;
+                    color : black !important;
+                    margin-left: 3px;
+                }
+                
+                .em_passport_input:not(:disabled) {
+                    background-color: #e7e7e7 !important;
+                    border: 1px solid rgb(122, 121, 113) !important;
+                }
+
+
+            /*#endregion*/
+            
+            #em_passport_beyonderData {
+                display: block;
+                position: relative;
+                background-color: transparent;
+                background-image: url("/ui/parchment.jpg");
+                background-repeat : repeat;
+                z-index: 1;
+            }
+
+            #em_passport_beyonderData::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                opacity: 0.7;
+                z-index: -1;
+                background-image: url("/systems/EM2E/resources/images/stamps/beyonderBureau.png") !important;
+                background-size: 64px 64px;
+                background-repeat: no-repeat;
+                background-position: right top;
+            }
+
+        /*#endregion*/
+
+        /*#region bestiary */
+
+            
+
+        /*#endregion*/
+
+    /*#endregion*/
+    
+    
+
+
+/*#endregion*/
+
+/*#region anatomy */
+
+    .em_anatomyContainer {
+        margin-top: 8px;
+        max-height: 45%;
+        height: 45%;
+
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .em_anatomyTree {
+        padding-left: 0;
+    }
+
+    .em_anatomyTreeTitle {
+        margin-bottom: 5px;
+    }
+
+    .em_anatomyList {
+        list-style: none;
+    }
+
+    .em_anatomyNode {
+        cursor: default;
+        margin-bottom: 2px;
+        padding: 4px 8px !important;
+        overflow: visible !important;
+    }
+
+    .em_anatomyBranchIcon {
+        font-size: 0.8em;
+    }
+
+    .em_anatomyDeleteIcon:hover {
+        color : rgb(232, 232, 232);
+    }
+
+    /*#region bodypart info*/
+
+        #em_bodypart_id {
+            padding: 4px 8px !important;
+        }
+
+        .em_bodypartHeader {
+            min-height: 1.5em;
+            background-color: rgb(0 0 0 / 85%);
+            color: #e7e7e7;
+            border: none;
+            border-bottom: 2px solid black;
+        }
+
+        .em_bodypart_conditions {
+            margin-top: 5px;
+        }
+
+        .em_bodypart_conditionHolder {
+            min-height: 10vh;
+        }
+
+    /*#endregion*/
+
+/*#endregion*/
