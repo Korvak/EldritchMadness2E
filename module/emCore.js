@@ -1,3 +1,5 @@
+import {EmConfig} from "./config.js"
+
 export function translate(key) {
     /** translate a localization key in the form of a string by using the Foundry in-built localization system.
      * @param {string} key : the string to translate. 
@@ -101,4 +103,22 @@ export async function createToken(actor, coords, scene) {
         console.error(error.message);
         return undefined;
     }
+}
+
+export async function getCountryByName(name) {
+    /** returns the country with the given name by searching the contents of the country folder.
+     *  @param {string} name : the name of the country actor to find.
+     * 
+     *  @returns {country} : an actor of country type.
+     */
+    let folder = await Folder.get(EmConfig.FOLDERS["COUNTRIES"].id);
+    if (folder == undefined) {
+        console.error("country folder doesn't exist or is mismatched in the config.");
+        return undefined;
+    }
+    //checks the actor name and not the system.name.
+    for (let country of folder.content) {
+        if (country.name == name) {return country;}
+    } //in not found returns undefined
+    return undefined;
 }

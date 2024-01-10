@@ -128,7 +128,7 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
         });
 
       //#endregion
-      //#region set operation helpers
+      //#region set and get operation helpers
 
         Handlebars.registerHelper('set', function(item, key, value) {
           item[key] = value;
@@ -152,6 +152,20 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
         Handlebars.registerHelper('concat',function(a, b) {
           return `${a}${b}`;
         });
+        //returns the user
+        Handlebars.registerHelper('getUser', function(field = undefined) {
+            if (field == 'character') {return {actor : game.user.character};}
+            else {return game.user;}
+        });
+        //gets all the partials
+        Handlebars.registerHelper('renderPartial', function(partialName, context) {
+          const partial = Handlebars.partials[partialName];
+          if (partial) {
+              return new Handlebars.SafeString(partial(context));
+          }
+          return '';
+      });
+
 
       //#endregion
   }
@@ -194,7 +208,9 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
          * 
          */
         let folder = await Folder.get(EmConfig.FOLDERS["COUNTRIES"].id); //await getFolderByName(EmConfig.FOLDERS["LOOTBAGS"].name);
-        console.warn(folder, folder.contents);
+        for(let country of folder.content) {
+            if (country.type != "country") {console.error("the country folder must only contain country actors.");}
+        }
     }
 
     async function checkFolders() {
@@ -273,22 +289,11 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
   });
 
   Hooks.once("ready", async function() {
-
-      //register the countries
-      for(let key of Object.keys(EmConfig.COUNTRIES) ) {
-        let countryID = EmConfig.COUNTRIES[key];
-        if (countryID !== undefined && countryID.length > 0 ) {
-            EmConfig.COUNTRIES[key] = await Item.get(countryID);
-        }
-      }
       //checks and create the folders
       await checkFolders();
       //checks if any country exists and sets the main countries in the config
       await checkCountries();
 
-      console.warn(game.user);
-
-      console.log("finished loading countries", EmConfig.COUNTRIES);
   });
 
 //#endregion 

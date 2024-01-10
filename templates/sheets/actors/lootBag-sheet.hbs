@@ -13,14 +13,10 @@
     {{else}}
         {{!-- will show the normal inventory interface --}}
         <div class="w3-cell-row">
-            <div class="w3-half"> 
-                {{!-- basically this is an interaction window which allows the user to see their main character inventory--}}
-                {{!-- #if game.user.character}}
-                    {{#with game.user.character}}
-                        {{> "systems/EM2E/templates/partials/actors/inventory-partial.hbs"}}
-                    {{/with}}
-                {{/if --}}
-                {{log 'user character' game.user}}
+            <div class="w3-half">
+                {{#if (getUser 'character')}}
+                    {{renderPartial 'systems/EM2E/templates/partials/actors/inventory-partial.hbs' (getUser 'character') }}
+                {{/if}}
             </div>
             <div class="w3-half">
                 {{> "systems/EM2E/templates/partials/actors/inventory-partial.hbs"}}
