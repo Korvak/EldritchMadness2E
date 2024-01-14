@@ -154,7 +154,10 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
         });
         //returns the user
         Handlebars.registerHelper('getUser', function(field = undefined) {
-            if (field == 'character') {return {actor : game.user.character};}
+            if (field == 'character') {
+              let char = game.user.character;
+              return char != undefined ? {actor : char} : undefined;
+            }
             else {return game.user;}
         });
         //gets all the partials
@@ -243,7 +246,10 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
               name : 'lootbag',
               type : EmConfig.DEFAULT_LOOT_ACTOR,
               data : {
-                folder : folder
+                folder : folder,
+                permission : {
+                  default : 2
+                }
               }
             }
           );

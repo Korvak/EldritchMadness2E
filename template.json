@@ -916,6 +916,7 @@
             "baseItem" : {
                 "tags" : [],
                 "grade" : "em.grades.F",
+                "tradeable" : true,
                 "description" : "",
                 "wt" : {
                     "label" : "em.attributes.wt.name",
@@ -992,6 +993,7 @@
         },
         "types" : [
             "bodypart",
+            "tradeGood",
             "empty"
         ],
         "bodypart" : {
@@ -1022,6 +1024,16 @@
                 }
             },
             "attachedTo" : null
+        },
+        "tradeGood" : {
+            "templates" : [
+                "baseItem"
+            ],
+            "tags" : ["visible"],
+            "stack" : {
+                "value" : 1,
+                "max" : 30
+            }
         },
         "empty" : {}
     }

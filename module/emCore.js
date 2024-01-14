@@ -118,7 +118,7 @@ export async function getCountryByName(name) {
     }
     //checks the actor name and not the system.name.
     for (let country of folder.content) {
-        if (country.name == name) {return country;}
+        if (country.name == name && country.type == "country") {return country;}
     } //in not found returns undefined
     return undefined;
 }
