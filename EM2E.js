@@ -1,10 +1,12 @@
 import {EmConfig} from "./module/config.js"
 import {normalize} from "./module/utils.js";
-import {translate, getFolderByName, encaseItem, createToken} from "./module/emCore.js"
+import {translate, getFolderByName, encaseItem, createToken, getCountryByName} from "./module/emCore.js"
 //#region actor class imports
 import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
 import EmBasePawnSheet from "./module/sheet/actors/EmBasePawnSheet.js";
 import EmBaseCharacterSheet from "./module/sheet/actors/EmBaseCharacterSheet.js";
+//child actor class imports
+import EmCountrySheet from "./module/sheet/child/actors/EmCountrySheet.js";
 //#endregion
 //#region item class imports
 import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
@@ -152,6 +154,18 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
         Handlebars.registerHelper('concat',function(a, b) {
           return `${a}${b}`;
         });
+        
+        //gets all the partials
+        Handlebars.registerHelper('renderPartial', function(partialName, context) {
+          const partial = Handlebars.partials[partialName];
+          if (partial) {
+              return new Handlebars.SafeString(partial(context));
+          }
+          return '';
+        });
+
+      //#endregion
+      //#region em utils
         //returns the user
         Handlebars.registerHelper('getUser', function(field = undefined) {
             if (field == 'character') {
@@ -160,15 +174,8 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
             }
             else {return game.user;}
         });
-        //gets all the partials
-        Handlebars.registerHelper('renderPartial', function(partialName, context) {
-          const partial = Handlebars.partials[partialName];
-          if (partial) {
-              return new Handlebars.SafeString(partial(context));
-          }
-          return '';
-      });
-
+        //returns the country/countries
+        Handlebars.registerHelper('getCountry', getCountryByName);
 
       //#endregion
   }
@@ -192,6 +199,17 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
               makeDefault: true
             }
           );
+          //register the country
+          Actors.registerSheet(
+            "EM2E", 
+            EmCountrySheet, 
+            {
+              types : [
+                "country"
+              ],
+              makeDefault : true
+            }
+          );
           Actors.registerSheet(
             "EM2E", 
             EmBaseCharacterSheet, 
@@ -211,8 +229,12 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
          * 
          */
         let folder = await Folder.get(EmConfig.FOLDERS["COUNTRIES"].id); //await getFolderByName(EmConfig.FOLDERS["LOOTBAGS"].name);
-        for(let country of folder.content) {
-            if (country.type != "country") {console.error("the country folder must only contain country actors.");}
+        let countries = folder.contents.filter(country => country.type == "country");
+        if (folder.contents.length > countries.length) {
+          alert(`the ${EmConfig.FOLDERS["COUNTRIES"].name} folder should only contain actor of type 'country'.`);
+        }
+        if (countries.length < 1) {
+          alert(`the ${EmConfig.FOLDERS["COUNTRIES"].name} folder should contain at least one actor of type 'country'.`);
         }
     }
 

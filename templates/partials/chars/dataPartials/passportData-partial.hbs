@@ -24,13 +24,13 @@
                 {{!-- GM settable nationality --}}
                 {{#if (hasRole "KEEPER")}}
                     <select class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" name="actor.system.info.nationality">
-                        {{#each CONFIG.EmConfig.COUNTRIES as |country key|}}
+                        {{#each (getCountry undefined) as |country key|}}
                             <option class="w3-white w3-border-bottom" data-tosave="{{key}}" {{#if (eq key ../actor.system.info.nationality) }}selected="true"{{/if}}>{{key}}</option>
                         {{/each}}
                     </select>
                 {{else}}
                     {{!-- population name --}}
-                    {{#with (fetch CONFIG.EmConfig.COUNTRIES actor.system.info.nationality) as |country|}}
+                    {{#with (getCountry actor.system.info.nationality) as |country|}}
                         <input class="em_form_inputElement em_passport_field em_passport_input em_halfLeftMargin" type="text" name="pop_name" value="{{i18n country.system.population.name}}" disabled="true" readonly="true">
                     {{/with}}
                 {{/if}}

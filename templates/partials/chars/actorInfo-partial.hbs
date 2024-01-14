@@ -113,12 +113,12 @@
 <div class="em_skill_wrapper em_searchable_wrapper">
     <h3 class="em_skill_title">skills</h3>
     {{!-- searchbar --}}
-    <div class="w3-border em_inputContainer em_halfTopMargin">
+    <div class="w3-border em_inputContainer em_halfTopMargin" style="margin-bottom : 0;">
         <input id="em_skill_searchbar" class="em_input em_searchbar" data-id="em_skill_search" data-search="startsWith">
         <i class="em_inputIcon fa-solid fa-search"></i>
     </div>
     {{!-- skill tags | hard coded --}}
-    <div class="w3-border em_tagContainer" tagsFor="em_skill_search">
+    <div class="em_tagContainer" style="border-left: 1px solid #ccc;border-right: 1px solid #ccc;" tagsFor="em_skill_search">
         <button class="w3-round-large w3-hover-black w3-border em_noShadow em_searchbarTag em_toggleBtn" tag="move" active="false">move</button>
         <button class="w3-round-large w3-hover-black w3-border em_noShadow em_searchbarTag em_toggleBtn" tag="detective" active="false">detective</button>
         <button class="w3-round-large w3-hover-black w3-border em_noShadow em_searchbarTag em_toggleBtn" tag="knowledge" active="false">knowledge</button>

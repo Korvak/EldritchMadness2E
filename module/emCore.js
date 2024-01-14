@@ -105,20 +105,30 @@ export async function createToken(actor, coords, scene) {
     }
 }
 
-export async function getCountryByName(name) {
+export async function getCountryByName(name = undefined) {
     /** returns the country with the given name by searching the contents of the country folder.
+     *  assumes that only actor of type country are in the folder.
      *  @param {string} name : the name of the country actor to find.
      * 
-     *  @returns {country} : an actor of country type.
+     *  @returns {country} : an actor of country type or all if name is undefined.
      */
     let folder = await Folder.get(EmConfig.FOLDERS["COUNTRIES"].id);
     if (folder == undefined) {
-        console.error("country folder doesn't exist or is mismatched in the config.");
+        console.error("the country folder doesn't exist or is mismatched in the config.");
         return undefined;
     }
+    //checks if we want all the countries or only the passed one.
+    if (name == undefined) {
+        //returns a dictionary countryName : countryActor
+        let countries = {};
+        for (let country of folder.contents) {
+            countries[country.name] = country;
+        }
+        return countries;
+    }
     //checks the actor name and not the system.name.
-    for (let country of folder.content) {
-        if (country.name == name && country.type == "country") {return country;}
-    } //in not found returns undefined
+    for (let country of folder.contents) {
+        if (country.name == name) {return country;}
+    } //if not found returns undefined
     return undefined;
 }
