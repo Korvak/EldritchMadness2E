@@ -1,15 +1,21 @@
-import {EmConfig} from "./module/config.js"
-import {normalize} from "./module/utils.js";
-import {translate, getFolderByName, encaseItem, createToken, getCountryByName} from "./module/emCore.js"
+//#region configs
+  import {EmConfig} from "./module/config.js"
+  import {EmGlobalConfig} from "./module/globalConfig.js";
+//#endregion
+//#region util functions
+  import {normalize} from "./module/utils.js";
+  import {translate, getFolderByName, encaseItem, createToken, getCountryByName} from "./module/emCore.js"
+//#endregion
 //#region actor class imports
-import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
-import EmBasePawnSheet from "./module/sheet/actors/EmBasePawnSheet.js";
-import EmBaseCharacterSheet from "./module/sheet/actors/EmBaseCharacterSheet.js";
-//child actor class imports
-import EmCountrySheet from "./module/sheet/child/actors/EmCountrySheet.js";
+  import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
+  import EmBasePawnSheet from "./module/sheet/actors/EmBasePawnSheet.js";
+  import EmBaseCharacterSheet from "./module/sheet/actors/EmBaseCharacterSheet.js";
+  //child actor class imports
+    import EmCountrySheet from "./module/sheet/child/actors/EmCountrySheet.js";
+  //#endregion
 //#endregion
 //#region item class imports
-import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
+  import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
 //#endregion
 
 //#region handlebars functions
@@ -175,6 +181,7 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
             else {return game.user;}
         });
         //returns the country/countries
+        console.error("getCountry doesn't work because it's an async function");
         Handlebars.registerHelper('getCountry', getCountryByName);
 
       //#endregion
@@ -321,7 +328,7 @@ import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
       await checkFolders();
       //checks if any country exists and sets the main countries in the config
       await checkCountries();
-
+      console.warn(getCountryByName());
   });
 
 //#endregion 
