@@ -393,5 +393,11 @@
     "errors" : {
         "missingViewAuthorization" : "you do not have the authorization to view this page.",
         "missingAnatomyType" : "error no anatomy view type was found. Cannot render the actor's anatomy."
+    },
+    "SETTINGS" : {
+        "defaultLootActor" : {
+            "name" : "default loot actor type",
+            "label" : "Hold shift to toggle"
+        }
     }
 }

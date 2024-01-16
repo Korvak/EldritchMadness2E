@@ -43,6 +43,12 @@ export const EmGlobalConfig = {
         },
 
     //#endregion
+    //#region system settings
+
+        DEFAULT: {
+            LOOT_ACTOR_TYPE : "lootBag"
+        },
+    //#endregion
     //#region enums
         //here should be all the neutral enums that do not logically belong to either the actor or item
         

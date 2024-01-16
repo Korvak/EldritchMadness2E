@@ -5,9 +5,9 @@
             {{!-- from the country we fetch the government name to translate --}}
             {{#with (fetch CONFIG.EmConfig.COUNTRIES actor.system.info.nationality) as |country|}}
                 {{#with (fetch ../CONFIG.EmConfig.GOVERNMENTS country.system.government.type) as |government| }}
-                    {{i18n government.name}} {{i18n government.preposition}}
+                    {{localize government.name}} {{localize government.preposition}}
                 {{/with }}
-                    {{i18n country.system.name}}
+                    {{localize country.system.name}}
                 <img class="em_passport_country_icon" src="{{country.system.icon}}" width="32" height="32">
             {{/with}}
         </h2>
@@ -19,7 +19,7 @@
         <div class="em_passport_fieldsContainer w3-section"> {{!-- this fields should be stacked one below the other --}}
             {{!-- nationality --}}
             <div class="em_form_inputContainer">
-                <label class="em_form_inputElement em_passport_field em_passport_label">{{i18n "em.actors.passport.fields.nationality"}}</label>
+                <label class="em_form_inputElement em_passport_field em_passport_label">{{localize "em.actors.passport.fields.nationality"}}</label>
                 <!--#region nationality -->
                 {{!-- GM settable nationality --}}
                 {{#if (hasRole "KEEPER")}}
@@ -31,36 +31,36 @@
                 {{else}}
                     {{!-- population name --}}
                     {{#with (getCountry actor.system.info.nationality) as |country|}}
-                        <input class="em_form_inputElement em_passport_field em_passport_input em_halfLeftMargin" type="text" name="pop_name" value="{{i18n country.system.population.name}}" disabled="true" readonly="true">
+                        <input class="em_form_inputElement em_passport_field em_passport_input em_halfLeftMargin" type="text" name="pop_name" value="{{localize country.system.population.name}}" disabled="true" readonly="true">
                     {{/with}}
                 {{/if}}
                 <!--#endregion -->
             </div>
             {{!-- sex --}}
             <div class="em_form_inputContainer">
-                <label class="em_form_inputElement em_passport_field em_passport_label">{{i18n "em.actors.passport.fields.sex"}}</label>
+                <label class="em_form_inputElement em_passport_field em_passport_label">{{localize "em.actors.passport.fields.sex"}}</label>
                 <select class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" name="actor.system.anatomy.sex" {{#unless (hasRole "KEEPER")}}disabled="true" disabled="true" readonly="true"{{/unless}}>
                     {{#each CONFIG.EmConfig.SEX as |this key|}}
                         <option class="w3-white w3-center w3-border-bottom" data-tosave="{{key}}" {{#if (eq key ../actor.system.anatomy.sex)}}selected="true"{{/if}}>
-                            {{i18n this.short}} ({{i18n this.label}})
+                            {{localize this.short}} ({{localize this.label}})
                         </option>
                     {{/each}}
                 </select>
             </div>
             {{!-- birth date --}}
             <div class="em_form_inputContainer">
-                <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.info.origin.birthDate">{{i18n "em.actors.passport.fields.birthDate"}}</label>
+                <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.info.origin.birthDate">{{localize "em.actors.passport.fields.birthDate"}}</label>
                 <input class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow w3-center" type="date" name="actor.system.info.origin.birthDate" value="{{actor.system.info.origin.birthDate}}" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true" style="flex: 0.7;font-size : 0.9em;"{{/unless}}>
             </div>
             {{!-- born in --}}
             <div class="em_form_inputContainer">
-                <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.info.origin.address">{{i18n "em.actors.passport.fields.born"}}</label>
+                <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.info.origin.address">{{localize "em.actors.passport.fields.born"}}</label>
                 <input class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" type="text" name="actor.system.info.origin.address" value="{{actor.system.info.origin.address}}" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
             </div>
             {{!-- work --}}
             <div class="em_form_inputContainer">
                 {{!-- this is a long... fetch --}} 
-                <label class="em_form_inputElement em_passport_field em_passport_label">{{i18n "em.actors.passport.fields.work"}}</label>
+                <label class="em_form_inputElement em_passport_field em_passport_label">{{localize "em.actors.passport.fields.work"}}</label>
                 {{!-- first we fetch the current Growth cycle and from it we get the background--}}
                 {{#with (fetch actor.system.anatomy.growthCycle  actor.system.anatomy.currentGrowthStage) as |stage|}} 
                     {{!-- then we fetch the background data from the config by using the key stored in the growthCycle.background --}}
@@ -102,17 +102,17 @@
         <div id="em_passport_beyonderData" class="em_marginContainer w3-section w3-border w3-card-4 w3-round-large">
             <h3 class="w3-display-container">
                 <img class="w3-border-0" src="systems/EM2E/resources/images/ui/3d_pin_topleft.png" width="32" height="32"/>
-                {{i18n "em.actors.passport.fields.beyonderBureau"}}
+                {{localize "em.actors.passport.fields.beyonderBureau"}}
             </h3>
             <div class="w3-container">
                 {{!-- arcana --}}
                 <div class="em_form_inputContainer">
-                    <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.class.arcana">{{i18n "em.actors.passport.fields.arcana"}}</label>
+                    <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.class.arcana">{{localize "em.actors.passport.fields.arcana"}}</label>
                     <input class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" type="text" name="actor.system.class.arcana" value="{{actor.system.class.arcana}}" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
                 </div>
                 {{!-- sequence --}}
                 <div class="em_form_inputContainer">
-                    <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.class.sequence">{{i18n "em.actors.passport.fields.sequence"}}</label>
+                    <label class="em_form_inputElement em_passport_field em_passport_label" for="actor.system.class.sequence">{{localize "em.actors.passport.fields.sequence"}}</label>
                     <input class="em_form_inputElement em_passport_field em_passport_input em_inline-field em_noShadow" type="text" name="actor.system.class.sequence" value="{{actor.system.class.sequence}}" {{#unless (hasRole "KEEPER")}}disabled="true" readonly="true"{{/unless}}>
                 </div> 
             </div>
@@ -124,9 +124,9 @@
             {{!-- from the country we fetch the government name to translate --}}
             {{#with (fetch CONFIG.EmConfig.COUNTRIES actor.system.info.nationality) as |country|}}
                 {{#with (fetch ../CONFIG.EmConfig.GOVERNMENTS country.system.government.type) as |government| }}
-                    {{i18n government.name}} {{i18n government.preposition}}
+                    {{localize government.name}} {{localize government.preposition}}
                 {{/with }}
-                    {{i18n country.system.name}}
+                    {{localize country.system.name}}
             {{/with}}
         </h4>
     </div>

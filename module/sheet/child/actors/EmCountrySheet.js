@@ -18,7 +18,7 @@ export default class EmCountrySheet extends EmBaseActorSheet {
         const self = this.getData();
         //now we check if the actor already exists in the country folder and it's not them.
         let country = await getCountryByName(self.actor.name);
-        if (country._id != self.actor._id) { //then it violates the singleton rule
+        if (country != undefined && country._id != self.actor._id) { //then it violates the singleton rule
             //we notify the user and then delete the actor
             alert(`Countries are singletons with unique names.\nPlease change or remove ${country._id} if you want to create another country named : ${country.name}`);
             this.render(false); //closes the sheet 

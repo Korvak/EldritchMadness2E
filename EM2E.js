@@ -1,21 +1,23 @@
-//#region configs
-  import {EmConfig} from "./module/config.js"
-  import {EmGlobalConfig} from "./module/globalConfig.js";
-//#endregion
-//#region util functions
-  import {normalize} from "./module/utils.js";
-  import {translate, getFolderByName, encaseItem, createToken, getCountryByName} from "./module/emCore.js"
-//#endregion
-//#region actor class imports
-  import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
-  import EmBasePawnSheet from "./module/sheet/actors/EmBasePawnSheet.js";
-  import EmBaseCharacterSheet from "./module/sheet/actors/EmBaseCharacterSheet.js";
-  //child actor class imports
-    import EmCountrySheet from "./module/sheet/child/actors/EmCountrySheet.js";
+//#region imports
+  //#region configs
+    import {EmConfig} from "./module/config.js"
+    import { EmSettings } from "./module/settings.js";
+    import {EmGlobalConfig} from "./module/globalConfig.js";
   //#endregion
-//#endregion
-//#region item class imports
-  import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
+  //#region util functions
+    import {normalize} from "./module/utils.js";
+    import {translate, getFolderByName, encaseItem, createToken, getCountryByName} from "./module/emCore.js"
+  //#endregion
+  //#region actor class imports
+    import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
+    import EmBasePawnSheet from "./module/sheet/actors/EmBasePawnSheet.js";
+    import EmBaseCharacterSheet from "./module/sheet/actors/EmBaseCharacterSheet.js";
+    //child actor class imports
+      import EmCountrySheet from "./module/sheet/child/actors/EmCountrySheet.js";
+    //#endregion
+  //#region item class imports
+    import EmBaseItemSheet from "./module/sheet/items/EmBaseItemSheet.js";
+  //#endregion
 //#endregion
 
 //#region handlebars functions
@@ -75,11 +77,15 @@
       //#region Foundry helpers
 
         Handlebars.registerHelper('i18n', function(key) {
+          console.warn("i18n is deprecated, please use localize instead.");
+          return translate(key);
+        });
+        Handlebars.registerHelper('localize', function(key) {
           return translate(key);
         });
 
         Handlebars.registerHelper('hasRole', function(role) {
-            role = EmConfig.ROLES[role];
+            role = EmGlobalConfig.ROLES[role];
             return game.user.role >= role;
         }); 
 
@@ -181,8 +187,12 @@
             else {return game.user;}
         });
         //returns the country/countries
-        console.error("getCountry doesn't work because it's an async function");
-        Handlebars.registerHelper('getCountry', getCountryByName);
+        Handlebars.registerHelper('getCountry', function(name = undefined) {
+            if (name != undefined) {
+              return EmGlobalConfig[name];
+            }
+            else {return EmGlobalConfig.COUNTRIES;}
+        });
 
       //#endregion
   }
@@ -191,12 +201,13 @@
 //#region helper functions
 
     function registerSheets() {
+      //registers all the item sheets binding them to their respective type
         //#region register item sheets
           Items.unregisterSheet("core", ItemSheet);
           Items.registerSheet("EM2E", EmBaseItemSheet, {makeDefault: true});
-          //#endregion
+        //#endregion
 
-          //#region register actor sheets
+        //#region register actor sheets
           Actors.unregisterSheet("core", ActorSheet);
           Actors.registerSheet(
             "EM2E", 
@@ -230,18 +241,40 @@
         //#endregion
     }
 
+    function registerSettings() {
+        /** loads the settings from a list and registers them
+         *  refer to the documentation for the structure explanation.
+         */
+        for (let category in EmSettings ) {
+            //we cycle the systems / tabs
+            for (let settingName in EmSettings[category] ) {
+                //we cycle each setting and register it
+                try { //we register the setting in a try catch in case some settings are badly formatted
+                  game.settings.register(category, settingName, EmSettings[category][settingName]);
+                }
+                catch(error) {console.error(error.message);}
+            }
+        }
+    }
 
     async function checkCountries() {
-        /** it checks if at least a country exists
+        /** checks if the country folder is structured correctly and inserts the countries in the config list.
          * 
          */
-        let folder = await Folder.get(EmConfig.FOLDERS["COUNTRIES"].id); //await getFolderByName(EmConfig.FOLDERS["LOOTBAGS"].name);
+        let folder = await Folder.get(EmGlobalConfig.FOLDERS["COUNTRIES"].id); //await getFolderByName(EmGlobalConfig.FOLDERS["LOOTBAGS"].name);
         let countries = folder.contents.filter(country => country.type == "country");
+        //launches error if 
         if (folder.contents.length > countries.length) {
-          alert(`the ${EmConfig.FOLDERS["COUNTRIES"].name} folder should only contain actor of type 'country'.`);
+          alert(`the ${EmGlobalConfig.FOLDERS["COUNTRIES"].name} folder should only contain actor of type 'country'.`);
         }
+        //launches error if no countries
         if (countries.length < 1) {
-          alert(`the ${EmConfig.FOLDERS["COUNTRIES"].name} folder should contain at least one actor of type 'country'.`);
+          alert(`the ${EmGlobalConfig.FOLDERS["COUNTRIES"].name} folder should contain at least one actor of type 'country'.`);
+        }
+        //doesn't matter the first error but not having countries will not set the countries config list
+        //here we set all the countries in the config in a name : country dictionary structure since if you have the id you can get it easily
+        for (let country of countries) {
+          EmGlobalConfig.COUNTRIES[country.name] = country;
         }
     }
 
@@ -252,7 +285,7 @@
         //we fetch the list of folders to check from the config
         let folder = undefined;
         //cycles all folders in the config and checks if they exist
-        for (let configFolder of Object.values(EmConfig.FOLDERS) ) {
+        for (let configFolder of Object.values(EmGlobalConfig.FOLDERS) ) {
             folder = await getFolderByName(configFolder.name);
             if (folder === undefined) { //if missing we create it
                 folder = await Folder.create({
@@ -267,13 +300,13 @@
 
     async function createLootbagOnDrop(canvas, data) {
         //we encase the element in a loot actor
-        let folder = await Folder.get(EmConfig.FOLDERS["LOOTBAGS"].id); //await getFolderByName(EmConfig.FOLDERS["LOOTBAGS"].name);
+        let folder = await Folder.get(EmGlobalConfig.FOLDERS["LOOTBAGS"].id); //await getFolderByName(EmGlobalConfig.FOLDERS["LOOTBAGS"].name);
         console.warn(folder);
         let actor = await encaseItem(
             data.uuid,
             {
               name : 'lootbag',
-              type : EmConfig.DEFAULT_LOOT_ACTOR,
+              type : EmGlobalConfig.DEFAULT.LOOT_ACTOR_TYPE,
               data : {
                 folder : folder,
                 permission : {
@@ -308,6 +341,11 @@
 
   });
 
+  Hooks.on('renderSettingsConfig', function(app, html, options) {
+    const systemTab = $(app.form).find('.tab[data-tab=system]');
+    console.warn(systemTab);
+  });
+
 //#endregion
 
 //#region start
@@ -316,8 +354,10 @@
       //starting messages
       console.log("loading EM 2E");
       //we insert our Config into the Global Config object
+      CONFIG.EmGlobalConfig = EmGlobalConfig;
       CONFIG.EmConfig = EmConfig;
 
+      registerSettings();
       registerSheets();
       registerHandlebars();
       preloadHandlebarsTemplates();
@@ -328,7 +368,9 @@
       await checkFolders();
       //checks if any country exists and sets the main countries in the config
       await checkCountries();
-      console.warn(getCountryByName());
+
+      // Set a new value for the setting
+      //await game.settings.set("EM2E", "loot", "test");
   });
 
 //#endregion 

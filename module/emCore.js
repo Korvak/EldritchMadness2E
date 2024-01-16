@@ -1,4 +1,5 @@
-import {EmConfig} from "./config.js"
+import { EmGlobalConfig } from "./globalConfig.js";
+
 
 export function translate(key) {
     /** translate a localization key in the form of a string by using the Foundry in-built localization system.
@@ -112,7 +113,7 @@ export async function getCountryByName(name = undefined) {
      * 
      *  @returns {country} : an actor of country type or all if name is undefined.
      */
-    let folder = await Folder.get(EmConfig.FOLDERS["COUNTRIES"].id);
+    let folder = await Folder.get(EmGlobalConfig.FOLDERS["COUNTRIES"].id);
     if (folder == undefined) {
         console.error("the country folder doesn't exist or is mismatched in the config.");
         return undefined;

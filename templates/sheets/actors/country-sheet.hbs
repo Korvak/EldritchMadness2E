@@ -3,9 +3,9 @@
         <h1>
             <img class="em_halfBottomMargin w3-border-0" src="{{actor.img}}" title="{{actor.name}}" width="64px" height="64px">
             {{#with (fetch CONFIG.EmConfig.GOVERNMENTS actor.system.government.type) as |government| }}
-                {{i18n government.name}} {{i18n government.preposition}}
+                {{localize government.name}} {{localize government.preposition}}
             {{/with}}
-            {{i18n actor.system.name}}
+            {{localize actor.system.name}}
         </h1>
         <table class="em_table w3-table w3-bordered">
             <thead>
@@ -41,14 +41,14 @@
                     <td class="w3-center w3-light-gray">
                         <input class="em_inline-field w3-border-0 w3-light-gray" name="actor.system.name" value="{{actor.system.name}}">
                     </td>
-                    <td class="w3-center">{{i18n actor.system.name}}</td>
+                    <td class="w3-center">{{localize actor.system.name}}</td>
                 </tr>
                 <tr>
                     <td class="w3-left">population name</td>
                     <td class="w3-center w3-light-gray">
                         <input class="em_inline-field w3-border-0 w3-light-gray" name="actor.system.population.name" value="{{actor.system.population.name}}">
                     </td>
-                    <td class="w3-center">{{i18n actor.system.population.name}}</td>
+                    <td class="w3-center">{{localize actor.system.population.name}}</td>
                 </tr>
                 <tr>
                     <td class="w3-left">description</td>
@@ -56,7 +56,7 @@
                         <input class="em_inline-field w3-border-0 w3-light-gray" name="actor.system.desc" value="{{actor.system.desc}}">
                     </td>
                     <td class="w3-center">
-                        <textarea class="w3-left w3-white w3-border-0 form-textarea em_halfRightMargin">{{i18n actor.system.desc}}</textarea>
+                        <textarea class="w3-left w3-white w3-border-0 form-textarea em_halfRightMargin">{{localize actor.system.desc}}</textarea>
                     </td>
                 </tr>
                 {{!-- government data --}}
@@ -80,10 +80,10 @@
                     <td class="w3-center">{{actor.system.government.type}}</td>
                 </tr>
                 <tr>
-                    {{#with (fetch CONFIG.EmConfig.GOVERNMENTS actor.system.government.type) as |government| }}
+                    {{#with (fetch CONFIG.EmGlobalConfig.GOVERNMENTS actor.system.government.type) as |government| }}
                         <td class="w3-left">government name</td>
                         <td class="w3-light-gray">{{government.name}}</td>
-                        <td class="w3-center">{{i18n government.name}}</td>
+                        <td class="w3-center">{{localize government.name}}</td>
                     {{/with}}
                 </tr>
                 {{!-- economy data --}}
@@ -98,7 +98,7 @@
                         <input class="em_inline-field w3-border-0 w3-light-gray" name="actor.system.economy.coin_icon" value="{{actor.system.economy.coin_icon}}">
                     </td>
                     <td class="w3-center">
-                        <i>{{i18n actor.system.economy.coin_icon}}</i>
+                        <i>{{localize actor.system.economy.coin_icon}}</i>
                     </td>
                 </tr>
                 <tr>
@@ -113,7 +113,7 @@
                     <td class="w3-center w3-light-gray">
                         <input class="em_inline-field w3-border-0 w3-light-gray" name="actor.system.economy.coin_name" value="{{actor.system.economy.coin_name}}">
                     </td>
-                    <td class="w3-center">{{i18n actor.system.economy.coin_name}}</td>
+                    <td class="w3-center">{{localize actor.system.economy.coin_name}}</td>
                 </tr>
             </tbody>
         </table>
@@ -123,6 +123,6 @@
 
 
     {{else}}
-        <h1>{{i18n errors.missingViewAuthorization}}</h1>
+        <h1>{{localize errors.missingViewAuthorization}}</h1>
     {{/if}}
 </form>
