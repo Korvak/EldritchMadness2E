@@ -1,7 +1,7 @@
 //#region imports
   //#region configs
     import {EmConfig} from "./module/config.js"
-    import { EmSettings } from "./module/settings.js";
+    import { EmSettings, buildSettings } from "./module/settings.js";
     import {EmGlobalConfig} from "./module/globalConfig.js";
   //#endregion
   //#region util functions
@@ -301,12 +301,12 @@
     async function createLootbagOnDrop(canvas, data) {
         //we encase the element in a loot actor
         let folder = await Folder.get(EmGlobalConfig.FOLDERS["LOOTBAGS"].id); //await getFolderByName(EmGlobalConfig.FOLDERS["LOOTBAGS"].name);
-        console.warn(folder);
+        let lootActorType = await game.settings.get("EM2E","defaultLootActor");
         let actor = await encaseItem(
             data.uuid,
             {
               name : 'lootbag',
-              type : EmGlobalConfig.DEFAULT.LOOT_ACTOR_TYPE,
+              type : lootActorType,
               data : {
                 folder : folder,
                 permission : {
@@ -357,13 +357,16 @@
       CONFIG.EmGlobalConfig = EmGlobalConfig;
       CONFIG.EmConfig = EmConfig;
 
-      registerSettings();
       registerSheets();
       registerHandlebars();
       preloadHandlebarsTemplates();
   });
 
   Hooks.once("ready", async function() {
+      //must be called before registering the settings or some settings may be malformed
+      await buildSettings();
+      //for now since we have data that depends on the data that is registered in the init hook we register the settings here.
+      registerSettings();
       //checks and create the folders
       await checkFolders();
       //checks if any country exists and sets the main countries in the config
