@@ -316,15 +316,12 @@
                 "injury" : "injury",
                 "psyche" : "psyche"
             },
-            "anatomy" : {
-                "default_anatomy_name" : "bodypart",
-                "partTypes" : {
-                    "torso" : "torso",
-                    "arm" : "arm",
-                    "leg" : "leg",
-                    "organ" : "organ",
-                    "vestigial" : "vestigial"
-                }
+            "partTypes" : {
+                "torso" : "torso",
+                "arm" : "arm",
+                "leg" : "leg",
+                "organ" : "organ",
+                "vestigial" : "vestigial"
             },
             "passport" : {
                 "fields" : {
@@ -396,8 +393,29 @@
     },
     "SETTINGS" : {
         "defaultLootActor" : {
-            "name" : "default loot actor type",
-            "label" : "Hold shift to toggle"
+            "name" : "loot actor type",
+            "label" : "the loot actor that gets used when dragging an item to the scene."
+        },
+        "ANATOMY" : {
+            "defaultAnatomyPartName" : {
+            "name" : "default bodypart name",
+            "label" : "then name of the bodypart when creating it."
+            },
+            "defaultRootType" : {
+                "name" : "default root part type",
+                "label" : "the default root type of a created anatomy."
+            },
+            "defaultAnatomyPartType" : {
+                "name" : "default bodypart type",
+                "label" : "the starting type of all created bodyparts."
+            },
+            "PARTS" : {
+                "torso" : "torso",
+                "arm" : "arm",
+                "leg" : "leg",
+                "organ" : "organ",
+                "vestigial" : "vestigial"
+            }
         }
     }
 }
