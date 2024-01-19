@@ -15,7 +15,7 @@
     },
     "esmodules" : [
         "resources/turnjs4/lib/turn.min.js",
-        "module/utils.js",
+        "module/libraries/utils.js",
         "EM2E.js"
     ],
     "styles" : [

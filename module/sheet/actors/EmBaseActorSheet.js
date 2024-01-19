@@ -1,9 +1,10 @@
-import {fieldToObject, overwriteObjectFields, getValueFromFields} from "../../utils.js"
+import {fieldToObject, overwriteObjectFields, getValueFromFields} from "../../libraries/utils.js"
 import {
     toggleDropdown, toggleReadonly,
     renderBar, searchByTags , toggleBtnState 
-} from "../../htmlUtils.js"
-
+} from "../../libraries/htmlUtils.js"
+import { EmGlobalConfig } from "../../configs/globalConfig.js";
+import { EmActorConfig } from "../../configs/actorConfig.js";
 
 export default class EmBaseActorSheet extends ActorSheet {
 
@@ -25,6 +26,8 @@ export default class EmBaseActorSheet extends ActorSheet {
             let data = super.getData();
             //system holds all the data
             data.CONFIG = CONFIG;
+            data.EmGlobalConfig = EmGlobalConfig;
+            data.EmActorConfig = EmActorConfig;
             data.SHEET_FUNCS = this._getSheetMethods();
             return data;
         }
@@ -97,7 +100,7 @@ export default class EmBaseActorSheet extends ActorSheet {
     //#endregion
     //#region start method
 
-        _onStart() {
+        async _onStart() {
             /** empty for now
              * 
              */

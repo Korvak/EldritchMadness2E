@@ -115,7 +115,7 @@ export const EmSettings = {
                 default : 25,
                 range : {
                     min : 0,
-                    max : 100,
+                    max : 1000,
                     step : 1
                 },
                 onchange : value => {
@@ -132,7 +132,7 @@ export const EmSettings = {
                 default : 37,
                 range : {
                     min : 0,
-                    max : 100,
+                    max : 1000,
                     step : 1
                 },
                 onchange : value => {
@@ -208,6 +208,18 @@ export const EmSettings = {
 
 //#endregion
 
+
+export function findModule(settingName) {
+    /** we check all the modules inside the settings json which is quite fast since they are objects
+     *  @param {string} settingName : The name of the setting to search
+     *  
+     *  @returns {string} : returns the name of the module or undefined if the setting name is not found
+     */
+    for (let module in EmSettings) {
+        if (EmSettings[module][settingName] != undefined) {return module;}
+    }
+    return undefined;
+}
 
 export async function buildSettings(...params) {
     /** some settings require the system to build or register some data.

@@ -2,7 +2,7 @@
     {{#if (hasRole "KEEPER")}}
         <h1>
             <img class="em_halfBottomMargin w3-border-0" src="{{actor.img}}" title="{{actor.name}}" width="64px" height="64px">
-            {{#with (fetch CONFIG.EmConfig.GOVERNMENTS actor.system.government.type) as |government| }}
+            {{#with (fetch EmActorConfig.GOVERNMENTS actor.system.government.type) as |government| }}
                 {{localize government.name}} {{localize government.preposition}}
             {{/with}}
             {{localize actor.system.name}}
@@ -41,14 +41,14 @@
                     <td class="w3-center w3-light-gray">
                         <input class="em_inline-field w3-border-0 w3-light-gray" name="actor.system.name" value="{{actor.system.name}}">
                     </td>
-                    <td class="w3-center">{{localize actor.system.name}}</td>
+                    <td class="w3-center">{{actor.system.name}}</td>
                 </tr>
                 <tr>
                     <td class="w3-left">population name</td>
                     <td class="w3-center w3-light-gray">
                         <input class="em_inline-field w3-border-0 w3-light-gray" name="actor.system.population.name" value="{{actor.system.population.name}}">
                     </td>
-                    <td class="w3-center">{{localize actor.system.population.name}}</td>
+                    <td class="w3-center">{{actor.system.population.name}}</td>
                 </tr>
                 <tr>
                     <td class="w3-left">description</td>
@@ -56,7 +56,7 @@
                         <input class="em_inline-field w3-border-0 w3-light-gray" name="actor.system.desc" value="{{actor.system.desc}}">
                     </td>
                     <td class="w3-center">
-                        <textarea class="w3-left w3-white w3-border-0 form-textarea em_halfRightMargin">{{localize actor.system.desc}}</textarea>
+                        <textarea class="w3-left w3-white w3-border-0 form-textarea em_halfRightMargin">{{actor.system.desc}}</textarea>
                     </td>
                 </tr>
                 {{!-- government data --}}
@@ -70,7 +70,7 @@
                     <td class="w3-left">government</td>
                     <td class="w3-center w3-light-gray">
                         <select class="em_inline-field em_noShadow w3-border-0 w3-light-gray" name="actor.system.government.type">
-                            {{#each CONFIG.EmConfig.GOVERNMENTS as |this key|}}
+                            {{#each EmActorConfig.GOVERNMENTS as |this key|}}
                                 <option class="w3-white" data-tosave="{{key}}" {{#if (eq key ../actor.system.government.type)}}selected="true"{{/if}}>
                                     {{key}}
                                 </option> 
@@ -80,7 +80,7 @@
                     <td class="w3-center">{{actor.system.government.type}}</td>
                 </tr>
                 <tr>
-                    {{#with (fetch CONFIG.EmGlobalConfig.GOVERNMENTS actor.system.government.type) as |government| }}
+                    {{#with (fetch EmActorConfig.GOVERNMENTS actor.system.government.type) as |government| }}
                         <td class="w3-left">government name</td>
                         <td class="w3-light-gray">{{government.name}}</td>
                         <td class="w3-center">{{localize government.name}}</td>

@@ -1,14 +1,14 @@
 //#region imports
   //#region configs
-    import {EmConfig} from "./module/config.js"  //deprecated
-    import { EmSettings, buildSettings, createArraySettingUI } from "./module/settings.js";
-    import {EmGlobalConfig} from "./module/globalConfig.js";
-    import { EmActorConfig } from "./module/actorConfig.js";
-    import { EmItemConfig } from "./module/itemConfig.js";
+    import {EmConfig} from "./module/deprecated_config.js"  //deprecated
+    import { EmSettings, buildSettings, createArraySettingUI } from "./module/configs/settings.js";
+    import {EmGlobalConfig} from "./module/configs/globalConfig.js";
+    import { EmActorConfig } from "./module/configs/actorConfig.js";
+    import { EmItemConfig } from "./module/configs/itemConfig.js";
   //#endregion
   //#region util functions
-    import {normalize} from "./module/utils.js";
-    import {translate, getFolderByName, encaseItem, createToken, getCountryByName} from "./module/emCore.js"
+    import {normalize} from "./module/libraries/utils.js";
+    import {translate, getFolderByName, encaseItem, createToken, getCountryByName} from "./module/libraries/emCore.js"
   //#endregion
   //#region actor class imports
     import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
@@ -374,7 +374,7 @@
               setting = systemTab.find(".setting-array"); //this is the div that contains the setting html elements
               setting.each(createArraySettingUI); //the function is in another library to prevent code clutter
           //#endregion
-              
+
           
 
 
@@ -392,13 +392,6 @@
   Hooks.once("init", async function() {
       //starting messages
       console.log("loading Eldritch Madness 2nd Edition");
-      //we insert our Config into the Global Config object
-      CONFIG.EmGlobalConfig = EmGlobalConfig;
-      CONFIG.EmActorConfig = EmActorConfig;
-      CONFIG.EmItemConfig = EmItemConfig;
-      CONFIG.EmConfig = EmConfig; //deprecated
-      console.warn("EmConfig is deprecated.");
-
       registerSheets();
       registerHandlebars();
       preloadHandlebarsTemplates();

@@ -1,7 +1,7 @@
 import EmBaseActorSheet from "./EmBaseActorSheet.js"
-import {treeBreadthSearch} from "../../utils.js"
-import {setInputsFromData, selectOptionsFromData, setBarValue} from "../../htmlUtils.js"
-import {translate} from "../../emCore.js"
+import {treeBreadthSearch} from "../../libraries/utils.js"
+import {setInputsFromData, selectOptionsFromData, setBarValue} from "../../libraries/htmlUtils.js"
+import {translate} from "../../libraries/emCore.js"
 
 export default class EmBasePawnSheet extends EmBaseActorSheet {
     
@@ -68,8 +68,8 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
             });
         }
 
-        _onStart() {
-            super._onStart();
+        async _onStart() {
+            await super._onStart();
             let html = this.element.find("form");
             //we set the default data if needs loading
             this._displayBodypart(this.getAnatomy().tree.id);

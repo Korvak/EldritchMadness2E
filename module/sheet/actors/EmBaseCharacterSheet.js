@@ -1,5 +1,5 @@
 import EmBasePawnSheet from "./EmBasePawnSheet.js"
-
+import { findModule } from "../../configs/settings.js";
 
 export default class EmBaseCharacterSheet extends EmBasePawnSheet {
 
@@ -114,15 +114,22 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
                 return funcs;
             }
 
-            _onStart() {
+            async _onStart() {
                 let html = this.element.find("form");
                 //#region before logic
                     //first we start turn.js
+                    let margin = {
+                        width : await game.settings.get( findModule("flipbookWMargin"), "flipbookWMargin" ),
+                        height : await game.settings.get( findModule("flipbookHMargin"), "flipbookHMargin" )
+                    };
+                    margin.width = html.width() - margin.width;
+                    margin.height = html.height() - margin.height;
+
                     let flipbook = html.find("#flipbook");
                     flipbook.prop("controlled", false);
                     flipbook.turn({
-                        width: html.width() - CONFIG.EmConfig.flipbook.wMargin,
-                        height: html.height() - CONFIG.EmConfig.flipbook.hMargin,
+                        width: html.width() - margin.width,
+                        height: html.height() - margin.height,
                         autoCenter: true,
                         display : "double",
                         peel : false,
@@ -151,7 +158,7 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
                     }
                 //#endregion
                 //#endregion
-                super._onStart();
+                await super._onStart();
                 //after logic
             }
 

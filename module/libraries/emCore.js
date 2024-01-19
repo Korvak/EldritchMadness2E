@@ -1,4 +1,4 @@
-import { EmGlobalConfig } from "./globalConfig.js";
+import { EmGlobalConfig } from "../configs/globalConfig.js";
 
 
 export function translate(key) {

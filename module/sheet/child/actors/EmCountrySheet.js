@@ -1,5 +1,5 @@
 import EmBaseActorSheet from "../../actors/EmBaseActorSheet.js"
-import {getCountryByName} from "../../../emCore.js"
+import {getCountryByName} from "../../../libraries/emCore.js"
 
 export default class EmCountrySheet extends EmBaseActorSheet {
     /** since a country has its own functionality and logic, it deserves another sheet class
