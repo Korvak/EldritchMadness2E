@@ -34,8 +34,8 @@ X Expand the searchbar to allow tags that are removable and togglelable?
 ✓ Decide if the Country should be an actor or an item
     - Country should be and actor since it can contain items. It shouldn't ever be displayed as a token in the scenes.
  
-° Make a Compendium for the Countries and make a Country fetch method.
+✓ Make a Compendium for the Countries and make a Country fetch method.
 
+° Make an item class for backgrounds and skills or make a way to add them through a setting etc...
 
-
-° Decide if the Country should be an actor or an item
+✓ Decide if the Country should be an actor or an item : country should be an actor

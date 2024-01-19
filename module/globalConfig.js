@@ -54,15 +54,8 @@ export const EmGlobalConfig = {
 
 
     //#endregion
-    
-    MEDICAL_CONDITION_TYPES : {
-        "buff" : "em.actors.conditions.buff",
-        "debuff" : "em.actors.conditions.debuff",
-        "injury" : "em.actors.conditions.injury",
-        "psyche" : "em.actors.conditions.psyche",
-        "illness" : "em.actors.conditions.illness"
-    },
 
+    
     ERRORS : {
         MISSING_ANATOMY_TYPE_ERROR : "errors.missingAnatomyType",
         MISSING_ANATOMY_PARENT_ERROR : "errors.missingAnatomyParent"

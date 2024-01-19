@@ -396,6 +396,16 @@
             "name" : "loot actor type",
             "label" : "the loot actor that gets used when dragging an item to the scene."
         },
+        "SKILLS" : {
+            "artAndCraftSkills" : {
+                "name" : "arts and crafts",
+                "label" : "all the specialization skills for the arts and crafts skills."
+            },
+            "actorBackgrounds" : {
+                "name" : "actor backgrounds",
+                "label" : "all the backgrounds for the actors."
+            }
+        },
         "ANATOMY" : {
             "defaultAnatomyPartName" : {
             "name" : "default bodypart name",
@@ -415,6 +425,16 @@
                 "leg" : "leg",
                 "organ" : "organ",
                 "vestigial" : "vestigial"
+            }
+        },
+        "UI" : {
+            "flipbookWMargin" : {
+                "name" : "flipbook horizontal margin",
+                "label" : "the horizontal margin of the character book pages inside the book."
+            },
+            "flipbookHMargin" : {
+                "name" : "flipbook vertical margin",
+                "label" : "the vertical margin of the character book pages inside the book."
             }
         }
     }

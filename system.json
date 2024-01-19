@@ -22,6 +22,8 @@
         "/resources/css/w3Css.css",
         "/resources/css/hint.css",
         "/styles/EmStyle.css",
+        "/styles/settingStyle.css",
+        "/styles/shared/itemStyle.css",
         "/styles/shared/actorStyle.css",
         "/styles/shared/pawnStyle.css",
         "/styles/shared/charStyle.css"

@@ -1,4 +1,14 @@
 export const EmActorConfig = {
+    //#region UI
+
+        flipbook : {
+            wMargin : 25,
+            hMargin : 37
+        },
+        
+
+
+    //#endregion
     //#region country data
         COUNTRIES : {},
         GOVERNMENTS : {
@@ -36,6 +46,19 @@ export const EmActorConfig = {
             }
         },
     //#endregion
+    //#region skills
+
+        BACKGROUNDS : {
+            none : {
+                name : "None",
+                desc : "",
+                stats : []
+            }
+        },
+        
+
+
+    //#endregion
     //#region anatomy
 
         SEX : {
@@ -58,8 +81,13 @@ export const EmActorConfig = {
             leg : "em.actors.partypes.leg",
             organ : "em.actors.partypes.organ",
             vestigial : "em.actors.partypes.vestigial"
-        }
-
-    //#endergion
-
+        },
+        MEDICAL_CONDITION_TYPES : {
+            "buff" : "em.actors.conditions.buff",
+            "debuff" : "em.actors.conditions.debuff",
+            "injury" : "em.actors.conditions.injury",
+            "psyche" : "em.actors.conditions.psyche",
+            "illness" : "em.actors.conditions.illness"
+        },
+    //#endregion
 };

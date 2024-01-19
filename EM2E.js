@@ -1,8 +1,10 @@
 //#region imports
   //#region configs
-    import {EmConfig} from "./module/config.js"
-    import { EmSettings, buildSettings } from "./module/settings.js";
+    import {EmConfig} from "./module/config.js"  //deprecated
+    import { EmSettings, buildSettings, createArraySettingUI } from "./module/settings.js";
     import {EmGlobalConfig} from "./module/globalConfig.js";
+    import { EmActorConfig } from "./module/actorConfig.js";
+    import { EmItemConfig } from "./module/itemConfig.js";
   //#endregion
   //#region util functions
     import {normalize} from "./module/utils.js";
@@ -241,16 +243,16 @@
         //#endregion
     }
 
-    function registerSettings() {
-        /** loads the settings from a list and registers them
+    async function registerSettings() {
+        /** loads the settings from a list and registers them and register the setting sub menus
          *  refer to the documentation for the structure explanation.
          */
-        for (let category in EmSettings ) {
+        for (let module in EmSettings ) {
             //we cycle the systems / tabs
-            for (let settingName in EmSettings[category] ) {
+            for (let settingName in EmSettings[module] ) {
                 //we cycle each setting and register it
                 try { //we register the setting in a try catch in case some settings are badly formatted
-                  game.settings.register(category, settingName, EmSettings[category][settingName]);
+                  await game.settings.register(module, settingName, EmSettings[module][settingName]);
                 }
                 catch(error) {console.error(error.message);}
             }
@@ -274,7 +276,7 @@
         //doesn't matter the first error but not having countries will not set the countries config list
         //here we set all the countries in the config in a name : country dictionary structure since if you have the id you can get it easily
         for (let country of countries) {
-          EmGlobalConfig.COUNTRIES[country.name] = country;
+          EmActorConfig.COUNTRIES[country.name] = country;
         }
     }
 
@@ -342,8 +344,45 @@
   });
 
   Hooks.on('renderSettingsConfig', function(app, html, options) {
-    const systemTab = $(app.form).find('.tab[data-tab=system]');
-    console.warn(systemTab);
+    /** we style the settings page to our needs
+     *  
+     */
+    try {
+      const systemTab = $(app.form).find('.tab[data-tab=system]'); //our system tab
+      //#region assign classes to the settings
+          //we initialize the empty variable
+          let input = undefined;
+          let element = undefined;
+          let setting = undefined;
+          let settingData = undefined;
+          //we cycle the settings and set the css classes to the html objects
+          for (let category in EmSettings) { //we cycle the setting categories
+              for (let settingName in EmSettings[category]) { //we cycle the settings by name
+                  settingData = EmSettings[category][settingName];
+                  //we skip if it doesn't need to add classes or it doesn't have the property
+                  if (settingData.cssClasses == undefined || settingData.cssClasses.length < 1) {continue;}
+                  //we get the jquery element
+                  setting = systemTab.find(`.form-group[data-setting-id="${category}.${settingName}"]`);
+                  setting.addClass(settingData.cssClasses.join(" ")); //we add all the css classes of the config
+              }
+          }
+      //#endregion
+      //#region style setting classes
+          //this is for manipulating the data, the styling is inside the setting.css file
+          //the structure of the settings html is described in Doc_Foundry_UI
+          //#region setting-array
+              setting = systemTab.find(".setting-array"); //this is the div that contains the setting html elements
+              setting.each(createArraySettingUI); //the function is in another library to prevent code clutter
+          //#endregion
+              
+          
+
+
+      //#endregion
+    }
+    catch(error) {
+        console.error(error.message);
+    }
   });
 
 //#endregion
@@ -352,10 +391,13 @@
 
   Hooks.once("init", async function() {
       //starting messages
-      console.log("loading EM 2E");
+      console.log("loading Eldritch Madness 2nd Edition");
       //we insert our Config into the Global Config object
       CONFIG.EmGlobalConfig = EmGlobalConfig;
-      CONFIG.EmConfig = EmConfig;
+      CONFIG.EmActorConfig = EmActorConfig;
+      CONFIG.EmItemConfig = EmItemConfig;
+      CONFIG.EmConfig = EmConfig; //deprecated
+      console.warn("EmConfig is deprecated.");
 
       registerSheets();
       registerHandlebars();
@@ -366,7 +408,7 @@
       //must be called before registering the settings or some settings may be malformed
       await buildSettings();
       //for now since we have data that depends on the data that is registered in the init hook we register the settings here.
-      registerSettings();
+      await registerSettings();
       //checks and create the folders
       await checkFolders();
       //checks if any country exists and sets the main countries in the config
