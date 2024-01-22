@@ -381,9 +381,13 @@
             }
         }
     },
-    "errors" : {
-        "missingViewAuthorization" : "you do not have the authorization to view this page.",
-        "missingAnatomyType" : "error no anatomy view type was found. Cannot render the actor's anatomy."
+    "ERRORS" : {
+        "TOO_FAR_EXCEPTION" : "you are too far from the object you are trying to interact with.",
+        "MISSING_VIEW_AUTHORIZATION_ERROR" : "you do not have the authorization to view this page.",
+        "MISSING_ANATOMY_TYPE_ERROR" : "error no anatomy view type was found. Cannot render the actor's anatomy.",
+        "MISSING_ANATOMY_PARENT_ERROR" : "error no parent was found for this bodypart in the actor's anatomy.",
+        "MISSING_FOLDER_ERROR" : "one or more system required folders are missing.",
+        "MISSING_COUNTRY_ERROR" : "the Country folder must contain at least one actor of 'country' type."
     },
     "SETTINGS" : {
         "defaultLootActor" : {

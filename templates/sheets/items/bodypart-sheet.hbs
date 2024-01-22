@@ -21,7 +21,7 @@
                 <div class="w3-border em_form_inputElement em_inputContainer">
                     <select id="em_bodypart_partType" class="w3-white em_noShadow em_form_input em_field" 
                         name="item.system.partType" {{#unless (hasRole "KEEPER")}}readonly="true"{{/unless}} >
-                        {{#each CONFIG.EmConfig.anatomy.PART_TYPES}}
+                        {{#each EmActorConfig.PARTS}}
                             <option class="w3-white" data-tosave="{{this.name}}" {{#if (eq this.name item.system.partType)}}selected="true"{{/if}}>
                                 {{!-- 
                                     for now we leave it like this... maybe in the future we will find a solution 

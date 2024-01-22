@@ -1,5 +1,6 @@
 import EmBasePawnSheet from "./EmBasePawnSheet.js"
 import { findModule } from "../../configs/settings.js";
+import { EmActorConfig } from "../../configs/actorConfig.js";
 
 export default class EmBaseCharacterSheet extends EmBasePawnSheet {
 
@@ -122,9 +123,6 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
                         width : await game.settings.get( findModule("flipbookWMargin"), "flipbookWMargin" ),
                         height : await game.settings.get( findModule("flipbookHMargin"), "flipbookHMargin" )
                     };
-                    margin.width = html.width() - margin.width;
-                    margin.height = html.height() - margin.height;
-
                     let flipbook = html.find("#flipbook");
                     flipbook.prop("controlled", false);
                     flipbook.turn({
@@ -196,9 +194,13 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
                 try {
                     let html = this.element.find("form");
                     let flipbook = html.find("#flipbook");
+                    let margin = {
+                        width : await game.settings.get( findModule("flipbookWMargin"), "flipbookWMargin" ),
+                        height : await game.settings.get( findModule("flipbookHMargin"), "flipbookHMargin" )
+                    };
                     flipbook.turn('size', 
-                        html.width() - CONFIG.EmConfig.flipbook.wMargin,
-                        html.height() - CONFIG.EmConfig.flipbook.hMargin
+                        html.width() - margin.width,
+                        html.height() - margin.height
                     );
                     flipbook.turn("resize");
                 }

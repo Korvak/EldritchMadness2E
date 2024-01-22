@@ -11,7 +11,7 @@
         >
             {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
             <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.hp.value}} / {{actor.system.attributes.hp.max}} + {{actor.system.attributes.hp.temp}}</span>
-            <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.HP.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.HP.TEMP}}">
+            <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{EmActorConfig.COLORS.BARS.HP.PRIMARY}}" data-secondaryColor="{{EmActorConfig.COLORS.BARS.HP.TEMP}}">
             </div>
         </div>
         {{!-- hp bar editor dropdown --}}
@@ -96,7 +96,7 @@
             >
                 {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
                 <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.san.value}} / {{actor.system.attributes.san.max}} + {{actor.system.attributes.san.temp}}</span>
-                <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.SAN.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.SAN.TEMP}}">
+                <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{EmActorConfig.COLORS.BARS.SAN.PRIMARY}}" data-secondaryColor="{{EmActorConfig.COLORS.BARS.SAN.TEMP}}">
                 </div>
             </div>
             {{!-- sanity bar editor dropdown --}}
@@ -181,7 +181,7 @@
             >
                 {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
                 <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.mp.value}} / {{actor.system.attributes.mp.max}} + {{actor.system.attributes.mp.temp}}</span>
-                <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.MP.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.MP.TEMP}}">
+                <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{EmActorConfig.COLORS.BARS.MP.PRIMARY}}" data-secondaryColor="{{EmActorConfig.COLORS.BARS.MP.TEMP}}">
                 </div>
             </div>
             {{!-- mp bar editor dropdown --}}
@@ -267,7 +267,7 @@
             >
                 {{#if (hasRole "KEEPER")}}<i class="fa-solid fa-chevron-down w3-display-left w3-light-gray dropdown-icon em_barDropdownIcon"></i>{{/if}}
                 <span class="w3-center w3-display-middle em_barTxt">{{actor.system.attributes.luck.value}} / {{actor.system.attributes.luck.max}} + {{actor.system.attributes.luck.temp}}</span>
-                <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.LUCK.PRIMARY}}" data-secondaryColor="{{CONFIG.EmConfig.BAR_COLORS.ACTOR.LUCK.TEMP}}">
+                <div class="w3-container w3-center w3-round em_bar" data-primaryColor="{{EmActorConfig.COLORS.BARS.LUCK.PRIMARY}}" data-secondaryColor="{{EmActorConfig.COLORS.BARS.LUCK.TEMP}}">
                 </div>
             </div>
             {{!-- luck bar editor dropdown --}}

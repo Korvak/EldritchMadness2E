@@ -2,6 +2,7 @@ import EmBaseActorSheet from "./EmBaseActorSheet.js"
 import {treeBreadthSearch} from "../../libraries/utils.js"
 import {setInputsFromData, selectOptionsFromData, setBarValue} from "../../libraries/htmlUtils.js"
 import {translate} from "../../libraries/emCore.js"
+import { EmActorConfig } from "../../configs/actorConfig.js";
 
 export default class EmBasePawnSheet extends EmBaseActorSheet {
     
@@ -64,7 +65,7 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
             await this.addAnatomy({
                 name : "root",
                 attachedTo : undefined, 
-                partType : CONFIG.EmConfig.anatomy.ROOT_PART_TYPE
+                partType : await game.settings.get( findModule("defaultRootType"), "defaultRootType" )
             });
         }
 
@@ -103,10 +104,14 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
 
             async _addAndDisplayAnatomy(event) {
                 let element = $(event.currentTarget);
+                let anatomyDefault = {
+                    name : await game.settings.get( findModule("defaultAnatomyPartName"), "defaultAnatomyPartName" ),
+                    type : await game.settings.get( findModule("defaultAnatomyPartType"), "defaultAnatomyPartType" )
+                }
                 let bodypart = await this.addAnatomy({
-                    name : `${translate(CONFIG.EmConfig.anatomy.DEFAULT_NAME)}_${this.bodypartsCount()}`,
+                    name : `${translate(anatomyDefault.name)}_${this.bodypartsCount()}`,
                     attachedTo : element.get(0).dataset.id,
-                    partType : CONFIG.EmConfig.anatomy.DEFAULT_PART_TYPE
+                    partType : anatomyDefault.type
                 });
                 if (bodypart !== undefined) {this._displayBodypart(bodypart._id);}
             }
@@ -187,7 +192,7 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
              * @returns {ItemSheet} : returns the bodypart itemSheet data.
              */
             if (attachedTo === undefined && this.bodypartsCount() > 0) {
-                console.error( translate(CONFIG.EmConfig.ERRORS.MISSING_ANATOMY_PARENT_ERROR) );
+                console.error( translate("ERRORS.MISSING_ANATOMY_PARENT_ERROR") );
                 return undefined;
             }
             let anatomy = this.getAnatomy();

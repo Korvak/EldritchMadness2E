@@ -6,7 +6,26 @@ export const EmActorConfig = {
             hMargin : 37
         },
         
-
+        COLORS : {
+            BARS : {
+                HP : {
+                    PRIMARY : "red",
+                    TEMP : "green"
+                },
+                SAN : {
+                    PRIMARY : "#68468C",
+                    TEMP : "#886FAC"
+                },
+                MP : {
+                    PRIMARY : "#1E90FF",
+                    TEMP : "#82CAFF"
+                },
+                LUCK : {
+                    PRIMARY : "#FFB200",
+                    TEMP : "#FFD966"
+                }
+            }
+        },
 
     //#endregion
     //#region country data

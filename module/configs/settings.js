@@ -144,6 +144,12 @@ export const EmSettings = {
     }
 };
 
+export const EmSettingMenus = {
+    EM2E : {
+
+    }
+}
+
 //#region settings menu UI functions
 
     export function createArraySettingUI () {
@@ -207,6 +213,21 @@ export const EmSettings = {
     }
 
 //#endregion
+
+export class EM2ERuleSettings extends FormApplication {
+    /** this is a setting entry that opens a popup with various settings inside it. */
+
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            title: "SETTINGS.TitleRules",
+            id: "rules-settings",
+            template: "systems/EM2E/templates/system/rule-settings.hbs",
+            width: "auto",
+            height: "auto",
+            closeOnSubmit: false
+        })
+    }
+}
 
 
 export function findModule(settingName) {
