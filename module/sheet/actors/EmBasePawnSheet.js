@@ -2,7 +2,6 @@ import EmBaseActorSheet from "./EmBaseActorSheet.js"
 import {treeBreadthSearch} from "../../libraries/utils.js"
 import {setInputsFromData, selectOptionsFromData, setBarValue} from "../../libraries/htmlUtils.js"
 import {translate} from "../../libraries/emCore.js"
-import { EmActorConfig } from "../../configs/actorConfig.js";
 
 export default class EmBasePawnSheet extends EmBaseActorSheet {
     

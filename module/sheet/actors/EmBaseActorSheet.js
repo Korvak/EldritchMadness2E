@@ -192,6 +192,7 @@ export default class EmBaseActorSheet extends ActorSheet {
                 let val = element.prop("tagName") == "SELECT" ? 
                     element.find(":selected").get(0).dataset.tosave
                     : element.val();
+                //calls the actor event to update an owned item data
                 await this.updateOwnedItem(id, element.attr('name'), val );
             }
 

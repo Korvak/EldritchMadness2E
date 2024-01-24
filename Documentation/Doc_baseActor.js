@@ -32,3 +32,15 @@
  *              - work stations / altars
  *              - country
  */
+/** Actor Inventory explained
+ * 
+ * The actor inventory functions under two premises :
+ * 
+ *   - each item has a tag and only the items with the "visible" tag can be seen in the actor's inventory by players.
+ * 
+ *   - items with durability cannot be stacked. Meaning they have a stack limit of 1.
+ * 
+ * 
+ * 
+ * 
+ */

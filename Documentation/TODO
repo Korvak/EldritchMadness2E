@@ -39,3 +39,8 @@ X Expand the searchbar to allow tags that are removable and togglelable?
 ° Make an item class for backgrounds and skills or make a way to add them through a setting etc...
 
 ✓ Decide if the Country should be an actor or an item : country should be an actor
+
+° Decide how to handle item stacking and especially when accounting for durability
+    Decide how to make the inventory, if you want to use the in-built one or a faster custom one.
+
+° Store the anatomy in a separate collection instead.
