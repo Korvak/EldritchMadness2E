@@ -37,6 +37,15 @@
             });
         }
 
+        function _formatString(template, ...args ) {
+            return template.replace(
+                /{([0-9]+)}/g, 
+                function (match, index) {
+                    return typeof args[index] === 'undefined' ? match : args[index];
+                }
+            );
+        }
+
     //#endregion
 
     //#region set data
@@ -45,6 +54,7 @@
         Array.remove = _array_remove;
         Array.removeAll = _array_removeAll;
 
+        String.format = _formatString;
     //#endregion
 //#endregion
 //#region algo functions

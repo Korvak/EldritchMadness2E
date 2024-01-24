@@ -1,5 +1,6 @@
 import { EmGlobalConfig } from "./globalConfig.js";
 import { EmActorConfig } from "./actorConfig.js";
+import { EmLogger } from "../libraries/emLogger.js";
 
 export const EmSettings = {
     EM2E : {
@@ -253,4 +254,19 @@ export async function buildSettings(...params) {
     //#endregion
 }
 
-
+export async function getSetting(settingName) {
+    /** calls findModule and then returns the register setting
+     *  @param {string} settingName : the name of the setting to search for
+     *  
+     *  @returns {Setting} : the setting object it found.
+     */
+    let module = findModule(settingName);
+    if (module == undefined) {
+        EmLogger.log( {
+            msg : "ERRORS.MISSING_SETTING_EXCEPTION",
+            level : EmLogger.LEVELS.WARNING,
+            args : [settingName]
+        });
+        return undefined;
+    } 
+}

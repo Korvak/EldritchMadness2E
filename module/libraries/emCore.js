@@ -7,11 +7,12 @@ export function translate(key) {
      * 
      * @returns {string} : the translated string.
      */
-    if (typeof(key) !== "string" ) {
-        console.error(`${key} cannot be translated. It must be a string in order to be translated.`);
-        return undefined;
+    try {
+        return game.i18n.localize(key);
     }
-    return game.i18n.localize(key);
+    catch(error) {
+        console.warn(error.message);
+    }
 }
 
 export async function getFolderByName(name) {

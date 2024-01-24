@@ -387,7 +387,8 @@
         "MISSING_ANATOMY_TYPE_ERROR" : "error no anatomy view type was found. Cannot render the actor's anatomy.",
         "MISSING_ANATOMY_PARENT_ERROR" : "error no parent was found for this bodypart in the actor's anatomy.",
         "MISSING_FOLDER_ERROR" : "one or more system required folders are missing.",
-        "MISSING_COUNTRY_ERROR" : "the Country folder must contain at least one actor of 'country' type."
+        "MISSING_COUNTRY_ERROR" : "the Country folder must contain at least one actor of 'country' type.",
+        "MISSING_SETTING_EXCEPTION" : "the setting {1} could not be found."
     },
     "SETTINGS" : {
         "defaultLootActor" : {
