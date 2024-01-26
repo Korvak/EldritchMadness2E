@@ -784,9 +784,7 @@
                 },
                 "conditions" : [],
                 "anatomy" : {
-                    "age" : 0,
-                    "sex" : "N",
-                    "build" : 0,
+                    "bodyparts" : {},
                     "viewType" : "tree",
                     "tree" : {
                         "id" : null,
@@ -794,9 +792,9 @@
                         "children" : []
                     },
                     "chart" : {},
-                    "currentGrowthStage" : "default",
-                    "growthCycle" : {
-                        "default" : {
+                    "currentGrowthStage" : 0,
+                    "growthStages" : [
+                        {
                             "id" : "default",
                             "name" : "default",
                             "desc" : "em.actor.anatomy.DEFAULT_GROWTH_STAGE_DESC",
@@ -804,8 +802,12 @@
                             "order" : 0,
                             "background": "none"
                         }
-                    }
-                        
+                    ]
+                },
+                "info" : {
+                    "age" : 0,
+                    "sex" : "N",
+                    "build" : 0
                 }
             },
             "baseCharacter" : {
@@ -836,12 +838,9 @@
                 "mentalConditions" : [],
                 "info" : {
                     "nationality" : "",
-                    "origin" : {
-                        "address" : "",
-                        "country": "",
-                        "city" : "",
-                        "birthDate" : ""
-                    }
+                    "address" : "",
+                    "birthDate" : "",
+                    "originAddress" : ""
                 },
                 "options" : {
                     "peel" : true,

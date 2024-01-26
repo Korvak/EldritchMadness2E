@@ -1,10 +1,14 @@
 //#region imports
   //#region configs
     import {EmConfig} from "./module/deprecated_config.js"  //deprecated
-    import { EmSettings, buildSettings, createArraySettingUI } from "./module/configs/settings.js";
+    import { EmSettings } from "./module/configs/settings.js";
     import {EmGlobalConfig} from "./module/configs/globalConfig.js";
     import { EmActorConfig } from "./module/configs/actorConfig.js";
     import { EmItemConfig } from "./module/configs/itemConfig.js";
+  //#endregion
+  //#region Services
+    import { EmLogger, Logger } from "./module/libraries/emLogger.js";
+    import { buildSettings, createArraySettingUI, getSetting } from "./module/configs/settings.js";
   //#endregion
   //#region util functions
     import {normalize} from "./module/libraries/utils.js";
@@ -381,7 +385,10 @@
       //#endregion
     }
     catch(error) {
-        console.error(error.message);
+        EmLogger.log({
+            msg : error.message,
+            level : Logger.LEVELS.ERROR
+        });
     }
   });
 
