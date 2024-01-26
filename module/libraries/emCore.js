@@ -1,7 +1,7 @@
 import { EmGlobalConfig } from "../configs/globalConfig.js";
 import { EmLogger, Logger } from "./emLogger.js";
 
-export function translate(key) {
+export function translate(key, ...args) {
     /** attempts to translate the message
      *  this mirrors emLogger.js translate function but is different to avoid a circular dependency
      *  @param {string} key : the message to translate
@@ -21,7 +21,7 @@ export function translate(key) {
         }
         else {
             //otherwise if it's not a string we launch an error log
-            this.log({
+            EmLogger.log({
                 msg : "ERROR.FAILED_TRANSLATION_ERROR",
                 level : Logger.LEVELS.ERROR,
                 args : [key]

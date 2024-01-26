@@ -81,11 +81,6 @@
   function registerHandlebars() {
     
       //#region Foundry helpers
-
-        Handlebars.registerHelper('i18n', function(key) {
-          console.warn("i18n is deprecated, please use localize instead.");
-          return translate(key);
-        });
         Handlebars.registerHelper('localize', function(key) {
           return translate(key);
         });
