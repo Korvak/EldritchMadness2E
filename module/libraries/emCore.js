@@ -1,17 +1,32 @@
 import { EmGlobalConfig } from "../configs/globalConfig.js";
-
+import { EmLogger, Logger } from "./emLogger.js";
 
 export function translate(key) {
-    /** translate a localization key in the form of a string by using the Foundry in-built localization system.
-     * @param {string} key : the string to translate. 
-     * 
-     * @returns {string} : the translated string.
-     */
+    /** attempts to translate the message
+     *  this mirrors emLogger.js translate function but is different to avoid a circular dependency
+     *  @param {string} key : the message to translate
+     *  @param {Params} args : the list of parameters to format the translated string with
+     *
+     *  @returns {string} : the translated string formatted according to the params.
+    */
     try {
-        return game.i18n.localize(key);
+        //uses the Foundry in-built localization module.
+        let translation =  game.i18n.localize(key);
+        return String.format(translation, ...args);
     }
     catch(error) {
-        console.warn(error.message);
+        //in case of error, it gets ignored
+        if (typeof key == "string") {
+            return key;
+        }
+        else {
+            //otherwise if it's not a string we launch an error log
+            this.log({
+                msg : "ERROR.FAILED_TRANSLATION_ERROR",
+                level : Logger.LEVELS.ERROR,
+                args : [key]
+            });
+        }
     }
 }
 
@@ -58,7 +73,11 @@ export async function encaseItem(itemId, actorData = {id : "", name : "", type :
             actor = await Actor.create(data, {'parent' : actorData.parent}); 
         }
         else {
-            console.error(`cannot encase ${itemId}. ActorId reference doesn't exist.`);
+            EmLogger.log({
+                msg : "ERRORS.MISSING_ENCASE_ID",
+                level : Logger.LEVELS.ERROR,
+                args : [itemId]
+            })
             return undefined;
         }
         //we create a copy of the item and parent it to the actor
@@ -75,7 +94,10 @@ export async function encaseItem(itemId, actorData = {id : "", name : "", type :
         return actor;
     }
     catch(error) {
-        console.error(error.message);
+        EmLogger.log({
+            msg : error.message,
+            level : Logger.LEVELS.DEBUG
+        })
         return undefined;
     }
 }
@@ -116,7 +138,11 @@ export async function getCountryByName(name = undefined) {
      */
     let folder = await Folder.get(EmGlobalConfig.FOLDERS["COUNTRIES"].id);
     if (folder == undefined) {
-        console.error("the country folder doesn't exist or is mismatched in the config.");
+        EmLogger.log({
+            msg : "ERRORS.MISSING_FOLDER_ERROR",
+            level : Logger.LEVELS.CRITICAL,
+            args : ["country"]
+        });
         return undefined;
     }
     //checks if we want all the countries or only the passed one.

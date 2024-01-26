@@ -386,9 +386,11 @@
         "MISSING_VIEW_AUTHORIZATION_ERROR" : "you do not have the authorization to view this page.",
         "MISSING_ANATOMY_TYPE_ERROR" : "error no anatomy view type was found. Cannot render the actor's anatomy.",
         "MISSING_ANATOMY_PARENT_ERROR" : "error no parent was found for this bodypart in the actor's anatomy.",
-        "MISSING_FOLDER_ERROR" : "one or more system required folders are missing.",
+        "MISSING_FOLDER_ERROR" : "the {0} folder is missing or mismatched in the config.",
         "MISSING_COUNTRY_ERROR" : "the Country folder must contain at least one actor of 'country' type.",
-        "MISSING_SETTING_EXCEPTION" : "the setting {1} could not be found."
+        "MISSING_SETTING_EXCEPTION" : "the setting {1} could not be found.",
+        "MISSING_ENCASE_ID" : "cannot encase {0}. ActorId reference doesn't exist.",
+        "FAILED_TRANSLATION_ERROR" : "could not translate the following {0} since it's not a string."
     },
     "SETTINGS" : {
         "defaultLootActor" : {
