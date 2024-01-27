@@ -866,7 +866,8 @@
         "types" : [
             "country",
             "lootBag",
-            "testActor"
+            "testActor",
+            "testPawn"
         ],
         "country" : {
             "templates" : [
@@ -895,6 +896,18 @@
             "keys" : [],
             "can_lockpick" : true,
             "lock_difficulty" : 1
+        },
+        "testPawn" : {
+            "templates" : [
+                "combatSkills",
+                "movementSkills",
+                "healingSkills",
+                "knowledgeSkills",
+                "socialSkills",
+                "detectiveSkills",
+                "baseActor",
+                "basePawn"
+            ]
         },
         "testActor" : {
             "templates" : [

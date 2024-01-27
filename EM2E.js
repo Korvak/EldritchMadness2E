@@ -210,12 +210,35 @@
 
         //#region register actor sheets
           Actors.unregisterSheet("core", ActorSheet);
+          //register the actors
           Actors.registerSheet(
             "EM2E", 
             EmBaseActorSheet,
             {
               //types : [your-actor-types],
               makeDefault: true
+            }
+          );
+          //register the pawns
+          Actors.registerSheet(
+            "EM2E", 
+            EmBasePawnSheet, 
+            {
+              types : [
+                "testPawn"
+              ],
+              makeDefault : true
+            }
+          );
+          //register the characters
+          Actors.registerSheet(
+            "EM2E", 
+            EmBaseCharacterSheet, 
+            {
+              types : [
+                "testActor"
+              ],
+              makeDefault : true
             }
           );
           //register the country
@@ -225,16 +248,6 @@
             {
               types : [
                 "country"
-              ],
-              makeDefault : true
-            }
-          );
-          Actors.registerSheet(
-            "EM2E", 
-            EmBaseCharacterSheet, 
-            {
-              types : [
-                "testActor"
               ],
               makeDefault : true
             }
@@ -302,7 +315,7 @@
     async function createLootbagOnDrop(canvas, data) {
         //we encase the element in a loot actor
         let folder = await Folder.get(EmGlobalConfig.FOLDERS["LOOTBAGS"].id); //await getFolderByName(EmGlobalConfig.FOLDERS["LOOTBAGS"].name);
-        let lootActorType = await game.settings.get("EM2E","defaultLootActor");
+        let lootActorType = await getSetting("defaultLootActor");
         let actor = await encaseItem(
             data.uuid,
             {

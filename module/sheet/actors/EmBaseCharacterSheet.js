@@ -1,5 +1,5 @@
 import EmBasePawnSheet from "./EmBasePawnSheet.js"
-import { findModule } from "../../configs/settings.js";
+import { getSetting } from "../../configs/settings.js";
 import { EmActorConfig } from "../../configs/actorConfig.js";
 
 export default class EmBaseCharacterSheet extends EmBasePawnSheet {
@@ -16,8 +16,8 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
             static get defaultOptions() {
                 return mergeObject(super.defaultOptions, 
                     {
-                        width: 582,
-                        height : 476,
+                        width: getSetting("defaultCharBookWidth"),
+                        height : getSetting("defaultCharBookHeight"),
                         classes : ["em_actorSheet"]
                 });
             }
@@ -120,8 +120,8 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
                 //#region before logic
                     //first we start turn.js
                     let margin = {
-                        width : await game.settings.get( findModule("flipbookWMargin"), "flipbookWMargin" ),
-                        height : await game.settings.get( findModule("flipbookHMargin"), "flipbookHMargin" )
+                        width : await getSetting( "flipbookWMargin" ),
+                        height : await getSetting( "flipbookHMargin" )
                     };
                     let flipbook = html.find("#flipbook");
                     flipbook.prop("controlled", false);
@@ -195,8 +195,8 @@ export default class EmBaseCharacterSheet extends EmBasePawnSheet {
                     let html = this.element.find("form");
                     let flipbook = html.find("#flipbook");
                     let margin = {
-                        width : await game.settings.get( findModule("flipbookWMargin"), "flipbookWMargin" ),
-                        height : await game.settings.get( findModule("flipbookHMargin"), "flipbookHMargin" )
+                        width : await getSetting( "flipbookWMargin" ),
+                        height : await getSetting( "flipbookHMargin" )
                     };
                     flipbook.turn('size', 
                         html.width() - margin.width,

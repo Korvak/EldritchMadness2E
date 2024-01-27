@@ -1,0 +1,22 @@
+<form autocomplete="off">
+    <button id="create-test">
+        create
+    </button>
+    <ul>
+        <h2>INVENTORY</h2>
+        {{#each this.actor.items}}
+            <li>
+                {{this.name}}  
+            </li>
+        {{/each}}
+    </ul>
+    <ul>
+        <h2>BODYPARTS</h2>
+        {{#each this.actor.system.anatomy.bodyparts}}
+            <li>
+                {{this.name}} {{this.system.partType}} 
+            </li>
+        {{/each}}
+    </ul>
+    
+</form>

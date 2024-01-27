@@ -21,6 +21,15 @@ export const EmGlobalConfig = {
                 type : "Item"
             }
         },
+        OPERATIONS : {
+            CRUD : {
+                CREATE : "CREATE",
+                READ : "READ",
+                ADD : "ADD",
+                UPDATE : "UPDATE",
+                DELETE : "DELETE"
+            }
+        },
     //#endregion
     //#region system permissions
 

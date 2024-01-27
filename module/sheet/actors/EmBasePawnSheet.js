@@ -2,6 +2,7 @@ import EmBaseActorSheet from "./EmBaseActorSheet.js"
 import {treeBreadthSearch} from "../../libraries/utils.js"
 import {setInputsFromData, selectOptionsFromData, setBarValue} from "../../libraries/htmlUtils.js"
 import {translate} from "../../libraries/emCore.js"
+import { getSetting } from "../../configs/settings.js"
 
 export default class EmBasePawnSheet extends EmBaseActorSheet {
     
@@ -32,9 +33,10 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
                 //we set it so that if we change the name of the bodypart, it also changes the name of the tree
                 html.find("#em_bodypart_name").change(this._changeBodypartName.bind(this) );
                 //we call the reparent function when the attachedTo changes
-                html.find("#em_bodypart_attached").get(0).onchange =  this._reparentBodypart.bind(this);
+                html.find("#em_bodypart_attached").change( this._reparentBodypart.bind(this) );
             //#endregion
             //at the end of the function we call the parent's function
+            this._activateTestListeners(html);
             super.activateListeners(html);
         }
 
@@ -64,7 +66,7 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
             await this.addAnatomy({
                 name : "root",
                 attachedTo : undefined, 
-                partType : await game.settings.get( findModule("defaultRootType"), "defaultRootType" )
+                partType : await getSetting( "defaultRootType" )
             });
         }
 
@@ -104,8 +106,8 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
             async _addAndDisplayAnatomy(event) {
                 let element = $(event.currentTarget);
                 let anatomyDefault = {
-                    name : await game.settings.get( findModule("defaultAnatomyPartName"), "defaultAnatomyPartName" ),
-                    type : await game.settings.get( findModule("defaultAnatomyPartType"), "defaultAnatomyPartType" )
+                    name : await getSetting( "defaultAnatomyPartName" ),
+                    type : await getSetting( "defaultAnatomyPartType" )
                 }
                 let bodypart = await this.addAnatomy({
                     name : `${translate(anatomyDefault.name)}_${this.bodypartsCount()}`,
@@ -432,6 +434,28 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
         }
 
     //#endregion
+    //#region test
 
+        async _createTest() {
+            await this.createItemInObject({
+                field : "actor.system.anatomy.bodyparts",
+                name : "test5",
+                type : "bodypart"
+            });
+            console.warn(this.getActorData().anatomy.bodyparts);
+        }
+
+        async _displayTest() {
+
+        }
+
+        _activateTestListeners(html) {
+            const self = this;
+            html.find("#create-test").click(async function() {
+                await self._createTest();
+            });
+        }
+
+    //#endregion
 
 }

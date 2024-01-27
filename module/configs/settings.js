@@ -105,7 +105,40 @@ export const EmSettings = {
 
         //#endregion
         //#region UI
-
+            defaultCharBookWidth : {
+                name : "SETTINGS.UI.defaultCharBookWidth.name",
+                hint : "SETTINGS.UI.defaultCharBookWidth.label",
+                cssClasses : [], //non Foundry default
+                scope : "client",
+                config : true,
+                type : Number,
+                default : 582,
+                range : {
+                    min : 200,
+                    max : 2048,
+                    step : 1
+                },
+                onchange : value => {
+                    console.warn(value);
+                }
+            },
+            defaultCharBookHeight : {
+                name : "SETTINGS.UI.defaultCharBookHeight.name",
+                hint : "SETTINGS.UI.defaultCharBookHeight.label",
+                cssClasses : [], //non Foundry default
+                scope : "client",
+                config : true,
+                type : Number,
+                default : 476,
+                range : {
+                    min : 100,
+                    max : 2000,
+                    step : 1
+                },
+                onchange : value => {
+                    console.warn(value);
+                }
+            },
             flipbookWMargin : {
                 name : "SETTINGS.UI.flipbookWMargin.name",
                 hint : "SETTINGS.UI.flipbookWMargin.label",
@@ -268,5 +301,6 @@ export async function getSetting(settingName) {
             args : [settingName]
         });
         return undefined;
-    } 
+    }
+    return await game.settings.get(module, settingName);
 }

@@ -42,9 +42,13 @@ X Expand the searchbar to allow tags that are removable and togglelable?
 
 ° Decide how to handle item stacking and especially when accounting for durability
     Decide how to make the inventory, if you want to use the in-built one or a faster custom one.
+    - inside the inventory only inventory items will be stored. Items with durability will be unstackable
+        and items will be stacked inside the inventory.
 
 ° Store the anatomy in a separate collection instead.
 
 ° The medical tab should now display the bodypart partial instead.
+
+° Fix the passport view after the age property was moved from anatomy to info.
 
 ° Change the ActorSheet so that whenever a field of an item is saved inside it, we save the appropriate owned item.

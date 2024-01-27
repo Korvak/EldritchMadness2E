@@ -5,7 +5,7 @@ import {
 } from "../../libraries/htmlUtils.js"
 import { EmGlobalConfig } from "../../configs/globalConfig.js";
 import { EmActorConfig } from "../../configs/actorConfig.js";
-import { EmLogger } from "../../libraries/emLogger.js";
+import { EmLogger, Logger } from "../../libraries/emLogger.js";
 
 
 
@@ -257,7 +257,7 @@ export default class EmBaseActorSheet extends ActorSheet {
             }
         }
 
-        async _updateActorCollection(field, value, method = 'add') {
+        async _updateActorCollection(field, data, method = EmGlobalConfig.OPERATIONS.CRUD.ADD) {
             /** fetches a collection from the action fields and depending on the method passed either adds or removes the value given
              * @param {string} field : the path name of the field separated by '.'
              * @param {wildcard} value : the value to either remove or add 
@@ -268,15 +268,27 @@ export default class EmBaseActorSheet extends ActorSheet {
             try {
                 //we fetch the field
                 let collection = getValueFromFields(this.getData() , field);
-                if (!Array.isArray(collection) ) {return false;}
+                if (typeof collection != "object") {return false;}
+                if ( !Array.isArray(collection) &&
+                     ( data.key == undefined || data.value == undefined )    
+                   )
+                {
+                    return false;
+                }
                 //checks the method, in case nothing happened then it exists the function
-                switch(method.toLowerCase() ) {
-                    case 'add' : {
-                        collection.push(value); 
+                switch(method) {
+                    case EmGlobalConfig.OPERATIONS.CRUD.ADD : {
+                        if (Array.isArray(collection) ) {collection.push(data);}
+                        else {collection[data.key] = data.value;}
                         break;
                     }
-                    case 'remove' : {
-                        if( Array.remove(collection, (x) => {x === value;}) === undefined) {return false;}
+                    case EmActorConfig.OPERATIONS.CRUD.DELETE : {
+                        if (Array.isArray(collection) ) {
+                            if( Array.remove(collection, (x) => {return x === data;}) === undefined) {return false;}
+                        }
+                        else {
+                            delete collection[data.key];
+                        }
                         break; //otherwise everything is fine and we leave the switch
                     }
                     default : {return false;}
@@ -285,7 +297,10 @@ export default class EmBaseActorSheet extends ActorSheet {
                 return await this._updateActorField(field, collection);
             }
             catch(error) {
-                console.error(error.message);
+                EmLogger.log({
+                    msg : error.message,
+                    level : Logger.LEVELS.ERROR
+                });
                 return false;
             }
         }
@@ -396,10 +411,54 @@ export default class EmBaseActorSheet extends ActorSheet {
             //#region add and update
     
                 addOwnedItem(item) {
-                    //should be deprecated since we use the Item.create method instead
+                    /** 
+                     * 
+                     */
                     let ownedItems = this._getAllOwnedItems();
                     ownedItems.push(item);
                     return ownedItems.length - 1;
+                }
+
+                async createItemInObject({field, key = "id", name, type, itemData = {} }) {
+                    /** creates an item, removes it from the items collection and adds it to the specified field. */
+                    try {
+                        //first we create the item
+                        let item = await this.createOwnedItem(name, type, itemData);
+                        item = await this.actor.items.get(item._id); //we need to get the item id from the items collection
+                        let data = {
+                            key : key == "id" ? item._id : key,
+                            value : item
+                        };
+                        //we add the item to the collection
+                        await this._updateActorCollection(field, data);
+                        await item.delete();
+                    }
+                    catch(error) {
+                        EmLogger.log({
+                            msg : error.message,
+                            level : Logger.LEVELS.ERROR
+                        });
+                        return false;
+                    }
+                }
+
+                async CreateItemInCollection({field, name, type, itemData = {} }) {
+                    /** creates an item, removes it from the items collection and adds it to the specified field. */
+                    try {
+                        //first we create the item
+                        let item = await this.createOwnedItem(name, type, itemData);
+                        item = await this.actor.items.get(item._id); //we need to get the 
+                        //we add the item to the collection
+                        await this._updateActorCollection(field, item);
+                        await item.delete();
+                    }
+                    catch(error) {
+                        EmLogger.log({
+                            msg : error.message,
+                            level : Logger.LEVELS.ERROR
+                        });
+                        return false;
+                    }
                 }
     
                 async createOwnedItem(name, type, itemData = {}) {

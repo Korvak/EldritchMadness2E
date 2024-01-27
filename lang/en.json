@@ -382,6 +382,7 @@
         }
     },
     "ERRORS" : {
+        "TYPE_ERROR" : "{0} should be of type {1}.",
         "TOO_FAR_EXCEPTION" : "you are too far from the object you are trying to interact with.",
         "MISSING_VIEW_AUTHORIZATION_ERROR" : "you do not have the authorization to view this page.",
         "MISSING_ANATOMY_TYPE_ERROR" : "error no anatomy view type was found. Cannot render the actor's anatomy.",
@@ -390,6 +391,7 @@
         "MISSING_COUNTRY_ERROR" : "the Country folder must contain at least one actor of 'country' type.",
         "MISSING_SETTING_EXCEPTION" : "the setting {1} could not be found.",
         "MISSING_ENCASE_ID" : "cannot encase {0}. ActorId reference doesn't exist.",
+        "MISSING_FIELD_OBJECT" : "cannot find {0} field inside {1}. Check if the path is correct.",
         "FAILED_TRANSLATION_ERROR" : "could not translate the following {0} since it's not a string."
     },
     "SETTINGS" : {
@@ -429,6 +431,14 @@
             }
         },
         "UI" : {
+            "defaultCharBookWidth" : {
+                "name" : "flipbook starting width",
+                "label" : "the starting width of the book."
+            },
+            "defaultCharBookHeight" : {
+                "name" : "flipbook starting height",
+                "label" : "the starting height of the book."
+            },
             "flipbookWMargin" : {
                 "name" : "flipbook horizontal margin",
                 "label" : "the horizontal margin of the character book pages inside the book."
