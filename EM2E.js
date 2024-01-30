@@ -13,6 +13,7 @@
   //#region util functions
     import {normalize} from "./module/libraries/utils.js";
     import {translate, getFolderByName, encaseItem, createToken, getCountryByName} from "./module/libraries/emCore.js"
+    import { renderPartial } from "./module/libraries/htmlUtils.js";
   //#endregion
   //#region actor class imports
     import EmBaseActorSheet from "./module/sheet/actors/EmBaseActorSheet.js";
@@ -105,6 +106,9 @@
             catch(error) {console.error(error.message);}
         });
 
+        //gets all the partials
+        Handlebars.registerHelper('renderPartial', renderPartial);
+
       //#endregion
       //#region math operation helpers
 
@@ -168,14 +172,7 @@
           return `${a}${b}`;
         });
         
-        //gets all the partials
-        Handlebars.registerHelper('renderPartial', function(partialName, context) {
-          const partial = Handlebars.partials[partialName];
-          if (partial) {
-              return new Handlebars.SafeString(partial(context));
-          }
-          return '';
-        });
+        
 
       //#endregion
       //#region em utils

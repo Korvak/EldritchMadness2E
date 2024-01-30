@@ -102,6 +102,18 @@ export const EmSettings = {
                     console.warn(value);
                 }
             },
+            bodypartUiContainer : {
+                name : "SETTINGS.ANATOMY.bodypartUiContainer.name",
+                hint : "SETTINGS.ANATOMY.bodypartUiContainer.label",
+                cssClasses : [], //non Foundry default
+                scope : "world",
+                config : true,
+                type : String,
+                default : "#em_bodypart_dataContainer",
+                onchange : value => {
+                    console.warn(value);
+                }
+            },
 
         //#endregion
         //#region UI

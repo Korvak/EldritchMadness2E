@@ -1,4 +1,13 @@
 import { getValueFromFields } from "./utils.js";
+
+export function renderPartial(partialName, context) {
+    const partial = Handlebars.partials[partialName];
+    if (partial) {
+        return new Handlebars.SafeString(partial(context));
+    }
+    return '';
+}
+
 //#region html funcs
 
     export function toggleDropdown(event) {

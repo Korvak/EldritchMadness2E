@@ -7,6 +7,9 @@ import {translate} from "../../libraries/emCore.js"
 
 export default class EmBaseItemSheet extends ItemSheet {
 
+
+    static TEMPLATE = "systems/EM2E/templates/sheets/items/{0}-sheet.hbs";
+
     //#region base methods
 
         get template() {

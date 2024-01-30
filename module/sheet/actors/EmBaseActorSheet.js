@@ -1,11 +1,12 @@
 import {fieldToObject, overwriteObjectFields, getValueFromFields} from "../../libraries/utils.js"
 import {
-    toggleDropdown, toggleReadonly,
+    toggleDropdown, toggleReadonly, renderPartial,
     renderBar, searchByTags , toggleBtnState 
 } from "../../libraries/htmlUtils.js"
 import { EmGlobalConfig } from "../../configs/globalConfig.js";
 import { EmActorConfig } from "../../configs/actorConfig.js";
 import { EmLogger, Logger } from "../../libraries/emLogger.js";
+import EmBaseItemSheet from "../items/EmBaseItemSheet.js";
 
 
 
@@ -178,6 +179,11 @@ export default class EmBaseActorSheet extends ActorSheet {
                     await renderedItem.delete();
                 });
             }, 50);
+        }
+
+        async renderItemPartial(item) {
+            let partialName = String.format(EmBaseItemSheet.TEMPLATE, item.type);
+            return await renderPartial(partialName, item);
         }
 
     //#endregion
@@ -571,4 +577,8 @@ export default class EmBaseActorSheet extends ActorSheet {
         //#endregion
 
     //#endregion
+
+
+
+
 }
