@@ -4,6 +4,7 @@ import {setInputsFromData, selectOptionsFromData, setBarValue} from "../../libra
 import {translate} from "../../libraries/emCore.js"
 import { getSetting } from "../../configs/settings.js"
 import { EmLogger, Logger } from "../../libraries/emLogger.js"
+import { EmGlobalConfig } from "../../configs/globalConfig.js"
 
 export default class EmBasePawnSheet extends EmBaseActorSheet {
     
@@ -64,7 +65,7 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
         
         async _createDefaultAnatomy() {
             // creates the default anatomy when missing
-            await this.addAnatomy({
+            await this.addBodypart({
                 name : "root",
                 attachedTo : undefined, 
                 partType : await getSetting( "defaultRootType" )
@@ -133,7 +134,7 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
                 let anatomy = this.getAnatomy();
                 switch(anatomy.viewType) {
                     case "tree" : { //we return the id of the tree root node
-                        return this.getOwnedItem(anatomy.tree.id);
+                        return this.getBodypart(anatomy.tree.id);
                     }
                     case "chart" : {return undefined;}
                     default : {return undefined;}
@@ -155,7 +156,27 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
 
             //#region CRUD helper methods
 
-
+                async _deleteAnatomyNode(node) {
+                    /** a recursive function that deletes an anatomy tree node references in the bodyparts collection along with all its children
+                     * @param {AnatomyNode} node : an anatomy node with an Id and a children collection of Node objects.
+                     */
+                    //we delete the item in the bodyparts collection
+                    await this._updateActorCollection(
+                        "actor.system.anatomy.bodyparts",
+                        {
+                            key : node.id,
+                            value : undefined
+                        },
+                        EmGlobalConfig.OPERATIONS.CRUD.DELETE
+                    );
+                    //we delete the html node
+                    let nodeElement = this.element.find(`#${node.id}`);
+                    nodeElement.remove();
+                    //we delete all children
+                    for (let child of node.children) {
+                        await this._deleteAnatomyNode(child);
+                    }
+                }
 
             //#endregion
 
@@ -175,7 +196,7 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
                  */
                 if (attachedTo === undefined && this.bodypartsCount() > 0) {
                     EmLogger.log({
-                        msg : "ERRORS.MISSING_ANATOMY_PARENT_ERROR",
+                        msg : "ERRORS.ANATOMY.MISSING_ANATOMY_PARENT_ERROR",
                         level : Logger.LEVELS.ERROR,
                         args : [name, this.actor._id]
                     });
@@ -226,8 +247,16 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
                  * @returns {boolean} : wether the operation succeeded or not
                  */
                 try {
+                    if (id === this.getRoot()._id) {//we cannot delete the root
+                        EmLogger.log({
+                            msg : "ERRORS.ANATOMY.ROOT_DELETION_EXCEPTION",
+                            level : Logger.LEVELS.WARNING,
+                            args : [id]
+                        });
+                        return false;
+                    }
                     let bodypart = await this.getBodypart(id);
-                    if (bodypart == undefined) { //in case it doesn't exist we return false and log and error
+                    if (bodypart === undefined) { //in case it doesn't exist we return false and log and error
                         EmLogger.log({
                             msg : "ERRORS.MISSING_COLLECTION_ITEM_ERROR",
                             level : Logger.LEVELS.WARNING,
@@ -235,8 +264,37 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
                         });
                         return false;
                     }
+                    let bodypartData = bodypart.system;
+                    let element = undefined;
+                    //#region detach from parent and get node
+                        //we check if it's attached to a parent or it's parentless
+                        if (bodypartData.attachedTo === undefined || bodypartData.attachedTo === null) {
+                            element = treeBreadthSearch(anatomy.tree, "id" , bodypart._id);
+                        }
+                        else {
+                            //first we remove it in the tree by removing it from the parent
+                            let parent = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
+                            //we remove the element from the parent's children
+                            for (let i = 0;i < parent.children.length;i++) {
+                                if (parent.children[i].id == bodypart._id) {
+                                    element = parent.children[i];
+                                    parent.children.splice(i,1);
+                                    break;
+                                }
+                            }
+                        }
+                    //#endregion
+                    //we remove the element and it's children from the parts array
+                    await this._deleteAnatomyNode(element);
+                    //after we removed the bodyparts from the part collection, we update the anatomy tree
 
-
+                    //then we save everything
+                    await this._saveActorData({
+                        system : {
+                            anatomy : anatomy
+                        }
+                    }); 
+                    return true;
                 }
                 catch(error) {
                     EmLogger.log({
@@ -247,17 +305,91 @@ export default class EmBasePawnSheet extends EmBaseActorSheet {
                 }
             }
 
-
-
-
         //#endregion
         
-
+        async reparentAnatomyNode(id, to) {
+            /** reparents an existing node to another node in the anatomy tree
+             * @param {string} id : the bodypart id to reparent
+             * @param {string} to : the bodypart id of the new parent
+             */
+            try {
+                //first we check if we are allowed to do operations on it
+                if (id === this.getRoot()._id ) { //getRoot returns a string ID
+                    EmLogger.log({
+                        msg : "ERRORS.ANATOMY.REPARENT_ANATOMY_ROOT_EXCEPTION",
+                        level : Logger.LEVELS.WARNING
+                    });
+                    return false;
+                }
+                else if (id === to) {
+                    EmLogger.log({
+                        msg : "ERRORS.ANATOMY.REPARENT_ANATOMY_TO_ITSELF_EXCEPTION",
+                        level : Logger.LEVELS.WARNING
+                    });
+                    return false;
+                }
+                //first we fetch the bodypart from it's id
+                let bodypart = this.getBodypart(id);
+                if (bodypart === undefined) {return false;}
+                //in case it's already attached to the parentTo then we are done
+                if (bodypart.system.attachedTo == to) {return true;}
+                //then check if the new parent exists
+                let parentTo = this.getBodypart(to); //this is an item
+                if (parentTo === undefined) {return false;}
+                //then we get data we require
+                let bodypartData = bodypart.system;
+                let anatomy = this.getAnatomy();
+                //now we must get the parent node and the parentToNode
+                let parentNode = treeBreadthSearch(anatomy.tree, "id", bodypartData.attachedTo);
+                let parentToNode = treeBreadthSearch(anatomy.tree, "id", parentTo._id);
+                //we get the element and it's index
+                let index = parentNode.children.findIndex(node => node.id == bodypart._id);
+                //in case it didnt' find it, then it fails miserably
+                if (index < 0 || index >= parentNode.children.length) {
+                    EmLogger.log({
+                        msg : "ERRORS.ANATOMY.ANATOMY_PARENT_MISMATCH_REMOVAL",
+                        level : Logger.LEVELS.WARNING,
+                        args : [id, parentNode.id]
+                    });
+                    return false;
+                }
+                let element = parentNode.children[index]; //we need this since it's the node we want to add to the parentTo
+                //now we check if we can reparent it since we cannot reparent a node to one of it's children
+                if (treeBreadthSearch(element, "id", parentToNode.id) !== undefined ) {
+                    EmLogger.log({
+                        msg : "ERRORS.ANATOMY.REPARENT_PARENT_TO_CHILD_EXCEPTION",
+                        level : Logger.LEVELS.WARNING
+                    });
+                    return false;
+                }
+                //otherwise we remove the element from the parent
+                parentNode.children.splice(index,1);
+                //we reparent it
+                parentToNode.children.push(element);
+                //then we save the bodypart attached to
+                bodypartData.attachedTo = to;
+                bodypart.update({
+                    data : {
+                        attachedTo : to
+                    }
+                });
+                //finally we save the actor data
+                this._saveActorData({
+                    system : {
+                        anatomy : anatomy
+                    }
+                });
+                return true;
+            }
+            catch(error) {
+                EmLogger.log({
+                    msg : error.message,
+                    level : Logger.LEVELS.ERROR
+                });
+                return false;
+            }
+        }
         
-
-        
-
-
 
     //#endregion
     //#region test

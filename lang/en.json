@@ -382,14 +382,20 @@
         }
     },
     "ERRORS" : {
+        "ANATOMY" : {
+            "MISSING_ANATOMY_TYPE_ERROR" : "error no anatomy view type was found. Cannot render the actor's anatomy.",
+            "MISSING_ANATOMY_PARENT_ERROR" : "error no parent was found for {0} bodypart in the {1} actor's anatomy.",
+            "ROOT_DELETION_EXCEPTION" : "cannot delete {0}. Cannot delete the anatomy root.",
+            "ANATOMY_PARENT_MISMATCH_REMOVAL" : "cannot remove {0} from the {1} node since {0} is not its child.",
+            "REPARENT_PARENT_TO_CHILD_EXCEPTION" : "cannot reparent a node to one of its children.",
+            "REPARENT_ANATOMY_ROOT_EXCEPTION" : "cannot reparent the anatomy root",
+            "REPARENT_ANATOMY_TO_ITSELF_EXCEPTION" : "cannot reparent a node to be its own parent."
+        },
         "TYPE_ERROR" : "{0} should be of type {1}.",
         "TOO_FAR_EXCEPTION" : "you are too far from the object you are trying to interact with.",
         "INVALID_OPERATION_EXCEPTION" : "",
         "MISSING_VIEW_AUTHORIZATION_ERROR" : "you do not have the authorization to view this page.",
         "MISSING_COLLECTION_ITEM_ERROR" : "the {0} collection does not contain any item with key : {1}.",
-        "ANATOMY_ROOT_DELETION_EXCEPTION" : "cannot delete {0}. Cannot delete the anatomy root.",
-        "MISSING_ANATOMY_TYPE_ERROR" : "error no anatomy view type was found. Cannot render the actor's anatomy.",
-        "MISSING_ANATOMY_PARENT_ERROR" : "error no parent was found for {0} bodypart in the {1} actor's anatomy.",
         "MISSING_FOLDER_ERROR" : "the {0} folder is missing or mismatched in the config.",
         "MISSING_COUNTRY_ERROR" : "the Country folder must contain at least one actor of 'country' type.",
         "MISSING_SETTING_EXCEPTION" : "the setting {1} could not be found.",
